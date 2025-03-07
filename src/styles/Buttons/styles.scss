@@ -1,0 +1,41 @@
+.customization-container{
+  background-color: rgb(252, 249, 249);
+  display: flex;
+  height: 100vh;
+}
+.sidebar{
+    width:400;
+    padding: 20px;
+   border-right: 1px solid black;
+    display:flex;
+    flex-direction: column;
+    
+  }
+  .container{
+    flex: 1;
+    text-align: center;
+    padding: 20px;
+  }
+  .button{
+    display: inline-block;
+    cursor: pointer;
+  }
+  .code-container{
+    width: 250;
+    padding: 20px;
+    border-left: 1px solid red;
+   text-align: left;
+  }
+  code {
+    background-color: "#f4f4f4";
+    padding: 10px;
+    border-radius:5;
+  }
+  button{
+    margin-top: 10px;
+    padding:  5px 10px;
+    background: '#111111';
+    color:'white';
+    border:none;
+    cursor: "pointer"
+  }
