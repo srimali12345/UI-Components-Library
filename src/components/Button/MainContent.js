@@ -1,10 +1,10 @@
 import ButtonPreview from "./ButtonPreview";
 
-const MainContent = ({ buttonStyles }) => {
+const MainContent = ({ buttonStyles,setButtonText,buttonText }) => {
   return (
     <div className="container">
       <h2>Button 1</h2>
-      <ButtonPreview buttonStyles={buttonStyles} />
+      <ButtonPreview buttonStyles={buttonStyles}  buttonText={buttonText} uploadedIcon={true} />
     </div>
   );
 };

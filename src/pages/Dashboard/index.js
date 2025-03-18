@@ -9,6 +9,7 @@ const Dashboard = () => {
     { type: "outline", label: "Outline Button" },
     { type: "link", label: "Link Button" },
   ];
+  
 
   return (
     <div className="button-dashboard">

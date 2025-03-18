@@ -5,9 +5,11 @@ const CodePanel = ({
   buttonText,
   buttonType,
   buttonDefaults,
+  uploadedIcon,
 }) => {
   const [activeTab, setActiveTab] = useState("css");
-
+  const [uploadedImage, setUploadedImage] = useState(null);
+  const [generatedHTML, setGeneratedHTML] = useState("");
   const generateBorderRadius = () => {
     const {
       topLeftRadius = "0px",
@@ -23,9 +25,8 @@ const CodePanel = ({
   const generateCSS = () => {
     const commonStyles = `
     color: ${buttonStyles.color || "#000"}; 
-    font-family: ${buttonStyles.fontFamily || "Arial, sans-serif"};
     font-weight:${buttonStyles.fontWeight || "400"};
-    font-size:${buttonStyles.fontSize || "14px"};
+    font-size:${buttonStyles.fontSize || "16px"};
     `;
     const heightAndWidthStyle =
       buttonType !== "link"
@@ -72,7 +73,6 @@ const CodePanel = ({
   const generateSASS = () => {
     const commonVars = `
   $button-color: ${buttonStyles.color || "#000"};
-  $button-font-family: ${buttonStyles.fontFamily || "Arial, sans-serif"};
   $button-padding: ${buttonStyles.padding || "8px 12px"};
     `;
 
@@ -102,7 +102,6 @@ const CodePanel = ({
     border: $button-border;
     border-radius: $button-border-radius;
     color: $button-color;
-    font-family: $button-font-family;
     height: $button-height;
     width: $button-width;
     padding: $button-padding;
@@ -144,9 +143,12 @@ const CodePanel = ({
     }
   };
 
-  const generateHTML = () => `
-<button class="button ${buttonType}">${buttonText}</button>
-`;
+  const generateHTML = () => {
+    const iconHtml = uploadedIcon
+      ? `<img src="${uploadedIcon}" alt="icon" style="width:20px; height:20px; margin-right:8px; vertical-align:middle;" />`
+      : "";
+    return `<button class="button ${buttonType}">${iconHtml}${buttonText}</button>`;
+  };
 
   const handleCopy = (code) => {
     navigator.clipboard.writeText(code);

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import ToolBox from "./ToolBox";
-import CodePanel from './Codepanel'
+import CodePanel from "./Codepanel";
 import "../../styles/Buttons/styles.scss";
 import MainContent from "./MainContent";
 
 const ButtonCustomization = () => {
-  const { buttonType } = useParams(); 
+  const { buttonType } = useParams();
 
   const buttonDefaults = {
     primary: {
@@ -33,28 +33,27 @@ const ButtonCustomization = () => {
 
   const [buttonText, setButtonText] = useState("Click Me");
 
-
   const getToolBoxProps = () => {
-    switch (buttonType ) {
+    switch (buttonType) {
       case "outline":
         return {
-          showBackgroundColor: false, 
-          showBorderColor: true, 
-          showFontStyling: true, 
+          showBackgroundColor: false,
+          showBorderColor: true,
+          showFontStyling: true,
         };
       case "link":
         return {
-          showBackgroundColor: false, 
-          showBorderColor: false, 
-          showFontStyling: true, 
-          showUnderline: true, 
+          showBackgroundColor: false,
+          showBorderColor: false,
+          showFontStyling: true,
+          showUnderline: true,
         };
-      default: 
+      default:
         return {
-          showBackgroundColor: true, 
-          showBorderColor: true, 
-          showFontStyling: true, 
-          showUnderline: false, 
+          showBackgroundColor: true,
+          showBorderColor: true,
+          showFontStyling: true,
+          showUnderline: false,
         };
     }
   };
@@ -63,10 +62,21 @@ const ButtonCustomization = () => {
 
   return (
     <div className="customization-container">
-      <ToolBox buttonStyles={buttonStyles} setButtonStyles={setButtonStyles} {...toolBoxProps} />
+      <ToolBox
+        buttonStyles={buttonStyles}
+        setButtonStyles={setButtonStyles}
+        {...toolBoxProps}
+        buttonText={buttonText}
+        showUploadIcon={true}
+        setButtonText={setButtonText}
+      />
       <MainContent buttonStyles={buttonStyles} buttonText={buttonText} />
-      <CodePanel buttonStyles={buttonStyles} buttonText={buttonText} buttonType={buttonType} {...toolBoxProps}/>
-
+      <CodePanel
+        buttonStyles={buttonStyles}
+        buttonText={buttonText}
+        buttonType={buttonType}
+        {...toolBoxProps}
+      />
     </div>
   );
 };
