@@ -10,7 +10,7 @@ const ToolBox = ({
   buttonText,
   setButtonText,
   showUploadIcon,
-  iconPosition
+  iconPosition,
 }) => {
   const [fontList] = useState([
     "Arial",
@@ -32,7 +32,7 @@ const ToolBox = ({
       reader.onloadend = () => {
         setButtonStyles((prev) => ({
           ...prev,
-          icon: reader.result, // Store base64 image URL
+          icon: reader.result,
         }));
       };
       reader.readAsDataURL(file);
@@ -50,6 +50,8 @@ const ToolBox = ({
       document.head.appendChild(link);
     }
   }, [buttonStyles.fontFamily]);
+
+  const [linkCorners, setLinkCorners] = useState(false);
 
   return (
     <div className="sidebar">
@@ -78,10 +80,10 @@ const ToolBox = ({
         </div>
       )}
 
-{showFontStyling && (
+      {showFontStyling && (
         <div className="font-styling">
           <div className="input-group">
-            <label>Font Color:</label>
+            <label>Color:</label>
             <input
               type="color"
               value={buttonStyles.color}
@@ -90,7 +92,6 @@ const ToolBox = ({
               }
             />
           </div>
-
 
           <div className="input-group">
             <label>Font Size:</label>
@@ -139,133 +140,153 @@ const ToolBox = ({
 
       {showBorderColor && (
         <>
-
-
-<div className="border-settings">
-      
-
-      <div className="input-group">
-        <label>Top Left Corner Radius:</label>
-        <input
-          type="number"
-          min="0"
-          value={parseInt(buttonStyles.topLeftRadius) || 0}
-          onChange={(e) =>
-            setButtonStyles((prev) => ({
-              ...prev,
-              topLeftRadius: `${e.target.value}px`,
-            }))
-          }
-        />
-      </div>
-
-      <div className="input-group">
-        <label>Top Right Corner Radius:</label>
-        <input
-          type="number"
-          min="0"
-          value={parseInt(buttonStyles.topRightRadius) || 0}
-          onChange={(e) =>
-            setButtonStyles((prev) => ({
-              ...prev,
-              topRightRadius: `${e.target.value}px`,
-            }))
-          }
-        />
-      </div>
-
-      <div className="input-group">
-        <label>Bottom Left Corner Radius:</label>
-        <input
-          type="number"
-          min="0"
-          value={parseInt(buttonStyles.bottomLeftRadius) || 0}
-          onChange={(e) =>
-            setButtonStyles((prev) => ({
-              ...prev,
-              bottomLeftRadius: `${e.target.value}px`,
-            }))
-          }
-        />
-      </div>
-
-      <div className="input-group">
-        <label>Bottom Right Corner Radius:</label>
-        <input
-          type="number"
-          min="0"
-          value={parseInt(buttonStyles.bottomRightRadius) || 0}
-          onChange={(e) =>
-            setButtonStyles((prev) => ({
-              ...prev,
-              bottomRightRadius: `${e.target.value}px`,
-            }))
-          }
-        />
-      </div>
-    </div>
-    <div className="size-settings">
-        <div className="input-group">
-          <label>Height:</label>
-          <input
-            type="number"
-            min="0"
-            value={parseInt(buttonStyles.height) || 40}
-            onChange={(e) =>
-              setButtonStyles((prev) => ({
-                ...prev,
-                height: `${e.target.value}px`,
-              }))
-            }
-          />
-        </div>
-
-        <div className="input-group">
-          <label>Width:</label>
-          <input
-            type="number"
-            min="0"
-            value={parseInt(buttonStyles.width) || 100}
-            onChange={(e) =>
-              setButtonStyles((prev) => ({
-                ...prev,
-                width: `${e.target.value}px`,
-              }))
-            }
-          />
-        </div>
-      </div>
-      <div className="input-group">
-          <label>Upload Icon:</label>
-          <input type="file" accept="image/*" onChange={handleIconUpload} />
-          {buttonStyles.icon && (
-            <div className="icon-preview">
-              <img src={buttonStyles.icon} alt="Button Icon" width="50" height="50" />
+          <div className="border-settings">
+            <div>
+              <label>Border Color:</label>
+              <input
+                type="color"
+                value={buttonStyles.borderColor}
+                onChange={(e) =>
+                  setButtonStyles({
+                    ...buttonStyles,
+                    borderColor: e.target.value,
+                  })
+                }
+              />
             </div>
-          )}
-         
-      
-        </div>
-        <div className="input-group" >
-        <label>Icon Position:</label>
-          <select
-            value={buttonStyles.iconPosition || "left"}
-            onChange={(e) =>
-              setButtonStyles({ ...buttonStyles, iconPosition: e.target.value })
-            }
-          >
-            <option value="left">Left</option>
-            <option value="right">Right</option>
-          </select>
-        </div>
+
+            <div className="border-radius-group">
+              <label>Border Radius:</label>
+              <div className="border-radius-inputs">
+                <input
+                  type="number"
+                  min="0"
+                  value={parseInt(buttonStyles.topLeftRadius) || ""}
+                  onChange={(e) =>
+                    setButtonStyles((prev) => ({
+                      ...prev,
+                      topLeftRadius: `${e.target.value}px`,
+                    }))
+                  }
+                  placeholder="TL"
+                />
+                <input
+                  type="number"
+                  min="0"
+                  value={parseInt(buttonStyles.topRightRadius) || ""}
+                  onChange={(e) =>
+                    setButtonStyles((prev) => ({
+                      ...prev,
+                      topRightRadius: `${e.target.value}px`,
+                    }))
+                  }
+                  placeholder="TR"
+                />
+                <input
+                  type="number"
+                  min="0"
+                  value={parseInt(buttonStyles.bottomLeftRadius) || ""}
+                  onChange={(e) =>
+                    setButtonStyles((prev) => ({
+                      ...prev,
+                      bottomLeftRadius: `${e.target.value}px`,
+                    }))
+                  }
+                  placeholder="BL"
+                />
+                <input
+                  type="number"
+                  min="0"
+                  value={parseInt(buttonStyles.bottomRightRadius) || ""}
+                  onChange={(e) =>
+                    setButtonStyles((prev) => ({
+                      ...prev,
+                      bottomRightRadius: `${e.target.value}px`,
+                    }))
+                  }
+                  placeholder="BR"
+                />
+                px
+              </div>
+            </div>
+            <div className="input-group">
+              <label>Border Width:</label>
+              <input
+                type="number"
+                min="0"
+                value={parseInt(buttonStyles.borderWidth) || 0}
+                onChange={(e) =>
+                  setButtonStyles((prev) => ({
+                    ...prev,
+                    borderWidth: `${e.target.value}px`,
+                  }))
+                }
+              />
+            </div>
+          </div>
+
+          <div className="size-settings">
+            <div className="input-group">
+              <label>Height:</label>
+              <input
+                type="number"
+                min="0"
+                value={parseInt(buttonStyles.height) || 40}
+                onChange={(e) =>
+                  setButtonStyles((prev) => ({
+                    ...prev,
+                    height: `${e.target.value}px`,
+                  }))
+                }
+              />
+            </div>
+
+            <div className="input-group">
+              <label>Width:</label>
+              <input
+                type="number"
+                min="0"
+                value={parseInt(buttonStyles.width) || 100}
+                onChange={(e) =>
+                  setButtonStyles((prev) => ({
+                    ...prev,
+                    width: `${e.target.value}px`,
+                  }))
+                }
+              />
+            </div>
+          </div>
+          <div className="input-group">
+            <label>Upload Icon:</label>
+            <input type="file" accept="image/*" onChange={handleIconUpload} />
+            {buttonStyles.icon && (
+              <div className="icon-preview">
+                <img
+                  src={buttonStyles.icon}
+                  alt="Button Icon"
+                  width="50"
+                  height="50"
+                />
+              </div>
+            )}
+          </div>
+          <div className="input-group">
+            <label>Icon Position:</label>
+            <select
+              value={buttonStyles.iconPosition || "left"}
+              onChange={(e) =>
+                setButtonStyles({
+                  ...buttonStyles,
+                  iconPosition: e.target.value,
+                })
+              }
+            >
+              <option value="left">Left</option>
+              <option value="right">Right</option>
+            </select>
+          </div>
         </>
-       
-
-        
       )}
-    
-
-    
 
       {showUnderline && (
         <div className="checkbox-group">
@@ -282,10 +303,6 @@ const ToolBox = ({
           />
         </div>
       )}
-
-     
-
-      
     </div>
   );
 };

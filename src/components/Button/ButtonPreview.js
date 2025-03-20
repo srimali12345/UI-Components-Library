@@ -1,4 +1,6 @@
 const ButtonPreview = ({ buttonStyles, buttonText, uploadedIcon }) => {
+  const icon = uploadedIcon || buttonStyles.icon;
+  const iconPosition = buttonStyles.iconPosition || "right"; 
   return (
     <div>
       <div className="button-container">
@@ -14,9 +16,9 @@ const ButtonPreview = ({ buttonStyles, buttonText, uploadedIcon }) => {
             justifyContent: "center",
           }}
         >
-          {buttonStyles.icon && buttonStyles.iconPosition === "left" && (
+          {icon && iconPosition === "left" && (
             <img
-              src={buttonStyles.icon}
+              src={icon}
               alt="icon"
               style={{
                 height: "12px",
@@ -25,7 +27,7 @@ const ButtonPreview = ({ buttonStyles, buttonText, uploadedIcon }) => {
             />
           )}
           {buttonText}
-          {buttonStyles.icon && buttonStyles.iconPosition === "right" && (
+          {icon && iconPosition === "right" && (
             <img
               src={buttonStyles.icon}
               alt="icon"

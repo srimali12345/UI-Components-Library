@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const CodePanel = ({
-  buttonStyles,
+  buttonStyles = {},
   buttonText,
   buttonType,
   buttonDefaults,
@@ -10,30 +10,37 @@ const CodePanel = ({
   const [activeTab, setActiveTab] = useState("css");
   const [uploadedImage, setUploadedImage] = useState(null);
   const [generatedHTML, setGeneratedHTML] = useState("");
-  const generateBorderRadius = () => {
-    const {
-      topLeftRadius = "0px",
-      topRightRadius = "0px",
-      bottomLeftRadius = "0px",
-      bottomRightRadius = "0px",
-      borderRadius = "0px",
-    } = buttonStyles;
 
-    return `${topLeftRadius} ${topRightRadius} ${bottomRightRadius} ${bottomLeftRadius}`;
+  const {
+    topLeftRadius = "0px",
+    topRightRadius = "0px",
+    bottomLeftRadius = "0px",
+    bottomRightRadius = "0px",
+    color = "#000",
+    fontWeight = "400",
+    fontSize = "16px",
+    height = "40px",
+    width = "100px",
+    borderWidth = "0px",
+    borderColor = "blue",
+    backgroundColor = "blue",
+    textDecoration = "none",
+    padding = "8px 12px",
+  } = buttonStyles;
+
+  const generateBorderRadius = () => {
+    return `${topLeftRadius} ${topRightRadius} ${bottomLeftRadius} ${bottomRightRadius}`;
   };
 
   const generateCSS = () => {
     const commonStyles = `
-    color: ${buttonStyles.color || "#000"}; 
-    font-weight:${buttonStyles.fontWeight || "400"};
-    font-size:${buttonStyles.fontSize || "16px"};
+      color: ${color}; 
+      font-weight: ${fontWeight};
+      font-size: ${fontSize};
     `;
+
     const heightAndWidthStyle =
-      buttonType !== "link"
-        ? `height: ${buttonStyles.height || "40px"}; width: ${
-            buttonStyles.width || "100px"
-          };`
-        : "";
+      buttonType !== "link" ? `height: ${height}; width: ${width};` : "";
 
     const borderRadiusStyle =
       buttonType !== "link" ? `border-radius: ${generateBorderRadius()};` : "";
@@ -41,46 +48,44 @@ const CodePanel = ({
     switch (buttonType) {
       case "outline":
         return `
-  .button.outline {
-    border: 1px solid ${buttonStyles.borderColor || "#000"};
-    ${borderRadiusStyle}
-    ${heightAndWidthStyle}
-    ${commonStyles}
-  }
+          .button.outline {
+            border: ${borderWidth} solid ${borderColor};
+            ${borderRadiusStyle}
+            ${heightAndWidthStyle}
+            ${commonStyles}
+          }
         `;
       case "link":
         return `
-  .button.link {
-    background-color: transparent;
-    border: none;
-    text-decoration: ${buttonStyles.textDecoration || "none"};
-    ${commonStyles}
-  }
+          .button.link {
+            background-color: transparent;
+            border: none;
+            text-decoration: ${textDecoration};
+            ${commonStyles}
+          }
         `;
       default:
         return `
-  .button.primary {
-    background-color: ${buttonStyles.backgroundColor || "#007bff"};
-    border: 1px solid ${buttonStyles.borderColor || "#007bff"};
-    ${borderRadiusStyle}
-    ${heightAndWidthStyle}
-    ${commonStyles}
-  }
+          .button.primary {
+            background-color: ${backgroundColor} ;
+            border: ${borderWidth} solid ${borderColor};
+            ${borderRadiusStyle}
+            ${heightAndWidthStyle}
+            ${commonStyles}
+          }
         `;
     }
   };
 
   const generateSASS = () => {
     const commonVars = `
-  $button-color: ${buttonStyles.color || "#000"};
-  $button-padding: ${buttonStyles.padding || "8px 12px"};
+      $button-color: ${color};
+      $button-padding: ${padding};
     `;
 
     const heightAndWidthVar =
       buttonType !== "link"
-        ? `$button-height: ${buttonStyles.height || "40px"}; $button-width: ${
-            buttonStyles.width || "100px"
-          };`
+        ? `$button-height: ${height}; $button-width: ${width};`
         : "";
 
     const borderRadiusVar =
@@ -91,54 +96,54 @@ const CodePanel = ({
     switch (buttonType) {
       case "outline":
         return `
-  ${commonVars}
-  $button-bg: transparent;
-  $button-border: 2px solid ${buttonStyles.borderColor || "#000"};
-  ${borderRadiusVar}
-  ${heightAndWidthVar}
-  
-  .button.outline {
-    background-color: $button-bg;
-    border: $button-border;
-    border-radius: $button-border-radius;
-    color: $button-color;
-    height: $button-height;
-    width: $button-width;
-    padding: $button-padding;
-  }
+          ${commonVars}
+          $button-bg: transparent;
+          $button-border: 2px solid ${borderColor};
+          ${borderRadiusVar}
+          ${heightAndWidthVar}
+          
+          .button.outline {
+            background-color: $button-bg;
+            border: $button-border;
+            border-radius: $button-border-radius;
+            color: $button-color;
+            height: $button-height;
+            width: $button-width;
+            padding: $button-padding;
+          }
         `;
       case "link":
         return `${commonVars}
-  $button-bg: transparent;
-  $button-border: none;
-  $button-text-decoration: underline;
-  
-  .button.link {
-    background-color: $button-bg;
-    border: $button-border;
-    color: $button-color;
-    text-decoration: $button-text-decoration;
-    font-family: $button-font-family;
-    padding: $button-padding;
-  }
+          $button-bg: transparent;
+          $button-border: none;
+          $button-text-decoration: underline;
+          
+          .button.link {
+            background-color: $button-bg;
+            border: $button-border;
+            color: $button-color;
+            text-decoration: $button-text-decoration;
+            font-family: $button-font-family;
+            padding: $button-padding;
+          }
         `;
       default:
         return `${commonVars}
-  $button-bg: ${buttonStyles.backgroundColor || "#007bff"};
-  $button-border: 1px solid ${buttonStyles.borderColor || "#007bff"};
-  ${borderRadiusVar}
-  ${heightAndWidthVar}
-  
-  .button.primary {
-    background-color: $button-bg;
-    border: $button-border;
-    border-radius: $button-border-radius;
-    color: $button-color;
-    font-family: $button-font-family;
-    height: $button-height;
-    width: $button-width;
-    padding: $button-padding;
-  }
+          $button-bg: ${backgroundColor};
+          $button-border: 1px solid ${borderColor};
+          ${borderRadiusVar}
+          ${heightAndWidthVar}
+          
+          .button.primary {
+            background-color: $button-bg;
+            border: $button-border;
+            border-radius: $button-border-radius;
+            color: $button-color;
+            font-family: $button-font-family;
+            height: $button-height;
+            width: $button-width;
+            padding: $button-padding;
+          }
         `;
     }
   };

@@ -271,3 +271,21 @@ button {
 .input-group {
   margin: 10px 0px;
 }
+.border-radius-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.border-radius-inputs {
+  display: flex;
+  gap: 8px;
+}
+
+.border-radius-inputs input {
+  width: 50px;
+  padding: 5px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
