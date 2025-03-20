@@ -27,8 +27,8 @@ const ButtonSelection = () => {
                 {btn.label}
               </button>
               <div className="flex-wrap">
-                <button className="btn-link"  onClick={() => navigate(`/customize/${btn.type}`)}><img src={copyIcon} alt="icon" className="btn-icon"/></button>
-                <button className="btn-link" onClick={() => navigate(`/customize/${btn.type}`)}><img src={toolIcon} alt="icon" className="btn-icon"/></button>
+                <button className="btn-link" title="Customize styles"  onClick={() => navigate(`/customize/${btn.type}`)}><img src={copyIcon} alt="icon" className="btn-icon"/></button>
+                <button className="btn-link" title="Customize styles" onClick={() => navigate(`/customize/${btn.type}`)}><img src={toolIcon} alt="icon" className="btn-icon"/></button>
               </div>
             </div>
           </div>
