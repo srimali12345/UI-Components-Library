@@ -1,33 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import ButtonSelection from "../components/Button/ButtonSelection";
+import "../styles/pages/dashboard.scss";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-
-  const buttonTypes = [
-    { type: "primary", label: "Primary Button" },
-    { type: "outline", label: "Outline Button" },
-    { type: "link", label: "Link Button" },
-  ];
-  
+  const [activeComponent, setActiveComponent] = useState("buttons");
 
   return (
-    <div className="home">   
-    <div className="button-dashboard">
-      <h2>Select a Button Type</h2>
-      <div className="button-list">
-        {buttonTypes.map((btn) => (
-          <button
-            key={btn.type}
-            className={`dashboard-btn ${btn.type}`}
-            onClick={() => navigate(`/customize/${btn.type}`)}
-          >
-            {btn.label}
-          </button>
-        ))}
+    <div className="container dashboard-wrap">
+      <div className="sidebar-wrap">
+        <p className="sub-title">Components</p>
+        <div>
+          <p className="sub-text">General</p>
+          <ul>
+            <li
+              className={`menu-text ${
+                activeComponent === "buttons" ? "active" : ""
+              }`}
+              onClick={() => setActiveComponent("buttons")}
+            >
+              Buttons
+            </li>
+            <li className="menu-text">Forms</li>
+          </ul>
+        </div>
+        <div className="mt-10">
+          <p className="sub-text">Themes</p>
+          <ul>
+            <li className="menu-text">Login</li>
+            <li className="menu-text">Navbar</li>
+          </ul>
+        </div>
       </div>
-    </div>
+
+      <div className="dashboard-content">
+        {activeComponent === "buttons" && <ButtonSelection />}
+      </div>
     </div>
   );
 };

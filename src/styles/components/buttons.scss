@@ -74,14 +74,60 @@ code {
 //  dashbord section
 
 .button-dashboard {
-  text-align: center;
-  margin: 40px;
+  
+  .component-title {
+    text-align: left;
+    margin: 0;
+  }
 
   .button-list {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
     gap: 20px;
     margin-top: 20px;
+
+    .btn-list-wrap {
+      text-align: left;
+      
+      .btn-wrap-title {
+        font-size: 14px;
+        margin-top: 0;
+        margin-bottom: 5px;
+      }
+    }
+
+    .btn-wrap {
+      padding: 15px 20px;
+      border: 1px solid #E8EAEE;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      .flex-wrap {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        width: 100%;
+        margin-top: 10px;
+      }
+
+      .btn-link {
+        background-color: transparent;
+        border: 1px solid #ABADC6;
+        box-shadow: none;
+        height: 34px;
+        width: 34px;
+        padding: 0;
+        line-height: 40px;
+        border-radius: 5px;
+
+        .btn-icon {
+          height: 15px;
+        }
+      }
+    }
   }
 
   .dashboard-btn {
@@ -92,23 +138,24 @@ code {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 0;
   }
 
   .primary {
-    background-color: blue;
+    background-color: #3E41FF;
     color: white;
     border: none;
   }
 
   .outline {
     background-color: transparent;
-    color: blue;
-    border: 2px solid blue;
+    color: #3E41FF;
+    border: 2px solid #3E41FF;
   }
 
   .link {
     background-color: transparent;
-    color: blue;
+    color: #3E41FF;
     border: none;
     text-decoration: underline;
   }
