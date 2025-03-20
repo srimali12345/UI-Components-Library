@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+
 const Dashboard = () => {
   const navigate = useNavigate();
 
@@ -12,6 +13,7 @@ const Dashboard = () => {
   
 
   return (
+    <div className="home">   
     <div className="button-dashboard">
       <h2>Select a Button Type</h2>
       <div className="button-list">
@@ -25,6 +27,7 @@ const Dashboard = () => {
           </button>
         ))}
       </div>
+    </div>
     </div>
   );
 };

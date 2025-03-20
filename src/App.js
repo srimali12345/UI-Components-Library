@@ -2,13 +2,18 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import ButtonCustomization from "./components/Button/ButtonCustomization";
+import LandingPage from "./pages/Home";
+import Layout from "./components/Layout";
 
 const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/customize/:buttonType" element={<ButtonCustomization/>} />
+        <Route element={<Layout />}>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/customize/:buttonType" element={<ButtonCustomization />} />
+        </Route>
       </Routes>
     </Router>
   );
