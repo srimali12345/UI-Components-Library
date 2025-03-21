@@ -9,8 +9,6 @@ const ToolBox = ({
   showUnderline,
   buttonText,
   setButtonText,
-  showUploadIcon,
-  iconPosition,
 }) => {
   const [fontList] = useState([
     "Arial",
@@ -273,16 +271,17 @@ const ToolBox = ({
           <div className="input-group">
             <label>Icon Position:</label>
             <select
-              value={buttonStyles.iconPosition || "left"}
+              value={buttonStyles.iconPosition}
               onChange={(e) =>
                 setButtonStyles({
                   ...buttonStyles,
-                  iconPosition: e.target.value,
+                  iconPosition: e.target.value || 'right',
                 })
               }
             >
+                <option value="right">Right</option>
               <option value="left">Left</option>
-              <option value="right">Right</option>
+            
             </select>
           </div>
         </>

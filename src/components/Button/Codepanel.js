@@ -4,8 +4,6 @@ const CodePanel = ({
   buttonStyles = {},
   buttonText,
   buttonType,
-  buttonDefaults,
-  uploadedIcon,
 }) => {
   const [activeTab, setActiveTab] = useState("css");
   const [uploadedImage, setUploadedImage] = useState(null);
@@ -26,6 +24,8 @@ const CodePanel = ({
     backgroundColor = "blue",
     textDecoration = "none",
     padding = "8px 12px",
+    icon = "null",
+    iconPosition = "",
   } = buttonStyles;
 
   const generateBorderRadius = () => {
@@ -34,13 +34,14 @@ const CodePanel = ({
 
   const generateCSS = () => {
     const commonStyles = `
-      color: ${color}; 
-      font-weight: ${fontWeight};
-      font-size: ${fontSize};
+            color: ${color}; 
+            font-weight: ${fontWeight};
+            font-size: ${fontSize};
     `;
 
     const heightAndWidthStyle =
-      buttonType !== "link" ? `height: ${height}; width: ${width};` : "";
+      buttonType !== "link" ? `height: ${height};
+            width: ${width};` : "";
 
     const borderRadiusStyle =
       buttonType !== "link" ? `border-radius: ${generateBorderRadius()};` : "";
@@ -70,10 +71,8 @@ const CodePanel = ({
             background-color: ${backgroundColor} ;
             border: ${borderWidth} solid ${borderColor};
             ${borderRadiusStyle}
-            ${heightAndWidthStyle}
-            ${commonStyles}
-          }
-        `;
+            ${heightAndWidthStyle}  
+            ${commonStyles}}`;
     }
   };
 
@@ -149,10 +148,15 @@ const CodePanel = ({
   };
 
   const generateHTML = () => {
-    const iconHtml = uploadedIcon
-      ? `<img src="${uploadedIcon}" alt="icon" style="width:20px; height:20px; margin-right:8px; vertical-align:middle;" />`
-      : "";
-    return `<button class="button ${buttonType}">${iconHtml}${buttonText}</button>`;
+    const iconHtml = `<img src="./path" alt="icon" />`;
+    
+    if (!icon || icon === "null" || icon === "") {
+      return `<button class="button ${buttonType}">${buttonText}</button>`;
+    }
+
+    return iconPosition === "left"
+      ? `<button class="button ${buttonType}">${iconHtml}${buttonText}</button>`
+      : `<button class="button ${buttonType}">${buttonText}${iconHtml}</button>`;
   };
 
   const handleCopy = (code) => {
