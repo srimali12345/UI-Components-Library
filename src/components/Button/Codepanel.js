@@ -1,10 +1,7 @@
 import React, { useState } from "react";
+import codeIcon from "../../images/blue-code-icon.png";
 
-const CodePanel = ({
-  buttonStyles = {},
-  buttonText,
-  buttonType,
-}) => {
+const CodePanel = ({ buttonStyles = {}, buttonText, buttonType }) => {
   const [activeTab, setActiveTab] = useState("css");
   const [uploadedImage, setUploadedImage] = useState(null);
   const [generatedHTML, setGeneratedHTML] = useState("");
@@ -40,8 +37,10 @@ const CodePanel = ({
     `;
 
     const heightAndWidthStyle =
-      buttonType !== "link" ? `height: ${height};
-            width: ${width};` : "";
+      buttonType !== "link"
+        ? `height: ${height};
+            width: ${width};`
+        : "";
 
     const borderRadiusStyle =
       buttonType !== "link" ? `border-radius: ${generateBorderRadius()};` : "";
@@ -149,7 +148,7 @@ const CodePanel = ({
 
   const generateHTML = () => {
     const iconHtml = `<img src="./path" alt="icon" />`;
-    
+
     if (!icon || icon === "null" || icon === "") {
       return `<button class="button ${buttonType}">${buttonText}</button>`;
     }
@@ -166,9 +165,17 @@ const CodePanel = ({
 
   return (
     <div className="code-container">
-      <div className="code-section">
-        <div className="code-header">
-          <h3>HTML</h3>
+      <div className="code-header-wrap">
+        <img src={codeIcon} alt="icon" className="icon" />
+        <span>Code Generator</span>
+      </div>
+      <div className="code-content-wrap">
+        <div className="tab-wrap">
+          <div className="btn-group">
+            <button className="btn-outline">HTML</button>
+            <button className="btn-outline">CSS</button>
+            <button className="btn-outline">SCSS</button>
+          </div>
           <button
             className="copy-button"
             onClick={() => handleCopy(generateHTML())}
@@ -176,38 +183,49 @@ const CodePanel = ({
             Copy
           </button>
         </div>
-        <pre className="code">{generateHTML()}</pre>
-      </div>
-
-      <div className="code-section">
-        <div className="code-header">
-          <h3>CSS / SASS</h3>
-          <div className="tab-buttons">
+        <div className="code-section">
+          <div className="code-header">
+            <h3>HTML</h3>
             <button
-              className={activeTab === "css" ? "active" : ""}
-              onClick={() => setActiveTab("css")}
+              className="copy-button"
+              onClick={() => handleCopy(generateHTML())}
             >
-              CSS
-            </button>
-            <button
-              className={activeTab === "sass" ? "active" : ""}
-              onClick={() => setActiveTab("sass")}
-            >
-              SASS
+              Copy
             </button>
           </div>
-          <button
-            className="copy-button"
-            onClick={() =>
-              handleCopy(activeTab === "css" ? generateCSS() : generateSASS())
-            }
-          >
-            Copy
-          </button>
+          <pre className="code">{generateHTML()}</pre>
         </div>
-        <pre className="code">
-          {activeTab === "css" ? generateCSS() : generateSASS()}
-        </pre>
+
+        <div className="code-section">
+          <div className="code-header">
+            <h3>CSS / SASS</h3>
+            <div className="tab-buttons">
+              <button
+                className={activeTab === "css" ? "active" : ""}
+                onClick={() => setActiveTab("css")}
+              >
+                CSS
+              </button>
+              <button
+                className={activeTab === "sass" ? "active" : ""}
+                onClick={() => setActiveTab("sass")}
+              >
+                SASS
+              </button>
+            </div>
+            <button
+              className="copy-button"
+              onClick={() =>
+                handleCopy(activeTab === "css" ? generateCSS() : generateSASS())
+              }
+            >
+              Copy
+            </button>
+          </div>
+          <pre className="code">
+            {activeTab === "css" ? generateCSS() : generateSASS()}
+          </pre>
+        </div>
       </div>
     </div>
   );

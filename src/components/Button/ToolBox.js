@@ -53,7 +53,6 @@ const ToolBox = ({
 
   return (
     <div className="sidebar">
-      <h3 className="sidebar-title">ToolBox</h3>
       <div className="input-group">
         <label>Button Text:</label>
         <input
