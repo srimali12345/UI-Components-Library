@@ -9,17 +9,17 @@ const ButtonCustomization = () => {
   const { buttonType } = useParams();
 
   const buttonDefaults = {
-    primary: {
+    Primary: {
       backgroundColor: "blue",
       color: "white",
       border: "1px solid blue",
     },
-    outline: {
+    Outline: {
       backgroundColor: "transparent",
       color: "blue",
       border: "2px solid blue",
     },
-    link: {
+    Link: {
       backgroundColor: "transparent",
       color: "blue",
       border: "none",
@@ -28,20 +28,20 @@ const ButtonCustomization = () => {
   };
 
   const [buttonStyles, setButtonStyles] = useState(
-    buttonDefaults[buttonType] || buttonDefaults.primary
+    buttonDefaults[buttonType] 
   );
 
-  const [buttonText, setButtonText] = useState("Click Me");
+  const [buttonText, setButtonText] = useState( buttonType ? `${buttonType} Button` : "Default Button");
 
   const getToolBoxProps = () => {
     switch (buttonType) {
-      case "outline":
+      case "Outline":
         return {
           showBackgroundColor: false,
           showBorderColor: true,
           showFontStyling: true,
         };
-      case "link":
+      case "Link":
         return {
           showBackgroundColor: false,
           showBorderColor: false,
@@ -61,7 +61,9 @@ const ButtonCustomization = () => {
   const toolBoxProps = getToolBoxProps();
 
   return (
-    <div className="customization-container">
+    <div >
+     <div className="customization-container">
+     <MainContent buttonStyles={buttonStyles} buttonText={buttonText} buttonType={buttonType}/>
       <ToolBox
         buttonStyles={buttonStyles}
         setButtonStyles={setButtonStyles}
@@ -69,14 +71,19 @@ const ButtonCustomization = () => {
         buttonText={buttonText}
         showUploadIcon={true}
         setButtonText={setButtonText}
+        buttonType={buttonType}
       />
-      <MainContent buttonStyles={buttonStyles} buttonText={buttonText} />
+     </div>
+    
+      <div>
       <CodePanel
         buttonStyles={buttonStyles}
         buttonText={buttonText}
         buttonType={buttonType}
         {...toolBoxProps}
       />
+      </div>
+    
     </div>
   );
 };

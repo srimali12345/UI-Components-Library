@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import codeIcon from "../../images/blue-code-icon.png";
+import { Copy, EyeOff, Eye } from "lucide-react";
 
 const CodePanel = ({ buttonStyles = {}, buttonText, buttonType }) => {
-  const [activeTab, setActiveTab] = useState("css");
-  const [uploadedImage, setUploadedImage] = useState(null);
-  const [generatedHTML, setGeneratedHTML] = useState("");
+  const [activeTab, setActiveTab] = useState("html");
+  const [isCodeVisible, setIsCodeVisible] = useState(true);
 
   const {
     topLeftRadius = "0px",
@@ -17,145 +16,154 @@ const CodePanel = ({ buttonStyles = {}, buttonText, buttonType }) => {
     height = "40px",
     width = "100px",
     borderWidth = "0px",
-    borderColor = "blue",
-    backgroundColor = "blue",
+    borderColor = "#3E41FF",
+    backgroundColor = "#3E41FF",
     textDecoration = "none",
+    fontFamily = "Arial",
     padding = "8px 12px",
-    icon = "null",
-    iconPosition = "",
+    icon = null,
+    iconPosition = "right",
   } = buttonStyles;
 
   const generateBorderRadius = () => {
-    return `${topLeftRadius} ${topRightRadius} ${bottomLeftRadius} ${bottomRightRadius}`;
+    return `${topLeftRadius} ${topRightRadius} ${bottomRightRadius} ${bottomLeftRadius}`;
+  };
+
+  const generateHTML = () => {
+    const buttonTypeClass = buttonType || "Primary";
+    const buttonDisplayText =
+      buttonText || (buttonType ? `${buttonType} Button` : "Default Button");
+
+    if (!icon || icon === "null") {
+      return `<button class="button ${buttonTypeClass}">
+  ${buttonDisplayText}
+</button>`;
+    }
+
+    return iconPosition === "left"
+      ? `<button class="button ${buttonTypeClass}">
+  <img src="icon.png" alt="icon" />
+  ${buttonDisplayText}
+</button>`
+      : `<button class="button ${buttonTypeClass}">
+  ${buttonDisplayText}
+  <img src="icon.png" alt="icon" />
+</button>`;
   };
 
   const generateCSS = () => {
     const commonStyles = `
-            color: ${color}; 
-            font-weight: ${fontWeight};
-            font-size: ${fontSize};
-    `;
+  color: ${color};
+  font-weight: ${fontWeight};
+  font-size: ${fontSize};
+  font-family: ${fontFamily};`;
 
     const heightAndWidthStyle =
-      buttonType !== "link"
-        ? `height: ${height};
-            width: ${width};`
+      buttonType !== "Link"
+        ? `
+  height: ${height};
+  width: ${width};`
         : "";
 
     const borderRadiusStyle =
-      buttonType !== "link" ? `border-radius: ${generateBorderRadius()};` : "";
+      buttonType !== "Link"
+        ? `
+  border-radius: ${generateBorderRadius()};`
+        : "";
 
     switch (buttonType) {
-      case "outline":
-        return `
-          .button.outline {
-            border: ${borderWidth} solid ${borderColor};
-            ${borderRadiusStyle}
-            ${heightAndWidthStyle}
-            ${commonStyles}
-          }
-        `;
-      case "link":
-        return `
-          .button.link {
-            background-color: transparent;
-            border: none;
-            text-decoration: ${textDecoration};
-            ${commonStyles}
-          }
-        `;
+      case "Outline":
+        return `.button.Outline {
+  background-color: transparent;
+  border: ${borderWidth} solid ${borderColor};${borderRadiusStyle}${heightAndWidthStyle}${commonStyles}
+}`;
+      case "Link":
+        return `.button.Link {
+  background-color: transparent;
+  border: none;
+  text-decoration: ${textDecoration};${commonStyles}
+}`;
       default:
-        return `
-          .button.primary {
-            background-color: ${backgroundColor} ;
-            border: ${borderWidth} solid ${borderColor};
-            ${borderRadiusStyle}
-            ${heightAndWidthStyle}  
-            ${commonStyles}}`;
+        return `.button.Primary {
+  background-color: ${backgroundColor};
+  border: ${borderWidth} solid ${borderColor};${borderRadiusStyle}${heightAndWidthStyle}${commonStyles}
+}`;
     }
   };
 
-  const generateSASS = () => {
-    const commonVars = `
-      $button-color: ${color};
-      $button-padding: ${padding};
-    `;
+  const generateSCSS = () => {
+    const commonVars = `$button-color: ${color};
+$button-font-weight: ${fontWeight};
+$button-font-size: ${fontSize};
+$button-font-family: ${fontFamily};`;
 
     const heightAndWidthVar =
-      buttonType !== "link"
-        ? `$button-height: ${height}; $button-width: ${width};`
+      buttonType !== "Link"
+        ? `
+$button-height: ${height};
+$button-width: ${width};`
         : "";
 
     const borderRadiusVar =
-      buttonType !== "link"
-        ? `$button-border-radius: ${generateBorderRadius()};`
+      buttonType !== "Link"
+        ? `
+$button-border-radius: ${generateBorderRadius()};`
         : "";
 
     switch (buttonType) {
-      case "outline":
-        return `
-          ${commonVars}
-          $button-bg: transparent;
-          $button-border: 2px solid ${borderColor};
-          ${borderRadiusVar}
-          ${heightAndWidthVar}
-          
-          .button.outline {
-            background-color: $button-bg;
-            border: $button-border;
-            border-radius: $button-border-radius;
-            color: $button-color;
-            height: $button-height;
-            width: $button-width;
-            padding: $button-padding;
-          }
-        `;
-      case "link":
+      case "Outline":
+        return `${commonVars}${heightAndWidthVar}${borderRadiusVar}
+$button-bg: transparent;
+$button-border: ${borderWidth} solid ${borderColor};
+
+.button {
+  &.Outline {
+    background-color: $button-bg;
+    border: $button-border;
+    border-radius: $button-border-radius;
+    color: $button-color;
+    font-weight: $button-font-weight;
+    font-size: $button-font-size;
+    font-family: $button-font-family;
+    height: $button-height;
+    width: $button-width;
+  }
+}`;
+      case "Link":
         return `${commonVars}
-          $button-bg: transparent;
-          $button-border: none;
-          $button-text-decoration: underline;
-          
-          .button.link {
-            background-color: $button-bg;
-            border: $button-border;
-            color: $button-color;
-            text-decoration: $button-text-decoration;
-            font-family: $button-font-family;
-            padding: $button-padding;
-          }
-        `;
+$button-bg: transparent;
+$button-text-decoration: ${textDecoration};
+
+.button {
+  &.Link {
+    background-color: $button-bg;
+    border: none;
+    color: $button-color;
+    text-decoration: $button-text-decoration;
+    font-weight: $button-font-weight;
+    font-size: $button-font-size;
+    font-family: $button-font-family;
+  }
+}`;
       default:
-        return `${commonVars}
-          $button-bg: ${backgroundColor};
-          $button-border: 1px solid ${borderColor};
-          ${borderRadiusVar}
-          ${heightAndWidthVar}
-          
-          .button.primary {
-            background-color: $button-bg;
-            border: $button-border;
-            border-radius: $button-border-radius;
-            color: $button-color;
-            font-family: $button-font-family;
-            height: $button-height;
-            width: $button-width;
-            padding: $button-padding;
-          }
-        `;
+        return `${commonVars}${heightAndWidthVar}${borderRadiusVar}
+$button-bg: ${backgroundColor};
+$button-border: ${borderWidth} solid ${borderColor};
+
+.button {
+  &.Primary {
+    background-color: $button-bg;
+    border: $button-border;
+    border-radius: $button-border-radius;
+    color: $button-color;
+    font-weight: $button-font-weight;
+    font-size: $button-font-size;
+    font-family: $button-font-family;
+    height: $button-height;
+    width: $button-width;
+  }
+}`;
     }
-  };
-
-  const generateHTML = () => {
-    const iconHtml = `<img src="./path" alt="icon" />`;
-
-    if (!icon || icon === "null" || icon === "") {
-      return `<button class="button ${buttonType}">${buttonText}</button>`;
-    }
-
-    return iconPosition === "left"
-      ? `<button class="button ${buttonType}">${iconHtml}${buttonText}</button>`
-      : `<button class="button ${buttonType}">${buttonText}${iconHtml}</button>`;
   };
 
   const handleCopy = (code) => {
@@ -163,70 +171,115 @@ const CodePanel = ({ buttonStyles = {}, buttonText, buttonType }) => {
     alert("Code copied!");
   };
 
-  return (
-    <div className="code-container">
-      <div className="code-header-wrap">
-        <img src={codeIcon} alt="icon" className="icon" />
-        <span>Code Generator</span>
-      </div>
-      <div className="code-content-wrap">
-        <div className="tab-wrap">
-          <div className="btn-group">
-            <button className="btn-outline">HTML</button>
-            <button className="btn-outline">CSS</button>
-            <button className="btn-outline">SCSS</button>
-          </div>
-          <button
-            className="copy-button"
-            onClick={() => handleCopy(generateHTML())}
-          >
-            Copy
-          </button>
-        </div>
-        <div className="code-section">
-          <div className="code-header">
-            <h3>HTML</h3>
-            <button
-              className="copy-button"
-              onClick={() => handleCopy(generateHTML())}
-            >
-              Copy
-            </button>
-          </div>
-          <pre className="code">{generateHTML()}</pre>
-        </div>
+  const toggleCodeVisibility = () => {
+    setIsCodeVisible(!isCodeVisible);
+  };
 
-        <div className="code-section">
-          <div className="code-header">
-            <h3>CSS / SASS</h3>
-            <div className="tab-buttons">
-              <button
-                className={activeTab === "css" ? "active" : ""}
-                onClick={() => setActiveTab("css")}
-              >
-                CSS
-              </button>
-              <button
-                className={activeTab === "sass" ? "active" : ""}
-                onClick={() => setActiveTab("sass")}
-              >
-                SASS
-              </button>
-            </div>
-            <button
-              className="copy-button"
-              onClick={() =>
-                handleCopy(activeTab === "css" ? generateCSS() : generateSASS())
-              }
-            >
-              Copy
-            </button>
-          </div>
-          <pre className="code">
-            {activeTab === "css" ? generateCSS() : generateSASS()}
-          </pre>
+  return (
+    <div className="code-panel">
+      <div className="code-panel-header">
+        <div className="code-icon">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M16 18L22 12L16 6"
+              stroke="#3E41FF"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M8 6L2 12L8 18"
+              stroke="#3E41FF"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </div>
+        <h3>Generated Code</h3>
+        <div className="toggle-code-button" onClick={toggleCodeVisibility}>
+          {isCodeVisible ? (
+            <>
+              <span>Hide Code</span>
+              <EyeOff size={18} />
+            </>
+          ) : (
+            <>
+              <span>View Code</span>
+              <Eye size={18} />
+            </>
+          )}
         </div>
       </div>
+
+      {isCodeVisible && (
+        <div className="code-panel-content">
+          <div className="code-tabs">
+            <div
+              className={`code-tab ${activeTab === "html" ? "active" : ""}`}
+              onClick={() => setActiveTab("html")}
+            >
+              HTML
+            </div>
+            <div
+              className={`code-tab ${activeTab === "css" ? "active" : ""}`}
+              onClick={() => setActiveTab("css")}
+            >
+              CSS
+            </div>
+            <div
+              className={`code-tab ${activeTab === "scss" ? "active" : ""}`}
+              onClick={() => setActiveTab("scss")}
+            >
+              SCSS
+            </div>
+          </div>
+
+          <div className="code-viewer">
+            {activeTab === "html" && (
+              <div className="code-block">
+                <pre>{generateHTML()}</pre>
+                <button
+                  className="copy-button"
+                  onClick={() => handleCopy(generateHTML())}
+                >
+                  <Copy size={16} />
+                </button>
+              </div>
+            )}
+
+            {activeTab === "css" && (
+              <div className="code-block">
+                <pre>{generateCSS()}</pre>
+                <button
+                  className="copy-button"
+                  onClick={() => handleCopy(generateCSS())}
+                >
+                  <Copy size={16} />
+                </button>
+              </div>
+            )}
+
+            {activeTab === "scss" && (
+              <div className="code-block">
+                <pre>{generateSCSS()}</pre>
+                <button
+                  className="copy-button"
+                  onClick={() => handleCopy(generateSCSS())}
+                >
+                  <Copy size={16} />
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
