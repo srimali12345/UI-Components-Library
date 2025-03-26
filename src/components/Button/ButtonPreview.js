@@ -1,12 +1,12 @@
 const ButtonPreview = ({
-  buttonStyles,
+  buttonStyles={},
   buttonText,
   uploadedIcon,
   buttonType,
 }) => {
   const icon = uploadedIcon || buttonStyles.icon;
   const iconPosition = buttonStyles.iconPosition || "right";
-  const validButtonType = buttonType || "default";
+  const buttonTypeClass = buttonType || "Primary";
   return (
     <div>
       <div className="button-container">
@@ -19,10 +19,9 @@ const ButtonPreview = ({
                          ${buttonStyles.bottomLeftRadius || 0}`,
             display: "flex",
             alignItems: "center",
-            justifyContent: "center",
-            ...(Object.keys(buttonStyles).length > 0 ? buttonStyles : {}), 
+            justifyContent: "center",      
           }}
-          className={`button ${validButtonType}`} 
+          className={`dashboard-btn ${buttonType}`}
         >
           {icon && iconPosition === "left" && (
             <img
@@ -44,6 +43,8 @@ const ButtonPreview = ({
               style={{ height: "12px", marginLeft: "5px" }}
             />
           )}
+
+          
         </button>
       </div>
     </div>

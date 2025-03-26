@@ -44,6 +44,12 @@ const CodeModal = ({ buttonType, buttonStyles = {}, buttonText, onClose }) => {
 
         <div className="tabs-copy-container">
           <div className="tabs">
+          <button 
+              className={activeTab === "html" ? "active" : ""} 
+              onClick={() => setActiveTab("html")}
+            >
+              HTML
+            </button>
             <button 
               className={activeTab === "css" ? "active" : ""} 
               onClick={() => setActiveTab("css")}
@@ -56,12 +62,7 @@ const CodeModal = ({ buttonType, buttonStyles = {}, buttonText, onClose }) => {
             >
               SCSS
             </button>
-            <button 
-              className={activeTab === "html" ? "active" : ""} 
-              onClick={() => setActiveTab("html")}
-            >
-              HTML
-            </button>
+           
           </div>
           <button className="copy-btn" onClick={handleCopy}>
             <Copy size={16} /> Copy Code
