@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ButtonSelection from "../components/Button/ButtonSelection";
-import "../styles/pages/dashboard.scss";
+import NavbarCustomizer from "../components/Navbar/NavbarCustomizer";
 
+import "../styles/pages/dashboard.scss";
+import "../styles/components/navbar.scss";
 const Dashboard = () => {
   const navigate = useNavigate();
   const [activeComponent, setActiveComponent] = useState("buttons");
@@ -29,13 +31,19 @@ const Dashboard = () => {
           <p className="sub-text">Themes</p>
           <ul>
             <li className="menu-text">Login</li>
-            <li className="menu-text">Navbar</li>
+            <li
+              className="menu-text"
+              onClick={() => setActiveComponent("navbar")}
+            >
+              Navbar
+            </li>
           </ul>
         </div>
       </div>
 
       <div className="dashboard-content">
         {activeComponent === "buttons" && <ButtonSelection />}
+        {activeComponent === "navbar" && <NavbarCustomizer />}
       </div>
     </div>
   );
