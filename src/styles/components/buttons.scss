@@ -144,8 +144,7 @@ code {
 }
 
 .copy-button {
-  background: #007bff;
-  color: white;
+  color: #ABADC6;
   border: none;
   padding: 5px 10px;
   cursor: pointer;
@@ -429,8 +428,11 @@ select {
   
 }
 
-.code-block {
+.modal-overlay .code-block {
   background-color: #24242F;
+}
+
+.code-block {
   padding: 10px;
   text-align: left;
   margin-top: 10px;
@@ -693,8 +695,8 @@ select {
           position: absolute;
           top: 10px;
           right: 10px;
-          background-color: white;
-          border: 1px solid #ddd;
+          background-color: none;
+          border: none;
           border-radius: 4px;
           padding: 6px;
           cursor: pointer;
