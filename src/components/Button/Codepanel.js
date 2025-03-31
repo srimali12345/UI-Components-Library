@@ -220,21 +220,21 @@ $button-border: ${borderWidth} solid ${borderColor};
 
       {isCodeVisible && (
         <div className="code-panel-content">
-          <div className="code-tabs">
+          <div className="btn-group">
             <div
-              className={`code-tab ${activeTab === "html" ? "active" : ""}`}
+              className={`btn-outline ${activeTab === "html" ? "active" : ""}`}
               onClick={() => setActiveTab("html")}
             >
               HTML
             </div>
             <div
-              className={`code-tab ${activeTab === "css" ? "active" : ""}`}
+              className={`btn-outline ${activeTab === "css" ? "active" : ""}`}
               onClick={() => setActiveTab("css")}
             >
               CSS
             </div>
             <div
-              className={`code-tab ${activeTab === "scss" ? "active" : ""}`}
+              className={`btn-outline ${activeTab === "scss" ? "active" : ""}`}
               onClick={() => setActiveTab("scss")}
             >
               SCSS

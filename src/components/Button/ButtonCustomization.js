@@ -10,28 +10,27 @@ const ButtonCustomization = () => {
 
   const buttonDefaults = {
     Primary: {
-      backgroundColor: "blue",
+      backgroundColor: "#3E41FF",
       color: "white",
-      border: "1px solid blue",
+      border: "1px solid #3E41FF",
     },
     Outline: {
       backgroundColor: "transparent",
-      color: "blue",
-      border: "2px solid blue",
+      color: "#3E41FF",
+      border: "2px solid #3E41FF",
     },
     Link: {
       backgroundColor: "transparent",
-      color: "blue",
+      color: "#3E41FF",
       border: "none",
-      textDecoration: "underline",
     },
   };
 
-  const [buttonStyles, setButtonStyles] = useState(
-    buttonDefaults[buttonType] 
-  );
+  const [buttonStyles, setButtonStyles] = useState(buttonDefaults[buttonType]);
 
-  const [buttonText, setButtonText] = useState( buttonType ? `${buttonType} Button` : "Default Button");
+  const [buttonText, setButtonText] = useState(
+    buttonType ? `${buttonType} Button` : "Default Button"
+  );
 
   const getToolBoxProps = () => {
     switch (buttonType) {
@@ -61,9 +60,20 @@ const ButtonCustomization = () => {
   const toolBoxProps = getToolBoxProps();
 
   return (
-    <div >
-     <div className="customization-container">
-     <MainContent buttonStyles={buttonStyles} buttonText={buttonText} buttonType={buttonType}/>
+    <div className="main-custom-wrap">
+      <div className="customization-container">
+        <MainContent
+          buttonStyles={buttonStyles}
+          buttonText={buttonText}
+          buttonType={buttonType}
+        />
+        <CodePanel
+          buttonStyles={buttonStyles}
+          buttonText={buttonText}
+          buttonType={buttonType}
+          {...toolBoxProps}
+        />
+      </div>
       <ToolBox
         buttonStyles={buttonStyles}
         setButtonStyles={setButtonStyles}
@@ -73,17 +83,6 @@ const ButtonCustomization = () => {
         setButtonText={setButtonText}
         buttonType={buttonType}
       />
-     </div>
-    
-      <div>
-      <CodePanel
-        buttonStyles={buttonStyles}
-        buttonText={buttonText}
-        buttonType={buttonType}
-        {...toolBoxProps}
-      />
-      </div>
-    
     </div>
   );
 };

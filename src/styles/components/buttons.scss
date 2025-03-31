@@ -1,9 +1,24 @@
 .customization-container {
   background-color: rgb(255, 255, 255);
   display: flex;
-  grid-template-columns: 25% auto 25%;
-  min-height: 70vh;
+  flex-direction: column;
   padding: 16px;
+}
+
+input[type=color], input[type=number], input[type=range], select {
+  width: auto !important;
+  font-size: 13px !important;
+}
+
+.dashboard-btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0;
 }
 
 .sidebar {
@@ -44,6 +59,11 @@
   gap: 5px;
 }
 
+.btn-group {
+  display: flex;
+  align-items: center;
+}
+
 .btn-group .btn-outline:nth-child(2) {
   border-right: 0;
   border-left: 0;
@@ -60,11 +80,19 @@
   border-bottom-left-radius: 0;
 }
 
+.btn-group .btn-outline.active {
+  background-color: #633CEC !important;
+  color: #ffffff !important;
+}
+
 .btn-outline {
   background-color: transparent;
-  color: #3E41FF;
-  border: 0.5px solid #3E41FF;
+  color: #633CEC;
+  cursor: pointer;
+  border: 0.5px solid #633CEC;
   border-radius: 5px;
+  padding: 6px 10px;
+  font-size: 13px;
 }
 
 .code-content-wrap {
@@ -116,8 +144,7 @@ code {
 }
 
 .copy-button {
-  background: #007bff;
-  color: white;
+  color: #ABADC6;
   border: none;
   padding: 5px 10px;
   cursor: pointer;
@@ -144,7 +171,7 @@ code {
     }
 
     .btn-wrap {
-      padding: 15px 20px;
+      padding: 16px 20px;
       border: 1px solid #E8EAEE;
       border-radius: 10px;
       display: flex;
@@ -160,14 +187,18 @@ code {
         margin-top: 10px;
       }
 
-      .btn-link {
+      .btn-tool-wrap {
         background-color: transparent;
         border: 1px solid #ABADC6;
-        height: 34px;
-        width: 34px;
-        border-radius: 5px;
+        cursor: pointer;
+    height: 34px;
+    width: 34px;
+    border-radius: 5px;
+    line-height: 41px;
+    margin-top: 10px;
+        
         .btn-icon {
-          height: 15px;
+          height: 18px;
         }
       }
     }
@@ -181,25 +212,28 @@ code {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 0;
   }
 
   .Primary {
-    background-color: #3E41FF;
+    background-color: #633CEC;
     color: white;
+    cursor: pointer;
     border: none;
-    font-size: 16px;
+    font-size: 15px;
   }
 
   .Outline {
     background-color: transparent;
-    color: #3E41FF;
-    border: 2px solid #3E41FF;
+    color: #633CEC;
+    border: 2px solid #633CEC;
   }
 
   .Link {
     background-color: transparent;
-    color: #3E41FF;
-    text-decoration: underline;
+    border: none !important;
+    color: #633CEC;
+    text-decoration: none !important;
   }
 }
 
@@ -257,15 +291,6 @@ select {
   cursor: pointer;
 }
 
-button {
-  margin-top: 10px;
-  padding: 5px 10px;
-  background: #111111;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
 .toolbox {
   padding: 15px;
   border: 1px solid #ddd;
@@ -295,10 +320,15 @@ button {
     border-radius: 5px;
   }
   label {
-    font-size: 14px;
+    font-size: 13px;
     display: block;
     color: #24242F;
     margin-bottom: 5px;
+  }
+
+  input[type=color] {
+    width: 100% !important;
+
   }
 }
 
@@ -309,8 +339,10 @@ button {
 }
 
 .border-radius-inputs {
-  display: flex;
-  gap: 8px;
+  display: grid;
+      gap: 5px;
+      grid-template-columns: 20% 20% 20% 20% auto;
+      font-size: 14px;
   input {
     padding: 5px;
     text-align: center;
@@ -336,7 +368,7 @@ button {
   background: white;
   padding: 20px;
   border-radius: 8px;
-  min-width: 400px;
+  min-width: 600px;
   min-height: 400px;
   overflow-y: auto;
   text-align: center;
@@ -347,20 +379,30 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 8px;
+
+   h3 {
+    margin: 0 !important;
+    font-weight: 500;
+    font-size: 16px;
+   }
 }
 
 .close-btn {
-  background: red;
-  color: white;
+  color: #7A8191;
   border: none;
   padding: 5px 10px;
   cursor: pointer;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  font-size: 13px;
 }
 .tabs-copy-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
+  margin-top: 20px;
 }
 
 .tabs {
@@ -381,31 +423,41 @@ button {
 }
 
 .tabs button.active {
-  background: blue;
+  background: #3E41FF;
   color: white;
   
 }
 
+.modal-overlay .code-block {
+  background-color: #24242F;
+}
+
 .code-block {
-  background: #f4f4f4;
   padding: 10px;
   text-align: left;
   margin-top: 10px;
+  color: #ffffff;
   max-height: 400px;
   overflow-y: auto;
-  white-space: pre-wrap; 
+  white-space: pre-wrap;
   word-break: break-word;
   line-height: 1.5;
+  border-radius: 10px;
 }
 
 .copy-btn {
-  background-color: #007bff;
-  color: white;
+  background-color: transparent;
+  color: #ABADC6;
   border: none;
   padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
   margin: 0px !important;
+  border: none !important;
+
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 .btn-preview-container{
   border: 1px solid #E8EAEE;
@@ -424,14 +476,12 @@ button {
 
 // Toolbar Main Styles
 .toolbar {
-  width: 280px;
-  background-color: #f6f6f6;
+  border: 1px solid #E8EAEE;
   border-radius: 6px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  font-family: sans-serif;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  margin: 16px;
   
   .toolbar-tabs {
     display: flex;
@@ -493,7 +543,7 @@ button {
         background-color: #ffffff;
         cursor: pointer;
         font-weight: 500;
-        font-size: 14px;
+        font-size: 13px;
         gap: 8px;
         transition: background-color 0.2s ease;
         
@@ -566,7 +616,7 @@ button {
     
     h3 {
       margin: 0;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 500;
       color: #333;
       flex-grow: 1;
@@ -611,12 +661,12 @@ button {
         border-bottom: 2px solid transparent;
         
         &:hover {
-          color: #3E41FF;
+          color: #633CEC;
         }
         
         &.active {
-          color: #3E41FF;
-          border-bottom: 2px solid #3E41FF;
+          color: #633CEC;
+          border-bottom: 2px solid #633CEC;
         }
       }
     }
@@ -645,8 +695,8 @@ button {
           position: absolute;
           top: 10px;
           right: 10px;
-          background-color: white;
-          border: 1px solid #ddd;
+          background-color: none;
+          border: none;
           border-radius: 4px;
           padding: 6px;
           cursor: pointer;
@@ -663,12 +713,31 @@ button {
   }
 }
 
+.btn-icon-wrap {
+  background-color: transparent;
+  padding: 0 !important;
+  border: none !important;
+  cursor: pointer;
+  line-height: 10px;
+
+  &.vertical {
+    transform: rotate(90deg);
+  }
+}
+
+.flex-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.ml-5 {
+  margin-left: 5px;
+}
+
 .preview-main{
   display: flex;
   flex-direction: column;
   height: 70vh;
-  width: 100%;
-  padding: 0px 20px;
 }
 .customization-container-preview{
   display: flex;
@@ -677,12 +746,19 @@ button {
   height: 50px;
   align-items: center;
   border: 1px solid #E8EAEE;
+  border-radius: 10px;
   padding: 0px 20px;
+  font-size: 14px;
 
   button{
     margin: 0px !important;
   }
+
+  .text-gray {
+    color: #ABADC6;
+  }
 }
+
 .middle-section{
  height: 50vh;
  display: flex;
@@ -691,3 +767,8 @@ button {
 }
 
 
+.main-custom-wrap {
+  display: grid;
+  grid-template-columns: auto 300px;
+  gap: 10px;
+}
