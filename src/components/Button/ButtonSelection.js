@@ -30,8 +30,8 @@ const ButtonSelection = ({buttonStyles}) => {
                 {btn.label}
               </button>
               <div className="flex-wrap">
-                <button className="btn-link" title="Customize styles"   onClick={() => handleOpenModal(btn.type)}><img src={copyIcon} alt="icon" className="btn-icon"/></button>
-                <button className="btn-link" title="Customize styles" onClick={() => navigate(`/customize/${btn.type}`)}><img src={toolIcon} alt="icon" className="btn-icon"/></button>
+                <button className="btn-tool-wrap" title="Customize styles"   onClick={() => handleOpenModal(btn.type)}><img src={copyIcon} alt="icon" className="btn-icon"/></button>
+                <button className="btn-tool-wrap" title="Customize styles" onClick={() => navigate(`/customize/${btn.type}`)}><img src={toolIcon} alt="icon" className="btn-icon"/></button>
               </div>
             </div>
           </div>

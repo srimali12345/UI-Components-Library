@@ -1,12 +1,9 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import ButtonSelection from "../components/Button/ButtonSelection";
 import NavbarCustomizer from "../components/Navbar/NavbarCustomizer";
-
 import "../styles/pages/dashboard.scss";
-import "../styles/components/navbar.scss";
+
 const Dashboard = () => {
-  const navigate = useNavigate();
   const [activeComponent, setActiveComponent] = useState("buttons");
 
   return (

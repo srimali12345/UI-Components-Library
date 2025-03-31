@@ -1,22 +1,25 @@
 import ButtonPreview from "./ButtonPreview";
+import { useNavigate } from "react-router-dom";
 import { ChevronLeft, MoreHorizontal } from "lucide-react";
 const MainContent = ({ buttonStyles,setButtonText,buttonText,buttonType }) => {
+   const navigate = useNavigate();
+
   return (
     <div className="preview-main">
     <div className="customization-container-preview" >
-    <div>
-      <button >
+    <div className="flex-wrap">
+      <button className="btn-icon-wrap" onClick={() => navigate(`/dashboard/`)}>
         <ChevronLeft size={20} />
       </button>
-      <span className="text-gray-600">Customization</span>
+      <span >Customization</span>
     </div>
     
-    <div >
+    <div className="text-gray" >
       BTN1 - {buttonType || "Primary"} Button
     </div>
     <div>
-    <button >
-    ...
+    <button className="btn-icon-wrap vertical">
+    <MoreHorizontal size={20} />
     </button>
     </div>
   
