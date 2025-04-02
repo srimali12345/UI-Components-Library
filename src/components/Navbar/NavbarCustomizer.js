@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import PreviewPane from "./PreviewPane";
 import ColorPicker from "./ColorPicker";
 import LogoUploader from "./LogoUploader";
