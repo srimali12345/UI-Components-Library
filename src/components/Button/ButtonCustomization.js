@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import ToolBox from "./ToolBox";
 import CodePanel from "./Codepanel";
-import "../../styles/components/buttons.scss";
+import "../../styles/components/buttonsCustomization.scss";
 import MainContent from "./MainContent";
 
 const ButtonCustomization = () => {
