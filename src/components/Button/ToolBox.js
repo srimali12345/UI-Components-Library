@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ChevronDown, ChevronRight } from "lucide-react";
 
-
 const ToolBox = ({
   buttonStyles,
   setButtonStyles,
@@ -11,7 +10,7 @@ const ToolBox = ({
   showUnderline,
   buttonText,
   setButtonText,
-  buttonType
+  buttonType,
 }) => {
   const [fontList] = useState([
     "Arial",
@@ -26,7 +25,7 @@ const ToolBox = ({
     "Tahoma",
     "Verdana",
   ]);
-  
+
   const [activeTab, setActiveTab] = useState("design");
   const [expandedSections, setExpandedSections] = useState({
     text: true,
@@ -34,13 +33,13 @@ const ToolBox = ({
     border: true,
     dimensions: false,
     icon: false,
-    font: false
+    font: false,
   });
 
   const toggleSection = (section) => {
     setExpandedSections({
       ...expandedSections,
-      [section]: !expandedSections[section]
+      [section]: !expandedSections[section],
     });
   };
 
@@ -73,14 +72,14 @@ const ToolBox = ({
   return (
     <div className="toolbar">
       <div className="toolbar-tabs">
-        <div 
+        <div
           className={`toolbar-tab ${activeTab === "design" ? "active" : ""}`}
           onClick={() => setActiveTab("design")}
         >
           <div className="tab-icon design-icon"></div>
           <span>Design</span>
         </div>
-        <div 
+        <div
           className={`toolbar-tab ${activeTab === "animation" ? "active" : ""}`}
           onClick={() => setActiveTab("animation")}
         >
@@ -92,11 +91,17 @@ const ToolBox = ({
       <div className="toolbar-content">
         {activeTab === "design" && (
           <div className="design-tab-content">
-            {/* Text Section */}
             <div className="collapsible-section">
-              <div className="section-header" onClick={() => toggleSection("text")}>
+              <div
+                className="section-header"
+                onClick={() => toggleSection("text")}
+              >
                 <span>Text</span>
-                {expandedSections.text ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+                {expandedSections.text ? (
+                  <ChevronDown size={16} />
+                ) : (
+                  <ChevronRight size={16} />
+                )}
               </div>
               {expandedSections.text && (
                 <div className="section-content">
@@ -104,7 +109,10 @@ const ToolBox = ({
                     <label>Button Text:</label>
                     <input
                       type="text"
-                      value={buttonText || (buttonType ? `${buttonType} Button` : "Default Button")}
+                      value={
+                        buttonText ||
+                        (buttonType ? `${buttonType} Button` : "Default Button")
+                      }
                       onChange={(e) => setButtonText(e.target.value)}
                     />
                   </div>
@@ -117,7 +125,9 @@ const ToolBox = ({
                         onChange={(e) =>
                           setButtonStyles({
                             ...buttonStyles,
-                            textDecoration: e.target.checked ? "underline" : "none",
+                            textDecoration: e.target.checked
+                              ? "underline"
+                              : "none",
                           })
                         }
                       />
@@ -127,12 +137,18 @@ const ToolBox = ({
               )}
             </div>
 
-            {/* Background Section */}
             {showBackgroundColor && (
               <div className="collapsible-section">
-                <div className="section-header" onClick={() => toggleSection("background")}>
+                <div
+                  className="section-header"
+                  onClick={() => toggleSection("background")}
+                >
                   <span>Background</span>
-                  {expandedSections.background ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+                  {expandedSections.background ? (
+                    <ChevronDown size={16} />
+                  ) : (
+                    <ChevronRight size={16} />
+                  )}
                 </div>
                 {expandedSections.background && (
                   <div className="section-content">
@@ -149,17 +165,36 @@ const ToolBox = ({
                         }
                       />
                     </div>
+                    <div className="input-group">
+                      <label>Hover Background Color:</label>
+                      <input
+                        type="color"
+                        value={buttonStyles.hoverBackgroundColor}
+                        onChange={(e) =>
+                          setButtonStyles({
+                            ...buttonStyles,
+                            hoverBackgroundColor: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
                   </div>
                 )}
               </div>
             )}
 
-            {/* Font Styling Section */}
             {showFontStyling && (
               <div className="collapsible-section">
-                <div className="section-header" onClick={() => toggleSection("font")}>
+                <div
+                  className="section-header"
+                  onClick={() => toggleSection("font")}
+                >
                   <span>Typography</span>
-                  {expandedSections.font ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+                  {expandedSections.font ? (
+                    <ChevronDown size={16} />
+                  ) : (
+                    <ChevronRight size={16} />
+                  )}
                 </div>
                 {expandedSections.font && (
                   <div className="section-content">
@@ -169,7 +204,23 @@ const ToolBox = ({
                         type="color"
                         value={buttonStyles.color}
                         onChange={(e) =>
-                          setButtonStyles({ ...buttonStyles, color: e.target.value })
+                          setButtonStyles({
+                            ...buttonStyles,
+                            color: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+                    <div className="input-group">
+                      <label>Hover Text Color:</label>
+                      <input
+                        type="color"
+                        value={buttonStyles.hoverTextColor || ""}
+                        onChange={(e) =>
+                          setButtonStyles({
+                            ...buttonStyles,
+                            hoverTextColor: e.target.value,
+                          })
                         }
                       />
                     </div>
@@ -216,7 +267,7 @@ const ToolBox = ({
                         <option value="900">900</option>
                       </select>
                     </div>
-                    
+
                     <div className="input-group">
                       <label>Font Family:</label>
                       <select
@@ -240,12 +291,18 @@ const ToolBox = ({
               </div>
             )}
 
-            {/* Border Section */}
             {showBorderColor && (
               <div className="collapsible-section">
-                <div className="section-header" onClick={() => toggleSection("border")}>
+                <div
+                  className="section-header"
+                  onClick={() => toggleSection("border")}
+                >
                   <span>Border</span>
-                  {expandedSections.border ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+                  {expandedSections.border ? (
+                    <ChevronDown size={16} />
+                  ) : (
+                    <ChevronRight size={16} />
+                  )}
                 </div>
                 {expandedSections.border && (
                   <div className="section-content">
@@ -258,6 +315,20 @@ const ToolBox = ({
                           setButtonStyles({
                             ...buttonStyles,
                             borderColor: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+
+                    <div className="input-group">
+                      <label> Hover Border Color:</label>
+                      <input
+                        type="color"
+                        value={buttonStyles.hoverBorderColor || ""}
+                        onChange={(e) =>
+                          setButtonStyles({
+                            ...buttonStyles,
+                            hoverBorderColor: e.target.value,
                           })
                         }
                       />
@@ -317,7 +388,7 @@ const ToolBox = ({
                         <span>px</span>
                       </div>
                     </div>
-                    
+
                     <div className="input-group">
                       <label>Border Width:</label>
                       <input
@@ -337,12 +408,17 @@ const ToolBox = ({
               </div>
             )}
 
-            {/* Dimensions Section */}
             <div className="collapsible-section">
-              <div className="section-header" onClick={() => toggleSection("dimensions")}>
-                
+              <div
+                className="section-header"
+                onClick={() => toggleSection("dimensions")}
+              >
                 <span>Dimensions</span>
-                {expandedSections.dimensions ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+                {expandedSections.dimensions ? (
+                  <ChevronDown size={16} />
+                ) : (
+                  <ChevronRight size={16} />
+                )}
               </div>
               {expandedSections.dimensions && (
                 <div className="section-content">
@@ -379,17 +455,27 @@ const ToolBox = ({
               )}
             </div>
 
-            {/* Icon Section */}
             <div className="collapsible-section">
-              <div className="section-header" onClick={() => toggleSection("icon")}>
+              <div
+                className="section-header"
+                onClick={() => toggleSection("icon")}
+              >
                 <span>Icon</span>
-                {expandedSections.icon ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+                {expandedSections.icon ? (
+                  <ChevronDown size={16} />
+                ) : (
+                  <ChevronRight size={16} />
+                )}
               </div>
               {expandedSections.icon && (
                 <div className="section-content">
                   <div className="input-group">
                     <label>Upload Icon:</label>
-                    <input type="file" accept="image/*" onChange={handleIconUpload} />
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleIconUpload}
+                    />
                     {buttonStyles.icon && (
                       <div className="icon-preview">
                         <img
@@ -404,7 +490,7 @@ const ToolBox = ({
                   <div className="input-group">
                     <label>Icon Position:</label>
                     <select
-                      value={buttonStyles.iconPosition || 'right'}
+                      value={buttonStyles.iconPosition || "right"}
                       onChange={(e) =>
                         setButtonStyles({
                           ...buttonStyles,

@@ -1,39 +1,43 @@
 import ButtonPreview from "./ButtonPreview";
 import { useNavigate } from "react-router-dom";
 import { ChevronLeft, MoreHorizontal } from "lucide-react";
-const MainContent = ({ buttonStyles,setButtonText,buttonText,buttonType }) => {
-   const navigate = useNavigate();
+const MainContent = ({
+  buttonStyles,
+  buttonText,
+  buttonType,
+  toolBoxProps,
+}) => {
+  const navigate = useNavigate();
 
   return (
     <div className="preview-main">
-    <div className="customization-container-preview" >
-    <div className="flex-wrap">
-      <button className="btn-icon-wrap" onClick={() => navigate(`/dashboard/`)}>
-        <ChevronLeft size={20} />
-      </button>
-      <span >Customization</span>
-    </div>
-    
-    <div className="text-gray" >
-      BTN1 - {buttonType || "Primary"} Button
-    </div>
-    <div>
-    <button className="btn-icon-wrap vertical">
-    <MoreHorizontal size={20} />
-    </button>
-    </div>
-  
-  </div>
-  <div className="middle-section" >
-       
-          <ButtonPreview 
-            buttonStyles={buttonStyles} 
-            buttonText={buttonText} 
-            buttonType={buttonType} 
-          />
-       
+      <div className="customization-container-preview">
+        <div className="flex-wrap">
+          <button
+            className="btn-icon-wrap"
+            onClick={() => navigate(`/dashboard/`)}
+          >
+            <ChevronLeft size={20} />
+          </button>
+          <span>Customization</span>
+        </div>
+
+        <div className="text-gray">BTN1 - {buttonType || "Primary"} Button</div>
+        <div>
+          <button className="btn-icon-wrap vertical">
+            <MoreHorizontal size={20} />
+          </button>
+        </div>
       </div>
-  </div>
+      <div className="middle-section">
+        <ButtonPreview
+          buttonStyles={buttonStyles}
+          buttonText={buttonText}
+          buttonType={buttonType}
+          {...toolBoxProps}
+        />
+      </div>
+    </div>
   );
 };
 

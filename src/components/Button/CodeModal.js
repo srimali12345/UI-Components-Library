@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Copy } from "lucide-react";
-import { generateHTML, generateCSS, generateSCSS } from "../Button/codeGenerators";
+import { generateHTML, generateCSS, generateSCSS } from "./codeGenerators";
 
 const CodeModal = ({ buttonType, buttonStyles = {}, buttonText, onClose }) => {
   const [activeTab, setActiveTab] = useState("css");
@@ -44,31 +44,36 @@ const CodeModal = ({ buttonType, buttonStyles = {}, buttonText, onClose }) => {
 
         <div className="tabs-copy-container">
           <div className="btn-group">
-          <button 
-              className={activeTab === "html" ? "active btn-outline" : "btn-outline"} 
+            <button
+              className={
+                activeTab === "html" ? "active btn-outline" : "btn-outline"
+              }
               onClick={() => setActiveTab("html")}
             >
               HTML
             </button>
-            <button 
-              className={activeTab === "css" ? "active btn-outline" : "btn-outline"} 
+            <button
+              className={
+                activeTab === "css" ? "active btn-outline" : "btn-outline"
+              }
               onClick={() => setActiveTab("css")}
             >
               CSS
             </button>
-            <button 
-              className={activeTab === "scss" ? "active btn-outline" : "btn-outline"} 
+            <button
+              className={
+                activeTab === "scss" ? "active btn-outline" : "btn-outline"
+              }
               onClick={() => setActiveTab("scss")}
             >
               SCSS
             </button>
-           
           </div>
           <button className="copy-btn" onClick={handleCopy}>
-            Copy <Copy size={16} /> 
+            Copy <Copy size={16} />
           </button>
         </div>
-        
+
         <pre className="code-block">
           <div>{getCode()}</div>
         </pre>

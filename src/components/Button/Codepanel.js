@@ -23,6 +23,9 @@ const CodePanel = ({ buttonStyles = {}, buttonText, buttonType }) => {
     padding = "8px 12px",
     icon = null,
     iconPosition = "right",
+    hoverBackgroundColor = "red",
+    hoverTextColor = "white",
+    hoverBorderColor = "red",
   } = buttonStyles;
 
   const generateBorderRadius = () => {
@@ -76,7 +79,10 @@ const CodePanel = ({ buttonStyles = {}, buttonText, buttonType }) => {
         return `.button.Outline {
   background-color: transparent;
   border: ${borderWidth} solid ${borderColor};${borderRadiusStyle}${heightAndWidthStyle}${commonStyles}
-}`;
+}  .button.Outline:hover {
+  border-color: ${hoverBorderColor};
+  color: ${hoverTextColor};  
+}   `;
       case "Link":
         return `.button.Link {
   background-color: transparent;
@@ -87,7 +93,13 @@ const CodePanel = ({ buttonStyles = {}, buttonText, buttonType }) => {
         return `.button.Primary {
   background-color: ${backgroundColor};
   border: ${borderWidth} solid ${borderColor};${borderRadiusStyle}${heightAndWidthStyle}${commonStyles}
-}`;
+}
+
+  .button.Primary:hover {
+    background-color: ${hoverBackgroundColor};
+    color: ${hoverTextColor};  
+    border-color: ${hoverBorderColor || borderColor};
+  }`;
     }
   };
 

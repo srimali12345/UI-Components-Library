@@ -5,6 +5,7 @@ import LogoUploader from "./LogoUploader";
 import NavItemEditor from "./NavItemEditor";
 import CodeViewer from "./CodeViewer";
 import { generateHTML, generateCSS, generateSASS } from "./utils/CodeGenerator";
+import "../../styles/components/navbar.scss";
 
 const NavbarCustomizer = () => {
   const [navbarStyle, setNavbarStyle] = useState({
