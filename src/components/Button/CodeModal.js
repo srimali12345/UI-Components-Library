@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Copy } from "lucide-react";
-import { generateHTML, generateCSS, generateSCSS } from "./codeGenerators";
+import { generateHTML, generateCSS, generateSCSS } from "./CodeGenerators";
 
 const CodeModal = ({ buttonType, buttonStyles = {}, buttonText, onClose }) => {
   const [activeTab, setActiveTab] = useState("css");
