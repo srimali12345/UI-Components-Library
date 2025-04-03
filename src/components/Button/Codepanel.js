@@ -20,7 +20,6 @@ const CodePanel = ({ buttonStyles = {}, buttonText, buttonType }) => {
     backgroundColor = "#3E41FF",
     textDecoration = "none",
     fontFamily = "Arial",
-    padding = "8px 12px",
     icon = null,
     iconPosition = "right",
     hoverBackgroundColor = "red",
