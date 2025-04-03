@@ -1,8 +1,7 @@
 .main-custom-wrap {
   display: grid;
-  grid-template-columns: auto 300px;
   gap: 10px;
-
+  grid-template-columns: auto 300px;
   .customization-container {
     background-color: rgb(255, 255, 255);
     display: flex;
@@ -14,15 +13,15 @@
       height: 70vh;
 
       .customization-container-preview {
+        align-items: center;
+        border-radius: 10px;
+        border: 1px solid #e8eaee;
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
-        height: 50px;
-        align-items: center;
-        border: 1px solid #e8eaee;
-        border-radius: 10px;
-        padding: 0px 20px;
         font-size: 14px;
+        height: 50px;
+        justify-content: space-between;
+        padding: 0px 20px;
 
         button {
           margin: 0px !important;
@@ -33,16 +32,16 @@
         }
 
         .flex-wrap {
-          display: flex;
           align-items: center;
+          display: flex;
         }
 
         .btn-icon-wrap {
           background-color: transparent;
-          padding: 0 !important;
           border: none !important;
           cursor: pointer;
           line-height: 10px;
+          padding: 0 !important;
 
           &.vertical {
             transform: rotate(90deg);
@@ -51,72 +50,71 @@
       }
 
       .middle-section {
-        height: 50vh;
-        display: flex;
         align-items: center;
+        display: flex;
+        height: 50vh;
         justify-content: center;
 
         .button-container {
-          display: flex;
-          justify-content: center;
           align-items: center;
           cursor: pointer;
-
+          display: flex;
+          justify-content: center;
           .dashboard-btn {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-            display: flex;
             align-items: center;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            font-size: 16px;
             justify-content: center;
             margin-top: 0;
+            padding: 10px 20px;
           }
         }
       }
     }
 
     .code-panel {
-      width: 100%;
-      border-radius: 8px;
-      overflow: hidden;
       background-color: white;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      border-radius: 8px;
       border: 1px solid #e5e5e5;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+      width: 100%;
 
       .code-panel-header {
-        display: flex;
         align-items: center;
-        padding: 15px 20px;
-        border-bottom: 1px solid #e5e5e5;
         background-color: #ffffff;
+        border-bottom: 1px solid #e5e5e5;
+        display: flex;
+        padding: 15px 20px;
 
         .code-icon {
-          margin-right: 12px;
-          display: flex;
           align-items: center;
+          display: flex;
           justify-content: center;
+          margin-right: 12px;
         }
 
         h3 {
-          margin: 0;
-          font-size: 15px;
-          font-weight: 500;
           color: #333;
           flex-grow: 1;
+          font-size: 15px;
+          font-weight: 500;
+          margin: 0;
         }
 
         .toggle-code-button {
-          display: flex;
           align-items: center;
+          background-color: #f6f6f6;
+          border-radius: 4px;
+          border: 1px solid #e5e5e5;
+          color: #555;
+          cursor: pointer;
+          display: flex;
+          font-size: 14px;
           gap: 6px;
           padding: 6px 12px;
-          border-radius: 4px;
-          background-color: #f6f6f6;
-          border: 1px solid #e5e5e5;
-          cursor: pointer;
-          font-size: 14px;
-          color: #555;
           transition: all 0.2s ease;
 
           &:hover {
@@ -140,30 +138,30 @@
             position: relative;
 
             pre {
-              margin: 0;
-              padding: 15px;
-              font-family: "Consolas", "Monaco", "Courier New", monospace;
-              font-size: 13px;
-              white-space: pre-wrap;
-              word-wrap: break-word;
-              color: #333;
               background-color: #f6f6f6;
               border-radius: 6px;
+              color: #333;
+              font-family: "Consolas", "Monaco", "Courier New", monospace;
+              font-size: 13px;
+              margin: 0;
               overflow-x: auto;
+              padding: 15px;
+              white-space: pre-wrap;
+              word-wrap: break-word;
             }
 
             .copy-button {
-              position: absolute;
-              top: 10px;
-              right: 10px;
+              align-items: center;
               background-color: none;
-              border: none;
               border-radius: 4px;
-              padding: 6px;
+              border: none;
               cursor: pointer;
               display: flex;
-              align-items: center;
               justify-content: center;
+              padding: 6px;
+              position: absolute;
+              right: 10px;
+              top: 10px;
 
               &:hover {
                 background-color: #f0f0f0;
@@ -173,31 +171,30 @@
         }
       }
     }
-    
   }
 
   .toolbar {
-    border: 1px solid #e8eaee;
     border-radius: 6px;
-    overflow: hidden;
+    border: 1px solid #e8eaee;
     display: flex;
     flex-direction: column;
     margin: 16px;
+    overflow: hidden;
 
     .toolbar-tabs {
-      display: flex;
       background-color: #fff;
       border-bottom: 1px solid #e5e5e5;
+      display: flex;
 
       .toolbar-tab {
-        flex: 1;
-        display: flex;
         align-items: center;
+        cursor: pointer;
+        display: flex;
+        flex: 1;
+        gap: 8px;
         justify-content: center;
         padding: 12px 0;
-        cursor: pointer;
         transition: all 0.2s ease;
-        gap: 8px;
 
         &.active {
           background-color: #f6f6f6;
@@ -205,9 +202,9 @@
         }
 
         .tab-icon {
-          width: 16px;
-          height: 16px;
           border-radius: 50%;
+          height: 16px;
+          width: 16px;
 
           &.design-icon {
             background-color: #9b87f5;
@@ -226,26 +223,26 @@
     }
 
     .toolbar-content {
-      padding: 8px;
-      overflow-y: auto;
       max-height: calc(100vh - 50px);
+      overflow-y: auto;
+      padding: 8px;
 
       .collapsible-section {
-        margin-bottom: 8px;
-        border: 1px solid #e5e5e5;
         border-radius: 4px;
+        border: 1px solid #e5e5e5;
+        margin-bottom: 8px;
         overflow: hidden;
 
         .section-header {
-          display: flex;
           align-items: center;
-          justify-content: space-between;
-          padding: 8px 12px;
           background-color: #ffffff;
           cursor: pointer;
-          font-weight: 500;
+          display: flex;
           font-size: 13px;
+          font-weight: 500;
           gap: 8px;
+          justify-content: space-between;
+          padding: 8px 12px;
           transition: background-color 0.2s ease;
 
           &:hover {
@@ -254,15 +251,15 @@
         }
 
         .section-content {
-          padding: 12px;
           background-color: #fafafa;
           border-top: 1px solid #e5e5e5;
+          padding: 12px;
         }
 
         .icon-preview {
-          margin-top: 8px;
           display: flex;
           justify-content: center;
+          margin-top: 8px;
 
           img {
             border: 1px solid #ddd;
@@ -278,30 +275,30 @@
   input[type="number"],
   input[type="range"],
   select {
-    width: 100%;
-    padding: 8px;
     border-radius: 6px;
     border: 1px solid #ddd;
-    transition: 0.3s ease;
     font-size: 14px;
+    padding: 8px;
+    transition: 0.3s ease;
+    width: 100%;
     &:hover,
     &:focus {
       border-color: #4a90e2;
-      outline: none;
       box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+      outline: none;
     }
   }
 
   input[type="color"] {
+    cursor: pointer;
     height: 40px;
     padding: 0;
-    cursor: pointer;
   }
 
   input[type="checkbox"] {
-    transform: scale(1.2);
-    margin-left: 10px;
     cursor: pointer;
+    margin-left: 10px;
+    transform: scale(1.2);
   }
 
   select {
@@ -309,17 +306,17 @@
   }
 
   .input-group {
-    padding: 16px 0;
     border-bottom: 1px solid #e8eaee;
+    padding: 16px 0;
     input {
+      border-radius: 5px;
       border: 1px solid #e8eaee;
       padding: 8px 16px;
-      border-radius: 5px;
     }
     label {
-      font-size: 13px;
-      display: block;
       color: #24242f;
+      display: block;
+      font-size: 13px;
       margin-bottom: 5px;
     }
 
@@ -330,42 +327,42 @@
 
   .border-radius-inputs {
     display: grid;
+    font-size: 14px;
     gap: 5px;
     grid-template-columns: 20% 20% 20% 20% auto;
-    font-size: 14px;
     input {
+      border-radius: 4px;
+      border: 1px solid #ccc;
       padding: 5px;
       text-align: center;
-      border: 1px solid #ccc;
-      border-radius: 4px;
     }
   }
 
   .animation-tab-content {
-    min-height: 200px;
-    display: flex;
     align-items: center;
+    display: flex;
     justify-content: center;
+    min-height: 200px;
 
     .placeholder-message {
-      padding: 20px;
-      text-align: center;
       color: #888;
       font-style: italic;
+      padding: 20px;
+      text-align: center;
     }
   }
 }
 
 .button-dashboard {
   .component-title {
-    text-align: left;
     margin: 0;
+    text-align: left;
   }
 
   .button-list {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
     gap: 20px 40px;
+    grid-template-columns: repeat(4, 1fr);
     margin-top: 20px;
 
     .btn-list-wrap {
@@ -377,31 +374,31 @@
     }
 
     .btn-wrap {
-      padding: 16px 20px;
-      border: 1px solid #e8eaee;
+      align-items: center;
       border-radius: 10px;
+      border: 1px solid #e8eaee;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
+      padding: 16px 20px;
 
       .flex-wrap {
         display: flex;
-        justify-content: flex-end;
         gap: 10px;
-        width: 100%;
+        justify-content: flex-end;
         margin-top: 10px;
+        width: 100%;
       }
 
       .btn-tool-wrap {
         background-color: transparent;
+        border-radius: 5px;
         border: 1px solid #abadc6;
         cursor: pointer;
         height: 34px;
-        width: 34px;
-        border-radius: 5px;
         line-height: 41px;
         margin-top: 10px;
+        width: 34px;
 
         .btn-icon {
           height: 18px;
@@ -411,28 +408,28 @@
   }
 
   .dashboard-btn {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    display: flex;
     align-items: center;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    font-size: 16px;
     justify-content: center;
     margin-top: 0;
+    padding: 10px 20px;
   }
 
   .Primary {
     background-color: #633cec;
+    border: none;
     color: white;
     cursor: pointer;
-    border: none;
     font-size: 15px;
   }
 
   .Outline {
     background-color: transparent;
-    color: #633cec;
     border: 2px solid #633cec;
+    color: #633cec;
   }
 
   .Link {
@@ -444,56 +441,56 @@
 }
 
 .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  align-items: center;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
+  height: 100%;
   justify-content: center;
-  align-items: center;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
 
   .modal {
     background: white;
-    padding: 20px;
     border-radius: 8px;
-    min-width: 600px;
     min-height: 400px;
+    min-width: 600px;
     overflow-y: auto;
-    text-align: center;
+    padding: 20px;
     position: relative;
+    text-align: center;
     .modal-header {
+      align-items: center;
       display: flex;
       justify-content: space-between;
-      align-items: center;
       margin-bottom: 8px;
 
       h3 {
-        margin: 0 !important;
-        font-weight: 500;
         font-size: 16px;
+        font-weight: 500;
+        margin: 0 !important;
       }
 
       .close-btn {
-        color: #7a8191;
-        border: none;
-        padding: 5px 10px;
-        cursor: pointer;
         background: transparent;
-        padding: 0;
-        margin: 0;
+        border: none;
+        color: #7a8191;
+        cursor: pointer;
         font-size: 13px;
+        margin: 0;
+        padding: 0;
+        padding: 5px 10px;
       }
     }
 
     .btn-preview-container {
-      border: 1px solid #e8eaee;
       border-radius: 10px;
-      padding: 32px 0px;
+      border: 1px solid #e8eaee;
       display: flex;
       justify-content: center;
       margin-bottom: 10px;
+      padding: 32px 0px;
       .btn-wrap {
         button {
           margin-top: 0px !important;
@@ -503,54 +500,53 @@
   }
 
   .tabs-copy-container {
+    align-items: center;
     display: flex;
     justify-content: space-between;
-    align-items: center;
     margin-top: 20px;
   }
 
   .code-block {
     background-color: #24242f;
-    padding: 10px;
-    text-align: left;
-    margin-top: 10px;
+    border-radius: 10px;
     color: #ffffff;
+    line-height: 1.5;
+    margin-top: 10px;
     max-height: 400px;
     overflow-y: auto;
+    padding: 10px;
+    text-align: left;
     white-space: pre-wrap;
     word-break: break-word;
-    line-height: 1.5;
-    border-radius: 10px;
   }
 
   .copy-btn {
     background-color: transparent;
-    color: #abadc6;
-    border: none;
-    padding: 5px 10px;
     border-radius: 5px;
+    border: none !important;
+    border: none;
+    color: #abadc6;
     cursor: pointer;
     margin: 0px !important;
-    border: none !important;
-
-    display: flex;
+    padding: 5px 10px;
     align-items: center;
+    display: flex;
     gap: 5px;
   }
 }
 
 .btn-group {
-  display: flex;
   align-items: center;
+  display: flex;
 
   .btn-outline {
     background-color: transparent;
+    border-radius: 5px;
+    border: 0.5px solid #633cec;
     color: #633cec;
     cursor: pointer;
-    border: 0.5px solid #633cec;
-    border-radius: 5px;
-    padding: 6px 10px;
     font-size: 13px;
+    padding: 6px 10px;
 
     &:nth-child(2) {
       border-right: 0;
