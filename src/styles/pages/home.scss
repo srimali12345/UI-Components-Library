@@ -80,6 +80,11 @@
     color: #ffffff !important;
     cursor: pointer;
     font-family: "Poppins", sans-serif;
+
+    &:hover {
+      background-color: #7d5eff;
+      border: 1px solid #7d5eff;
+    }
   }
 
   a {
