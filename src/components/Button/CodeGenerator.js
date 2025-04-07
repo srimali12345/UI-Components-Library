@@ -1,3 +1,4 @@
+// Utility function for generating border radius CSS
 export const generateBorderRadius = (styles = {}) => {
   const {
     topLeftRadius = "0px",
@@ -5,10 +6,17 @@ export const generateBorderRadius = (styles = {}) => {
     bottomRightRadius = "0px",
     bottomLeftRadius = "0px",
   } = styles;
-
-  return `${topLeftRadius} ${topRightRadius} ${bottomRightRadius} ${bottomLeftRadius}`;
+  
+  const allAreZero = [topLeftRadius, topRightRadius, bottomRightRadius, bottomLeftRadius].every(
+    val => val === "0px" || !val
+  );
+  
+  if (allAreZero) return "5px"; // Default border radius is 5px
+  
+  return `${topLeftRadius || "0px"} ${topRightRadius || "0px"} ${bottomRightRadius || "0px"} ${bottomLeftRadius || "0px"}`;
 };
 
+// Generate HTML code for the button
 export const generateHTML = ({ buttonType, buttonText, buttonStyles = {} }) => {
   const { icon = null, iconPosition = "right" } = buttonStyles;
   const buttonTypeClass = buttonType || "Primary";
@@ -23,15 +31,16 @@ export const generateHTML = ({ buttonType, buttonText, buttonStyles = {} }) => {
 
   return iconPosition === "left"
     ? `<button class="button ${buttonTypeClass}">
-  <img src="icon.png" alt="icon" />
+  <img src="icon.png" alt="icon" class="button-icon button-icon-left" />
   ${buttonDisplayText}
 </button>`
     : `<button class="button ${buttonTypeClass}">
   ${buttonDisplayText}
-  <img src="icon.png" alt="icon" />
+  <img src="icon.png" alt="icon" class="button-icon button-icon-right" />
 </button>`;
 };
 
+// Generate CSS code for the button
 export const generateCSS = ({ buttonType, buttonStyles = {} }) => {
   const {
     color = "#000",
@@ -39,7 +48,7 @@ export const generateCSS = ({ buttonType, buttonStyles = {} }) => {
     fontSize = "16px",
     height = "40px",
     width = "100px",
-    borderWidth = "0px",
+    borderWidth = buttonType === "Primary" ? "0px" : "2px", // Primary has no border by default
     borderColor = "#6d45ff",
     backgroundColor = "#6d45ff",
     textDecoration = "none",
@@ -47,7 +56,10 @@ export const generateCSS = ({ buttonType, buttonStyles = {} }) => {
     hoverBackgroundColor = "#5a35e0",
     hoverTextColor = "inherit",
     hoverBorderColor = "#5a35e0",
+    icon = null,
   } = buttonStyles;
+
+  const borderRadius = generateBorderRadius(buttonStyles);
 
   const commonStyles = `
   color: ${color};
@@ -65,8 +77,22 @@ export const generateCSS = ({ buttonType, buttonStyles = {} }) => {
   const borderRadiusStyle =
     buttonType !== "Link"
       ? `
-  border-radius: ${generateBorderRadius(buttonStyles)};`
+  border-radius: ${borderRadius};`
       : "";
+      
+  const iconStyles = icon ? `
+.button-icon {
+  height: 12px;
+  vertical-align: middle;
+}
+
+.button-icon-left {
+  margin-right: 5px;
+}
+
+.button-icon-right {
+  margin-left: 5px;
+}` : '';
 
   let cssCode = "";
 
@@ -75,13 +101,16 @@ export const generateCSS = ({ buttonType, buttonStyles = {} }) => {
       cssCode = `.button.Outline {
   background-color: transparent;
   border: ${borderWidth} solid ${borderColor};${borderRadiusStyle}${heightAndWidthStyle}${commonStyles}
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .button.Outline:hover {
   background-color: ${hoverBackgroundColor || "rgba(62, 65, 255, 0.1)"};
   color: ${hoverTextColor || color};
   border-color: ${hoverBorderColor || borderColor};
-}`;
+}${iconStyles}`;
       break;
 
     case "Link":
@@ -89,30 +118,37 @@ export const generateCSS = ({ buttonType, buttonStyles = {} }) => {
   background-color: transparent;
   border: none;
   text-decoration: ${textDecoration};${commonStyles}
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .button.Link:hover {
   text-decoration: underline;
   color: ${hoverTextColor || color};
-}`;
+}${iconStyles}`;
       break;
 
     default:
       cssCode = `.button.Primary {
   background-color: ${backgroundColor};
   border: ${borderWidth} solid ${borderColor};${borderRadiusStyle}${heightAndWidthStyle}${commonStyles}
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .button.Primary:hover {
   background-color: ${hoverBackgroundColor || "#5a35e0"};
   color: ${hoverTextColor || "#ffffff"};
   border-color: ${hoverBorderColor || borderColor};
-}`;
+}${iconStyles}`;
   }
 
   return cssCode;
 };
 
+// Generate SCSS code for the button
 export const generateSCSS = ({ buttonType, buttonStyles = {} }) => {
   const {
     color = "#000",
@@ -120,15 +156,18 @@ export const generateSCSS = ({ buttonType, buttonStyles = {} }) => {
     fontSize = "16px",
     height = "40px",
     width = "100px",
-    borderWidth = "0px",
-    borderColor = " #6d45ff",
-    backgroundColor = " #6d45ff",
+    borderWidth = buttonType === "Primary" ? "0px" : "2px", // Primary has no border by default
+    borderColor = "#6d45ff",
+    backgroundColor = "#6d45ff",
     textDecoration = "none",
     fontFamily = "Arial",
     hoverBackgroundColor = "#5a35e0",
     hoverTextColor = "inherit",
     hoverBorderColor = "#5a35e0",
+    icon = null,
   } = buttonStyles;
+
+  const borderRadius = generateBorderRadius(buttonStyles);
 
   const commonVars = `$button-color: ${color};
 $button-font-weight: ${fontWeight};
@@ -148,7 +187,7 @@ $button-width: ${width};`
   const borderRadiusVar =
     buttonType !== "Link"
       ? `
-$button-border-radius: ${generateBorderRadius(buttonStyles)};`
+$button-border-radius: ${borderRadius};`
       : "";
 
   let scssCode = "";
@@ -170,6 +209,9 @@ $button-border: ${borderWidth} solid ${borderColor};
     font-family: $button-font-family;
     height: $button-height;
     width: $button-width;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     
     &:hover {
       background-color: $button-hover-bg;
@@ -177,6 +219,20 @@ $button-border: ${borderWidth} solid ${borderColor};
       border-color: $button-hover-border;
     }
   }
+  
+  ${icon ? `
+  .button-icon {
+    height: 12px;
+    vertical-align: middle;
+    
+    &.button-icon-left {
+      margin-right: 5px;
+    }
+    
+    &.button-icon-right {
+      margin-left: 5px;
+    }
+  }` : ''}
 }`;
       break;
 
@@ -194,12 +250,29 @@ $button-text-decoration: ${textDecoration};
     font-weight: $button-font-weight;
     font-size: $button-font-size;
     font-family: $button-font-family;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     
     &:hover {
       text-decoration: underline;
       color: $button-hover-color;
     }
   }
+  
+  ${icon ? `
+  .button-icon {
+    height: 12px;
+    vertical-align: middle;
+    
+    &.button-icon-left {
+      margin-right: 5px;
+    }
+    
+    &.button-icon-right {
+      margin-left: 5px;
+    }
+  }` : ''}
 }`;
       break;
 
@@ -219,6 +292,9 @@ $button-border: ${borderWidth} solid ${borderColor};
     font-family: $button-font-family;
     height: $button-height;
     width: $button-width;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     
     &:hover {
       background-color: $button-hover-bg;
@@ -226,6 +302,20 @@ $button-border: ${borderWidth} solid ${borderColor};
       border-color: $button-hover-border;
     }
   }
+  
+  ${icon ? `
+  .button-icon {
+    height: 12px;
+    vertical-align: middle;
+    
+    &.button-icon-left {
+      margin-right: 5px;
+    }
+    
+    &.button-icon-right {
+      margin-left: 5px;
+    }
+  }` : ''}
 }`;
   }
 

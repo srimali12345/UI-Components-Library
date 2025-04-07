@@ -24,6 +24,40 @@ const CodeModal = ({ buttonType, buttonStyles = {}, buttonText, onClose }) => {
     alert("Code copied!");
   };
 
+  const previewButtonStyle = {
+    backgroundColor:
+      buttonType === "Primary"
+        ? buttonStyles.backgroundColor || "#6d45ff"
+        : buttonType === "Outline"
+        ? "transparent"
+        : "transparent",
+    color:
+      buttonStyles.color || (buttonType === "Primary" ? "#ffffff" : "#6d45ff"),
+    border:
+      buttonType === "Link"
+        ? "none"
+        : buttonType === "Primary"
+        ? "none"
+        : `${
+            buttonStyles.borderWidth ||
+            (buttonType === "Outline" ? "2px" : "0px")
+          } solid ${buttonStyles.borderColor || "#6d45ff"}`,
+    borderRadius: buttonStyles.borderRadius || "5px",
+    fontWeight: buttonStyles.fontWeight || "normal",
+    fontSize: buttonStyles.fontSize || "16px",
+    height: buttonStyles.height || "40px",
+    width: buttonStyles.width || "auto",
+    padding: "6px 16px",
+    fontFamily: buttonStyles.fontFamily || "Arial",
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    textDecoration:
+      buttonType === "Link" && buttonStyles.textDecoration === "underline"
+        ? "underline"
+        : "none",
+  };
+
   return (
     <div className="modal-overlay">
       <div className="modal">
@@ -36,8 +70,11 @@ const CodeModal = ({ buttonType, buttonStyles = {}, buttonText, onClose }) => {
 
         <div className="btn-preview-container">
           <div className="btn-wrap">
-            <button className={`dashboard-btn ${buttonType}`}>
-              {buttonText || buttonType || "Click Me"} Button
+            <button
+              style={previewButtonStyle}
+              className={`dashboard-btn ${buttonType}`}
+            >
+              {buttonText || buttonType || "Click Me"} 
             </button>
           </div>
         </div>

@@ -303,6 +303,7 @@
 
   .Primary {
     background-color: #6d45ff;
+    border-radius: 5px;
     border: none;
     color: white;
     cursor: pointer;
@@ -311,6 +312,7 @@
 
   .Outline {
     background-color: transparent;
+    border-radius: 5px;
     border: 2px solid #6d45ff;
     color: #6d45ff;
   }

@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import ToolBox from "./ToolBox";
-import CodePanel from "./Codepanel";
-import "../../styles/components/buttonsCustomization.scss";
 import MainContent from "./MainContent";
+import CodePanels from "./CodePanels";
+import "../../styles/components/buttonsCustomization.scss";
 
 const ButtonCustomization = () => {
   const { buttonType } = useParams();
@@ -12,34 +12,62 @@ const ButtonCustomization = () => {
     Primary: {
       backgroundColor: "#6d45ff",
       color: "#ffffff",
-      border: "1px solid #6d45ff",
+      borderWidth: "0px",
+      borderColor: "#6d45ff",
       hoverBackgroundColor: "#5a35e0",
       hoverTextColor: "#ffffff",
       hoverBorderColor: "#5a35e0",
+      width: "150px",
+      height: "40px",
+      fontSize: "16px",
+      fontWeight: "normal",
+      fontFamily: "Arial",
+      borderRadius: "5px",
     },
     Outline: {
       backgroundColor: "transparent",
       color: "#6d45ff",
       border: "2px solid #6d45ff",
-      hoverBorderColor: "#5a35e0",
+      borderWidth: "2px",
+      borderColor: "#6d45ff",
+      hoverBackgroundColor: "transparent",
       hoverTextColor: "#5a35e0",
+      hoverBorderColor: "#5a35e0",
+      width: "150px",
+      height: "40px",
+      fontSize: "16px",
+      fontWeight: "normal",
+      fontFamily: "Arial",
     },
     Link: {
       backgroundColor: "transparent",
       color: "#6d45ff",
-      border: "none",
+      borderWidth: "0px",
+      borderColor: "transparent",
+      hoverBackgroundColor: "transparent",
       hoverTextColor: "#5a35e0",
+      textDecoration: "none",
+      fontSize: "16px",
+      fontWeight: "normal",
+      fontFamily: "Arial",
     },
   };
 
-  const [buttonStyles, setButtonStyles] = useState(buttonDefaults[buttonType]);
+  const actualButtonType = buttonType || "Primary";
 
-  const [buttonText, setButtonText] = useState(
-    buttonType ? `${buttonType} Button` : "Default Button"
+
+  const [buttonStyles, setButtonStyles] = useState(
+    buttonDefaults[actualButtonType] || buttonDefaults.Primary
   );
+  const [buttonText, setButtonText] = useState(`${actualButtonType} Button`);
+
+  useEffect(() => {
+    setButtonStyles(buttonDefaults[actualButtonType] || buttonDefaults.Primary);
+    setButtonText(`${actualButtonType} Button`);
+  }, [actualButtonType]);
 
   const getToolBoxProps = () => {
-    switch (buttonType) {
+    switch (actualButtonType) {
       case "Outline":
         return {
           showBackgroundColor: false,
@@ -71,14 +99,14 @@ const ButtonCustomization = () => {
         <MainContent
           buttonStyles={buttonStyles}
           buttonText={buttonText}
-          buttonType={buttonType}
+          buttonType={actualButtonType}
           setButtonStyles={setButtonStyles}
-          {...toolBoxProps}
         />
-        <CodePanel
+
+        <CodePanels
           buttonStyles={buttonStyles}
           buttonText={buttonText}
-          buttonType={buttonType}
+          buttonType={actualButtonType}
           {...toolBoxProps}
         />
       </div>
@@ -87,9 +115,8 @@ const ButtonCustomization = () => {
         setButtonStyles={setButtonStyles}
         {...toolBoxProps}
         buttonText={buttonText}
-        showUploadIcon={true}
         setButtonText={setButtonText}
-        buttonType={buttonType}
+        buttonType={actualButtonType}
       />
     </div>
   );

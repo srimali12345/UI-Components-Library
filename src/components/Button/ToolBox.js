@@ -4,10 +4,10 @@ import { ChevronDown, ChevronRight } from "lucide-react";
 const ToolBox = ({
   buttonStyles,
   setButtonStyles,
-  showBackgroundColor,
-  showBorderColor,
-  showFontStyling,
-  showUnderline,
+  showBackgroundColor = true,
+  showBorderColor = true,
+  showFontStyling = true,
+  showUnderline = false,
   buttonText,
   setButtonText,
   buttonType,
@@ -28,7 +28,7 @@ const ToolBox = ({
 
   const [activeTab, setActiveTab] = useState("design");
   const [expandedSections, setExpandedSections] = useState({
-    text: false,
+    text: true,
     background: false,
     border: false,
     dimensions: false,
@@ -156,7 +156,7 @@ const ToolBox = ({
                       <label>Background Color:</label>
                       <input
                         type="color"
-                        value={buttonStyles.backgroundColor}
+                        value={buttonStyles.backgroundColor || "#6d45ff"}
                         onChange={(e) =>
                           setButtonStyles({
                             ...buttonStyles,
@@ -169,7 +169,7 @@ const ToolBox = ({
                       <label>Hover Background Color:</label>
                       <input
                         type="color"
-                        value={buttonStyles.hoverBackgroundColor}
+                        value={buttonStyles.hoverBackgroundColor || "#5a35e0"}
                         onChange={(e) =>
                           setButtonStyles({
                             ...buttonStyles,
@@ -202,7 +202,7 @@ const ToolBox = ({
                       <label>Color:</label>
                       <input
                         type="color"
-                        value={buttonStyles.color}
+                        value={buttonStyles.color || "#ffffff"}
                         onChange={(e) =>
                           setButtonStyles({
                             ...buttonStyles,
@@ -215,7 +215,7 @@ const ToolBox = ({
                       <label>Hover Text Color:</label>
                       <input
                         type="color"
-                        value={buttonStyles.hoverTextColor || ""}
+                        value={buttonStyles.hoverTextColor || "#ffffff"}
                         onChange={(e) =>
                           setButtonStyles({
                             ...buttonStyles,
@@ -310,7 +310,7 @@ const ToolBox = ({
                       <label>Border Color:</label>
                       <input
                         type="color"
-                        value={buttonStyles.borderColor}
+                        value={buttonStyles.borderColor || "#6d45ff"}
                         onChange={(e) =>
                           setButtonStyles({
                             ...buttonStyles,
@@ -324,7 +324,7 @@ const ToolBox = ({
                       <label> Hover Border Color:</label>
                       <input
                         type="color"
-                        value={buttonStyles.hoverBorderColor || ""}
+                        value={buttonStyles.hoverBorderColor || "#5a35e0"}
                         onChange={(e) =>
                           setButtonStyles({
                             ...buttonStyles,
@@ -340,7 +340,7 @@ const ToolBox = ({
                         <input
                           type="number"
                           min="0"
-                          value={parseInt(buttonStyles.topLeftRadius) || ""}
+                          value={parseInt(buttonStyles.topLeftRadius) || 0}
                           onChange={(e) =>
                             setButtonStyles((prev) => ({
                               ...prev,
@@ -352,7 +352,7 @@ const ToolBox = ({
                         <input
                           type="number"
                           min="0"
-                          value={parseInt(buttonStyles.topRightRadius) || ""}
+                          value={parseInt(buttonStyles.topRightRadius) || 0}
                           onChange={(e) =>
                             setButtonStyles((prev) => ({
                               ...prev,
@@ -364,7 +364,7 @@ const ToolBox = ({
                         <input
                           type="number"
                           min="0"
-                          value={parseInt(buttonStyles.bottomLeftRadius) || ""}
+                          value={parseInt(buttonStyles.bottomLeftRadius) || 0}
                           onChange={(e) =>
                             setButtonStyles((prev) => ({
                               ...prev,
@@ -376,7 +376,7 @@ const ToolBox = ({
                         <input
                           type="number"
                           min="0"
-                          value={parseInt(buttonStyles.bottomRightRadius) || ""}
+                          value={parseInt(buttonStyles.bottomRightRadius) || 0}
                           onChange={(e) =>
                             setButtonStyles((prev) => ({
                               ...prev,
@@ -442,7 +442,7 @@ const ToolBox = ({
                     <input
                       type="number"
                       min="0"
-                      value={parseInt(buttonStyles.width) || 100}
+                      value={parseInt(buttonStyles.width) || 150}
                       onChange={(e) =>
                         setButtonStyles((prev) => ({
                           ...prev,

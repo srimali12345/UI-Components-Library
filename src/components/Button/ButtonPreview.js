@@ -1,39 +1,60 @@
-const ButtonPreview = ({
-  buttonStyles = {},
-  buttonText,
-  uploadedIcon,
-  buttonType,
-}) => {
-  const icon = uploadedIcon || buttonStyles.icon;
+import React, { useEffect } from "react";
+
+const ButtonPreview = ({ buttonStyles = {}, buttonText, buttonType }) => {
+  const icon = buttonStyles.icon || null;
   const iconPosition = buttonStyles.iconPosition || "right";
   const buttonTypeClass = buttonType || "Primary";
 
   const styles = {
     ...buttonStyles,
-    borderRadius: `${buttonStyles.topLeftRadius || 0} 
-                 ${buttonStyles.topRightRadius || 0} 
-                 ${buttonStyles.bottomRightRadius || 0} 
-                 ${buttonStyles.bottomLeftRadius || 0}`,
+    borderRadius:
+      buttonStyles.topLeftRadius ||
+      buttonStyles.topRightRadius ||
+      buttonStyles.bottomRightRadius ||
+      buttonStyles.bottomLeftRadius
+        ? `${buttonStyles.topLeftRadius || 0} 
+                   ${buttonStyles.topRightRadius || 0} 
+                   ${buttonStyles.bottomRightRadius || 0} 
+                   ${buttonStyles.bottomLeftRadius || 0}`
+        : buttonStyles.borderRadius || "5px",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    border:
+      buttonType === "Primary" && !buttonStyles.borderWidth
+        ? "none"
+        : `${
+            buttonStyles.borderWidth ||
+            (buttonType === "Outline" ? "2px" : "0px")
+          } solid ${buttonStyles.borderColor || "#6d45ff"}`,
   };
 
-  const customStyle = document.createElement("style");
-  customStyle.innerHTML = `
-    .dashboard-btn.${buttonTypeClass}:hover {
-      background-color: ${buttonStyles.hoverBackgroundColor || ""} !important;
-      color: ${buttonStyles.hoverTextColor || ""} !important;
-      border-color: ${buttonStyles.hoverBorderColor || ""} !important;
+  useEffect(() => {
+    const customStyle = document.createElement("style");
+    customStyle.innerHTML = `
+      .dashboard-btn.${buttonTypeClass}:hover {
+        background-color: ${buttonStyles.hoverBackgroundColor || ""} !important;
+        color: ${buttonStyles.hoverTextColor || ""} !important;
+        border-color: ${buttonStyles.hoverBorderColor || ""} !important;
+        ${buttonType === "Link" ? "text-decoration: underline !important;" : ""}
+      }
+    `;
+
+    if (!document.getElementById("button-hover-styles")) {
+      customStyle.id = "button-hover-styles";
+      document.head.appendChild(customStyle);
+    } else {
+      document.getElementById("button-hover-styles").innerHTML =
+        customStyle.innerHTML;
     }
-  `;
-  if (!document.getElementById("button-hover-styles")) {
-    customStyle.id = "button-hover-styles";
-    document.head.appendChild(customStyle);
-  } else {
-    document.getElementById("button-hover-styles").innerHTML =
-      customStyle.innerHTML;
-  }
+
+    return () => {
+      const styleElement = document.getElementById("button-hover-styles");
+      if (styleElement) {
+        styleElement.remove();
+      }
+    };
+  }, [buttonStyles, buttonType, buttonTypeClass]);
 
   return (
     <div className="button-container">

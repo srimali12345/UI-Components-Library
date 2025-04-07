@@ -1,11 +1,13 @@
+import React from "react";
 import ButtonPreview from "./ButtonPreview";
 import { useNavigate } from "react-router-dom";
 import { ChevronLeft, MoreHorizontal } from "lucide-react";
+
 const MainContent = ({
   buttonStyles,
   buttonText,
   buttonType,
-  toolBoxProps,
+  setButtonStyles,
 }) => {
   const navigate = useNavigate();
 
@@ -34,7 +36,6 @@ const MainContent = ({
           buttonStyles={buttonStyles}
           buttonText={buttonText}
           buttonType={buttonType}
-          {...toolBoxProps}
         />
       </div>
     </div>
