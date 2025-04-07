@@ -136,12 +136,13 @@
 
           .code-block {
             position: relative;
+            margin-top: 10px;
 
             pre {
               background-color: #f6f6f6;
               border-radius: 6px;
               color: #333;
-              font-family: "Consolas", "Monaco", "Courier New", monospace;
+              font-family: "Poppins", sans-serif;
               font-size: 13px;
               margin: 0;
               overflow-x: auto;
@@ -349,6 +350,7 @@
       font-style: italic;
       padding: 20px;
       text-align: center;
+      font-family: "Poppins", sans-serif;
     }
   }
 }
