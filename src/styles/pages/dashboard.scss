@@ -2,6 +2,7 @@
     display: grid;
     grid-template-columns: 15% auto;
     gap: 20px 50px;
+    padding: 10px 16px;
 
     .sidebar-wrap {
         border: 0.5px solid #E8EAEE;
@@ -28,12 +29,18 @@
 
         .menu-text {
             color: #24242F;
+            cursor: pointer;
             font-size: 14px;
             font-weight: 400;
 
             &.active {
                 background-color: #E7E3FF;
                 border-radius: 5px;
+                color: #633CEC;
+                font-weight: 500;
+            }
+
+            &:hover {
                 color: #633CEC;
                 font-weight: 500;
             }
