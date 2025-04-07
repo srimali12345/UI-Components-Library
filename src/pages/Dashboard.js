@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ButtonSelection from "../components/Button/ButtonSelection";
 import NavbarCustomizer from "../components/Navbar/NavbarCustomizer";
 import "../styles/pages/dashboard.scss";
+import NavbarTemplates from "../components/Navbar/NavbarTemplates";
 
 const Dashboard = () => {
   const [activeComponent, setActiveComponent] = useState("buttons");
@@ -40,7 +41,7 @@ const Dashboard = () => {
 
       <div className="dashboard-content">
         {activeComponent === "buttons" && <ButtonSelection />}
-        {activeComponent === "navbar" && <NavbarCustomizer />}
+        {activeComponent === "navbar" && <NavbarTemplates />}
       </div>
     </div>
   );

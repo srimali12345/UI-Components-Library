@@ -5,6 +5,9 @@ import ButtonSelection from "./components/Button/ButtonSelection";
 import ButtonCustomization from "./components/Button/ButtonCustomization";
 import LandingPage from "./pages/Home";
 import Layout from "./components/Layout";
+import NavbarCustomizer from "./components/Navbar/NavbarCustomizer";
+import "./styles/components/navbarCustomization.scss";
+import NavbarTemplates from "./components/Navbar/NavbarTemplates";
 
 const App = () => {
   return (
@@ -13,8 +16,13 @@ const App = () => {
         <Route element={<Layout />}>
           <Route path="/" element={<LandingPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/dashboard/buttons" element={<ButtonSelection/>} />
-          <Route path="/customize/:buttonType" element={<ButtonCustomization />} />
+          <Route path="/dashboard/buttons" element={<ButtonSelection />} />
+          <Route
+            path="/customize/:buttonType"
+            element={<ButtonCustomization />}
+          />
+          <Route path="/" element={<NavbarTemplates />} />
+          <Route path="/customizer" element={<NavbarCustomizer />} />
         </Route>
       </Routes>
     </Router>

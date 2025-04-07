@@ -1,4 +1,6 @@
 import React from "react";
+import { Bell, Search, User } from "lucide-react";
+import "../../styles/components/navbarCustomization.scss";
 
 const PreviewPane = ({ navbarStyle, navItems }) => {
   const navbarStyles = {
@@ -6,45 +8,98 @@ const PreviewPane = ({ navbarStyle, navItems }) => {
     color: navbarStyle.textColor,
     height: navbarStyle.height,
     padding: navbarStyle.padding,
-  };
-
-  const navItemStyles = {
-    color: navbarStyle.textColor,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    borderRadius: navbarStyle.borderRadius,
+    hoverColor: navbarStyle.hoverColor,
   };
 
   const activeItemStyles = {
     color: navbarStyle.activeColor,
+    borderBottom: `2px solid ${navbarStyle.activeColor}`,
   };
 
   return (
     <div className="preview-pane">
       <div className="navbar-preview" style={navbarStyles}>
-        <div className="navbar-container">
-          {navbarStyle.logoUrl && (
-            <div className="logo-container">
+        <div
+          className={`navbar-left ${
+            navbarStyle.navPosition === "right" ? "full-width" : ""
+          }`}
+        >
+          <div className="navbar-logo">
+            {navbarStyle.logoUrl ? (
               <img
                 src={navbarStyle.logoUrl}
                 alt="Logo"
-                className="navbar-logo"
+                className="logo-image"
+              />
+            ) : (
+              "Logo"
+            )}
+          </div>
+
+          {navbarStyle.navPosition === "left" && (
+            <div className="nav-links">
+              {navItems.map((item) => (
+                <a
+                  key={item.id}
+                  href={item.url}
+                  className="nav-link"
+                  style={item.active ? activeItemStyles : {}}
+                >
+                  {item.text}
+                </a>
+              ))}
+            </div>
+          )}
+
+          {navbarStyle.navPosition === "right" && navbarStyle.hasSearch && (
+            <div className="search-container right">
+              <Search size={18} className="search-icon" />
+              <input
+                type="text"
+                placeholder="Search"
+                className="search-input"
+                style={{ color: navbarStyle.textColor }}
               />
             </div>
           )}
-          <nav className="nav-items">
-            <ul>
+        </div>
+
+        <div className="navbar-right">
+          {navbarStyle.navPosition === "left" && navbarStyle.hasSearch && (
+            <div className="search-container">
+              <Search size={18} className="search-icon" />
+              <input
+                type="text"
+                placeholder="Search"
+                className="search-input"
+                style={{ color: navbarStyle.textColor }}
+              />
+            </div>
+          )}
+
+          {navbarStyle.navPosition === "right" && (
+            <div className="nav-links right">
               {navItems.map((item) => (
-                <li key={item.id}>
-                  <a
-                    href="#"
-                    style={item.active ? activeItemStyles : navItemStyles}
-                    className={`nav-link ${item.active ? "active" : ""}`}
-                    data-hover-color={navbarStyle.hoverColor}
-                  >
-                    {item.text}
-                  </a>
-                </li>
+                <a
+                  key={item.id}
+                  href={item.url}
+                  className="nav-link"
+                  style={item.active ? activeItemStyles : {}}
+                >
+                  {item.text}
+                </a>
               ))}
-            </ul>
-          </nav>
+            </div>
+          )}
+
+          <Bell size={20} className="notification-icon" />
+          <div className="profile-icon">
+            <User size={16} className="user-icon" />
+          </div>
         </div>
       </div>
     </div>
