@@ -1,0 +1,19 @@
+.faq-wrap {
+    padding: 20px 30px;
+    background-color: #f8f8f8;
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    line-height: 1.8;
+    min-height: 82.8vh;
+
+    .container {
+        background-color: #ffffff;
+        padding: 30px;
+
+        .flex-wrap {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+    }
+}
