@@ -10,25 +10,25 @@ const ButtonCustomization = () => {
 
   const buttonDefaults = {
     Primary: {
-      backgroundColor: "#3E41FF",
-      color: "white",
-      border: "1px solid #3E41FF",
-      hoverBackgroundColor: "#2a2cd7",
-      hoverTextColor: "white",
-      hoverBorderColor: "blue",
+      backgroundColor: "#6d45ff",
+      color: "#ffffff",
+      border: "1px solid #6d45ff",
+      hoverBackgroundColor: "#5a35e0",
+      hoverTextColor: "#ffffff",
+      hoverBorderColor: "#5a35e0",
     },
     Outline: {
       backgroundColor: "transparent",
-      color: "#3E41FF",
-      border: "2px solid #3E41FF",
-      hoverBorderColor: "blue",
-      hoverTextColor: "#3E41FF",
+      color: "#6d45ff",
+      border: "2px solid #6d45ff",
+      hoverBorderColor: "#5a35e0",
+      hoverTextColor: "#5a35e0",
     },
     Link: {
       backgroundColor: "transparent",
-      color: "#3E41FF",
+      color: "#6d45ff",
       border: "none",
-      hoverTextColor: "#2a2cd7",
+      hoverTextColor: "#5a35e0",
     },
   };
 
