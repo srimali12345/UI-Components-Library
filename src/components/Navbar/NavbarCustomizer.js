@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import PreviewPane from "./PreviewPane";
-import ColorPicker from "./ColorPicker";
-import LogoUploader from "./LogoUploader";
-import NavItemEditor from "./NavItemEditor";
 import CodeViewer from "./CodeViewer";
-import NavbarTemplates from "./NavbarTemplates";
 import { generateHTML, generateCSS, generateSASS } from "./utils/CodeGenerator";
 import "../../styles/components/navbarCustomization.scss";
+import NavbarToolBox from "./NavbarToolBox";
 
 const NavbarCustomizer = ({ onSelect }) => {
   const location = useLocation();
@@ -40,20 +37,6 @@ const NavbarCustomizer = ({ onSelect }) => {
 
   const [activeTab, setActiveTab] = useState("html");
 
-  const handleColorChange = (colorType, color) => {
-    setNavbarStyle((prevStyle) => ({
-      ...prevStyle,
-      [colorType]: color,
-    }));
-  };
-
-  const handleLogoUpload = (logoUrl) => {
-    setNavbarStyle((prevStyle) => ({
-      ...prevStyle,
-      logoUrl,
-    }));
-  };
-
   const handleAddNavItem = (newItem) => {
     setNavItems([...navItems, { ...newItem, id: Date.now() }]);
   };
@@ -85,127 +68,24 @@ const NavbarCustomizer = ({ onSelect }) => {
     setNavItems(template.navItems);
   };
 
-  const handleToggleSearch = () => {
-    setNavbarStyle((prevStyle) => ({
-      ...prevStyle,
-      hasSearch: !prevStyle.hasSearch,
-    }));
-  };
-
-  const handleBorderRadiusChange = (radius) => {
-    setNavbarStyle((prevStyle) => ({
-      ...prevStyle,
-      borderRadius: radius,
-    }));
-  };
-
-  const handleNavPositionChange = (position) => {
-    setNavbarStyle((prevStyle) => ({
-      ...prevStyle,
-      navPosition: position,
-    }));
-  };
-
   return (
     <div className="navbar-customizer">
       <div className="container">
         <h1>Navbar Style Studio</h1>
 
         <div className="grid">
-          <div>
-            {/* Color Panel */}
-            <div className="navbar-panel">
-              <h3 className="navbar-section-title">Colors</h3>
-              <div className="color-picker-container">
-                <ColorPicker
-                  label="Background"
-                  color={navbarStyle.backgroundColor}
-                  onChange={(color) =>
-                    handleColorChange("backgroundColor", color)
-                  }
-                />
-                <ColorPicker
-                  label="Text"
-                  color={navbarStyle.textColor}
-                  onChange={(color) => handleColorChange("textColor", color)}
-                />
-                <ColorPicker
-                  label="Active"
-                  color={navbarStyle.activeColor}
-                  onChange={(color) => handleColorChange("activeColor", color)}
-                />
-                <ColorPicker
-                  label="Hover"
-                  color={navbarStyle.hoverColor}
-                  onChange={(color) => handleColorChange("hoverColor", color)}
-                />
-              </div>
-            </div>
-
-            {/* Logo Panel */}
-            <div className="navbar-panel">
-              <h3 className="navbar-section-title">Logo</h3>
-              <LogoUploader
-                onUpload={handleLogoUpload}
-                currentLogo={navbarStyle.logoUrl}
-              />
-            </div>
-
-            {/* Layout & Features Panel */}
-            <div className="navbar-panel">
-              <h3 className="navbar-section-title">Layout & Features</h3>
-              <div className="layout-section">
-                <div className="checkbox-container">
-                  <input
-                    type="checkbox"
-                    id="hasSearch"
-                    checked={navbarStyle.hasSearch}
-                    onChange={handleToggleSearch}
-                  />
-                  <label htmlFor="hasSearch">Include Search Bar</label>
-                </div>
-
-               
-
-                <div>
-                  <label>Nav Items Position</label>
-                  <div className="position-buttons">
-                    <button
-                      onClick={() => handleNavPositionChange("left")}
-                      className={
-                        navbarStyle.navPosition === "left" ? "active" : ""
-                      }
-                    >
-                      Left
-                    </button>
-                    <button
-                      onClick={() => handleNavPositionChange("right")}
-                      className={
-                        navbarStyle.navPosition === "right" ? "active" : ""
-                      }
-                    >
-                      Right
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Nav Items Panel */}
-            <div className="navbar-panel">
-              <h3 className="navbar-section-title">Navigation Items</h3>
-              <NavItemEditor
-                navItems={navItems}
-                onAdd={handleAddNavItem}
-                onUpdate={handleUpdateNavItem}
-                onDelete={handleDeleteNavItem}
-                onSetActive={handleSetActiveItem}
-              />
-            </div>
-          </div>
+          <NavbarToolBox
+            navbarStyle={navbarStyle}
+            setNavbarStyle={setNavbarStyle}
+            navItems={navItems}
+            onAddNavItem={handleAddNavItem}
+            onUpdateNavItem={handleUpdateNavItem}
+            onDeleteNavItem={handleDeleteNavItem}
+            onSetActiveItem={handleSetActiveItem}
+          />
 
           {/* Right Panel */}
-          <div className="lg:col-span-8">
+          <div>
             {/* Preview Pane */}
             <div className="preview-container">
               <h3 className="navbar-section-title">Live Preview</h3>

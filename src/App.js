@@ -26,7 +26,7 @@ const App = () => {
             element={<ButtonCustomization />}
           />
           <Route path="/" element={<NavbarTemplates />} />
-          <Route path="/customizer" element={<NavbarCustomizer />} />
+          <Route path="/customizer/:template" element={<NavbarCustomizer />} />
         </Route>
       </Routes>
     </Router>
