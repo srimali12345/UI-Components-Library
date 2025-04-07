@@ -165,20 +165,7 @@ const NavbarCustomizer = ({ onSelect }) => {
                   <label htmlFor="hasSearch">Include Search Bar</label>
                 </div>
 
-                <div>
-                  <label>Border Radius</label>
-                  <input
-                    type="range"
-                    min="0"
-                    max="20"
-                    value={parseInt(navbarStyle.borderRadius)}
-                    onChange={(e) =>
-                      handleBorderRadiusChange(`${e.target.value}px`)
-                    }
-                    className="range-slider"
-                  />
-                  <div>{navbarStyle.borderRadius}</div>
-                </div>
+               
 
                 <div>
                   <label>Nav Items Position</label>
