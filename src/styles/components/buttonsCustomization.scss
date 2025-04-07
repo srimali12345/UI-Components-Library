@@ -425,7 +425,7 @@
   }
 
   .Primary {
-    background-color: #633cec;
+    background-color: #6d45ff;
     border: none;
     color: white;
     cursor: pointer;
@@ -434,14 +434,14 @@
 
   .Outline {
     background-color: transparent;
-    border: 2px solid #633cec;
-    color: #633cec;
+    border: 2px solid #6d45ff;
+    color: #6d45ff;
   }
 
   .Link {
     background-color: transparent;
     border: none !important;
-    color: #633cec;
+    color: #6d45ff;
     text-decoration: none !important;
   }
 }
@@ -548,8 +548,8 @@
   .btn-outline {
     background-color: transparent;
     border-radius: 5px;
-    border: 0.5px solid #633cec;
-    color: #633cec;
+    border: 0.5px solid #6d45ff;
+    color: #6d45ff;
     cursor: pointer;
     font-size: 13px;
     padding: 6px 10px;
@@ -571,7 +571,7 @@
     }
 
     &.active {
-      background-color: #633cec !important;
+      background-color: #6d45ff !important;
       color: #ffffff !important;
     }
   }

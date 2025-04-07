@@ -40,13 +40,13 @@ export const generateCSS = ({ buttonType, buttonStyles = {} }) => {
     height = "40px",
     width = "100px",
     borderWidth = "0px",
-    borderColor = "#3E41FF",
-    backgroundColor = "#3E41FF",
+    borderColor = "#6d45ff",
+    backgroundColor = "#6d45ff",
     textDecoration = "none",
     fontFamily = "Arial",
-    hoverBackgroundColor = "#2a2cd7",
+    hoverBackgroundColor = "#5a35e0",
     hoverTextColor = "inherit",
-    hoverBorderColor = "#2a2cd7",
+    hoverBorderColor = "#5a35e0",
   } = buttonStyles;
 
   const commonStyles = `
@@ -104,8 +104,8 @@ export const generateCSS = ({ buttonType, buttonStyles = {} }) => {
 }
 
 .button.Primary:hover {
-  background-color: ${hoverBackgroundColor || "#2a2cd7"};
-  color: ${hoverTextColor || "white"};
+  background-color: ${hoverBackgroundColor || "#5a35e0"};
+  color: ${hoverTextColor || "#ffffff"};
   border-color: ${hoverBorderColor || borderColor};
 }`;
   }
@@ -121,20 +121,20 @@ export const generateSCSS = ({ buttonType, buttonStyles = {} }) => {
     height = "40px",
     width = "100px",
     borderWidth = "0px",
-    borderColor = "#3E41FF",
-    backgroundColor = "#3E41FF",
+    borderColor = " #6d45ff",
+    backgroundColor = " #6d45ff",
     textDecoration = "none",
     fontFamily = "Arial",
-    hoverBackgroundColor = "#2a2cd7",
+    hoverBackgroundColor = "#5a35e0",
     hoverTextColor = "inherit",
-    hoverBorderColor = "#2a2cd7",
+    hoverBorderColor = "#5a35e0",
   } = buttonStyles;
 
   const commonVars = `$button-color: ${color};
 $button-font-weight: ${fontWeight};
 $button-font-size: ${fontSize};
 $button-font-family: ${fontFamily};
-$button-hover-bg: ${hoverBackgroundColor || "#2a2cd7"};
+$button-hover-bg: ${hoverBackgroundColor || "#5a35e0"};
 $button-hover-color: ${hoverTextColor || color};
 $button-hover-border: ${hoverBorderColor || borderColor};`;
 

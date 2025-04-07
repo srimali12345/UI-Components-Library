@@ -7,7 +7,7 @@ const Navbar = () => {
   return (
     <nav>
       <div className="container nav-wrap">
-      <Link to="/">
+        <Link to="/">
           <img
             src="https://1billiontech.com/assets/images/logo.png"
             alt="logo"
@@ -15,16 +15,22 @@ const Navbar = () => {
           />
         </Link>
         <ul className="nav-menu">
-          <li><Link to="/dashboard">Documentation</Link></li>
-          <li><Link to="/dashboard">Customize</Link></li>
+         
           <li>
-            <img src={faqIcon} alt="icon" className="nav-icon" />
+            <Link to="/dashboard">Customize</Link>
+          </li>
+          <li>
+            <Link to="/docs">Documentation</Link>
+          </li>
+          <li>
+            <Link to="/faq">
+              <img src={faqIcon} alt="icon" className="nav-icon" />
+            </Link>
           </li>
         </ul>
       </div>
     </nav>
   );
 };
-
 
 export default Navbar;
