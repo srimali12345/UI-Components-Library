@@ -28,9 +28,9 @@ const ToolBox = ({
 
   const [activeTab, setActiveTab] = useState("design");
   const [expandedSections, setExpandedSections] = useState({
-    text: true,
-    background: true,
-    border: true,
+    text: false,
+    background: false,
+    border: false,
     dimensions: false,
     icon: false,
     font: false,
