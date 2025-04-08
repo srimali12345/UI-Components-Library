@@ -210,7 +210,7 @@ const NavbarToolBox = ({
                   <label htmlFor="hasSearch">Include Search Bar</label>
                 </div>
 
-                <div>
+                <div className="nav-search-wrap">
                   <label>Nav Items Position</label>
                   <div className="position-buttons">
                     <button
