@@ -18,10 +18,10 @@ const CodeViewer = ({ activeTab, html, css, sass }) => {
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(getActiveCode());
-      alert.success("Code copied to clipboard");
+      alert("Code copied to clipboard");
     } catch (err) {
       console.error("Failed to copy: ", err);
-      alert.error("Failed to copy code");
+      alert("Failed to copy code");
     }
   };
 

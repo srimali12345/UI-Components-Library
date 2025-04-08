@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { Copy, EyeOff, Eye } from "lucide-react";
+import { generateHTML, generateCSS, generateSASS } from "./utils/CodeGenerator";
 import PreviewPane from "./PreviewPane";
 import CodeViewer from "./CodeViewer";
-import { generateHTML, generateCSS, generateSASS } from "./utils/CodeGenerator";
-import "../../styles/components/navbarCustomization.scss";
 import NavbarToolBox from "./NavbarToolBox";
-
-const NavbarCustomizer = ({ onSelect }) => {
+import { useNavigate } from "react-router-dom";
+import { ChevronLeft, MoreHorizontal } from "lucide-react";
+import { templates } from "./NavbarList";
+const NavbarCustomizer = ({ onSelect, template }) => {
+  const navigate = useNavigate();
   const location = useLocation();
   const selectedTemplate = location.state?.template;
   const [navbarStyle, setNavbarStyle] = useState({
@@ -27,6 +30,16 @@ const NavbarCustomizer = ({ onSelect }) => {
     { id: 2, text: "Item2", active: false, url: "/item2" },
     { id: 3, text: "Item3", active: false, url: "/item3" },
   ]);
+  const [isCodeVisible, setIsCodeVisible] = useState(false);
+
+  const handleCopy = (code) => {
+    navigator.clipboard.writeText(code);
+    alert("Code copied!");
+  };
+
+  const toggleCodeVisibility = () => {
+    setIsCodeVisible(!isCodeVisible);
+  };
 
   useEffect(() => {
     if (selectedTemplate) {
@@ -69,62 +82,125 @@ const NavbarCustomizer = ({ onSelect }) => {
   };
 
   return (
-    <div className="navbar-customizer">
-      <div className="container">
-        <h1>Navbar Style Studio</h1>
-
-        <div className="grid">
-          <NavbarToolBox
-            navbarStyle={navbarStyle}
-            setNavbarStyle={setNavbarStyle}
-            navItems={navItems}
-            onAddNavItem={handleAddNavItem}
-            onUpdateNavItem={handleUpdateNavItem}
-            onDeleteNavItem={handleDeleteNavItem}
-            onSetActiveItem={handleSetActiveItem}
-          />
-
-          {/* Right Panel */}
-          <div>
-            {/* Preview Pane */}
-            <div className="preview-container">
-              <h3 className="navbar-section-title">Live Preview</h3>
-              <PreviewPane navbarStyle={navbarStyle} navItems={navItems} />
+    <div className="main-custom-wrap">
+      <div className="customization-container">
+        <div className="preview-main">
+          <div className="customization-container-preview">
+            <div className="flex-wrap">
+              <button
+                className="btn-icon-wrap"
+                onClick={() => navigate(`/dashboard/`)}
+              >
+                <ChevronLeft size={20} />
+              </button>
+              <span>Customization</span>
             </div>
 
-            {/* Code Viewer */}
-            <div className="code-container">
-              <h3 className="navbar-section-title">Generated Code</h3>
-              <div className="code-tabs">
-                <button
-                  onClick={() => setActiveTab("html")}
-                  className={activeTab === "html" ? "active" : ""}
-                >
-                  HTML
-                </button>
-                <button
-                  onClick={() => setActiveTab("css")}
-                  className={activeTab === "css" ? "active" : ""}
-                >
-                  CSS
-                </button>
-                <button
-                  onClick={() => setActiveTab("sass")}
-                  className={activeTab === "sass" ? "active" : ""}
-                >
-                  SASS
-                </button>
-              </div>
-              <CodeViewer
-                activeTab={activeTab}
-                html={generateHTML(navbarStyle, navItems)}
-                css={generateCSS(navbarStyle)}
-                sass={generateSASS(navbarStyle)}
-              />
+            <div className="text-gray">Nav - {templates.name} </div>
+            <div>
+              <button className="btn-icon-wrap vertical">
+                <MoreHorizontal size={20} />
+              </button>
             </div>
           </div>
+          <div className="middle-section">
+            <PreviewPane navbarStyle={navbarStyle} navItems={navItems} />
+          </div>
+        </div>
+
+        <div className="code-panel">
+          <div className="code-panel-header">
+            <div className="code-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M16 18L22 12L16 6"
+                  stroke="#3E41FF"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M8 6L2 12L8 18"
+                  stroke="#3E41FF"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+            <h3>Generated Code</h3>
+            <div className="toggle-code-button" onClick={toggleCodeVisibility}>
+              {isCodeVisible ? (
+                <>
+                  <span>Hide Code</span>
+                  <EyeOff size={18} />
+                </>
+              ) : (
+                <>
+                  <span>View Code</span>
+                  <Eye size={18} />
+                </>
+              )}
+            </div>
+          </div>
+
+          {isCodeVisible && (
+            <div className="code-panel-content">
+              <div className="btn-group">
+                <div
+                  className={`btn-outline ${
+                    activeTab === "html" ? "active" : ""
+                  }`}
+                  onClick={() => setActiveTab("html")}
+                >
+                  HTML
+                </div>
+                <div
+                  className={`btn-outline ${
+                    activeTab === "css" ? "active" : ""
+                  }`}
+                  onClick={() => setActiveTab("css")}
+                >
+                  CSS
+                </div>
+                <div
+                  className={`btn-outline ${
+                    activeTab === "scss" ? "active" : ""
+                  }`}
+                  onClick={() => setActiveTab("scss")}
+                >
+                  SCSS
+                </div>
+              </div>
+
+              <div className="code-viewer">
+                <CodeViewer
+                  activeTab={activeTab}
+                  html={generateHTML(navbarStyle, navItems)}
+                  css={generateCSS(navbarStyle)}
+                  sass={generateSASS(navbarStyle)}
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
+
+      <NavbarToolBox
+        navbarStyle={navbarStyle}
+        setNavbarStyle={setNavbarStyle}
+        navItems={navItems}
+        onAddNavItem={handleAddNavItem}
+        onUpdateNavItem={handleUpdateNavItem}
+        onDeleteNavItem={handleDeleteNavItem}
+        onSetActiveItem={handleSetActiveItem}
+      />
     </div>
   );
 };

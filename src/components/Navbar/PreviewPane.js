@@ -2,6 +2,8 @@ import React from "react";
 import { Bell, Search, User } from "lucide-react";
 import "../../styles/components/navbarCustomization.scss";
 
+const DEFAULT_LOGO_URL = "https://1billiontech.com/assets/images/logo.png";
+
 const PreviewPane = ({ navbarStyle, navItems }) => {
   const navbarStyles = {
     backgroundColor: navbarStyle.backgroundColor,
@@ -19,7 +21,7 @@ const PreviewPane = ({ navbarStyle, navItems }) => {
     color: navbarStyle.activeColor,
     borderBottom: `2px solid ${navbarStyle.activeColor}`,
   };
-
+  const logoUrl = navbarStyle.logoUrl || DEFAULT_LOGO_URL;
   return (
     <div className="preview-pane">
       <div className="navbar-preview" style={navbarStyles}>
@@ -29,15 +31,7 @@ const PreviewPane = ({ navbarStyle, navItems }) => {
           }`}
         >
           <div className="navbar-logo">
-            {navbarStyle.logoUrl ? (
-              <img
-                src={navbarStyle.logoUrl}
-                alt="Logo"
-                className="logo-image"
-              />
-            ) : (
-              "Logo"
-            )}
+            <img src={logoUrl} alt="Logo" className="logo-image" />
           </div>
 
           {navbarStyle.navPosition === "left" && (

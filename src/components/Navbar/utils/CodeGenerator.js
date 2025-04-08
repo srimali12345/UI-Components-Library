@@ -12,7 +12,13 @@ export const generateHTML = (navbarStyle, navItems) => {
   <div class="nav-search">
     <input type="text" placeholder="Search...">
     <button class="search-button">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" 
+      width="16" height="16" viewBox="0 0 24 24" f
+      ill="none" stroke="currentColor" stroke-width="2" 
+      stroke-linecap="round" 
+      stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65">
+      </line></svg>
     </button>
   </div>`
     : "";
@@ -53,10 +59,18 @@ export const generateHTML = (navbarStyle, navItems) => {
       }
       <div class="nav-icons">
         <button class="icon-button">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" 
+          width="20" height="20" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+           stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+           <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg>
         </button>
         <button class="user-button">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"></circle><path d="M20 21a8 8 0 1 0-16 0"></path></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" 
+          width="20" height="20" viewBox="0 0 24 24" 
+          fill="none" stroke="currentColor" stroke-width="2" 
+          stroke-linecap="round" stroke-linejoin="round"><circle cx="12" 
+          cy="8" r="5"></circle><path d="M20 21a8 8 0 1 0-16 0"></path></svg>
         </button>
       </div>
     </div>
