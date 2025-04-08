@@ -4,6 +4,40 @@
   gap: 16px;
 }
 
+.checkbox-container {
+
+  display: flex;
+  align-items: center;
+
+  label {
+    font-size: 14px;
+    margin-left: 5px;
+  }
+}
+
+.nav-search-wrap {
+  font-size: 14px;
+  margin: 10px;
+
+  button {
+    margin-right: 10px;
+    padding: 6px 10px;
+    font-size: 13px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: transparent;
+    margin-top: 5px;
+    width: 44.7%;
+    cursor: pointer;
+
+    &.active {
+      background-color: #6d45ff;
+      border-color: #6d45ff;
+      color: #fff;
+    }
+  }
+}
+
 .navbar-header {
   display: flex;
   align-items: center;
@@ -275,7 +309,7 @@
 
     .upload-button {
       padding: 8px 13px;
-      background-color: #3b82f6;
+      background-color: #6d45ff;
       color: white;
       border-radius: 0.375rem;
       font-size: 13px;
@@ -284,7 +318,7 @@
       transition: background-color 0.2s ease;
 
       &:hover {
-        background-color: #2563eb;
+        background-color: #6d45ff;
       }
 
       input {
@@ -359,6 +393,7 @@
     .checkbox-container {
       display: flex;
       align-items: center;
+      font-size: 14px;
     }
 
     .range-slider {
@@ -377,7 +412,7 @@
         transition: background-color 0.2s ease;
 
         &.active {
-          background-color: #3b82f6;
+          background-color: #6d45ff;
           color: white;
         }
 
@@ -413,9 +448,9 @@
       transition: background-color 0.2s ease;
 
       &.active {
-        border-bottom: 2px solid #3b82f6;
+        border-bottom: 2px solid #6d45ff;
         font-weight: 600;
-        color: #3b82f6;
+        color: #6d45ff;
       }
 
       &:hover {
@@ -519,7 +554,7 @@
     }
 
     .btn.add-btn {
-      background-color: #22c55e;
+      background-color: #6d45ff;
       color: #fff;
       border: none;
       padding: 8px 12px;
@@ -528,7 +563,7 @@
       cursor: pointer;
 
       &:hover {
-        background-color: #16a34a;
+        background-color: #5a35e0;
       }
     }
   }
@@ -547,7 +582,7 @@
       font-size: 0.9rem;
 
       &.active {
-        border-color: #3b82f6;
+        border-color: #6d45ff;
         background-color: #eff6ff;
       }
 
@@ -577,7 +612,7 @@
             }
 
             &.btn-active {
-              background-color: #2563eb;
+              background-color: #6d45ff;
               color: white;
             }
 
