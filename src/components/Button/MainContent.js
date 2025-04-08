@@ -25,11 +25,11 @@ const MainContent = ({
         </div>
 
         <div className="text-gray">BTN1 - {buttonType || "Primary"} Button</div>
-        <div>
+        {/* <div>
           <button className="btn-icon-wrap vertical">
             <MoreHorizontal size={20} />
           </button>
-        </div>
+        </div> */}
       </div>
       <div className="middle-section">
         <ButtonPreview

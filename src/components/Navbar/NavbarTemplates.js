@@ -4,6 +4,7 @@ import { templates } from "./NavbarList";
 import copyIcon from "../../images/code.png";
 import toolIcon from "../../images/tool.png";
 import NavbarCodeModal from "./NavbarCodeModal";
+import "../../styles/components/navCustomization.scss";
 
 const NavbarTemplates = ({ onSelect }) => {
   const navigate = useNavigate();
@@ -19,10 +20,10 @@ const NavbarTemplates = ({ onSelect }) => {
   };
 
   return (
-    <div className="button-dashboard">
+    <div className="nav-dashboard">
       <h2 className="component-title">Navbars</h2>
 
-      <div className="button-list">
+      <div className="nav-list">
         {templates.map((template) => (
           <div className="btn-list-wrap">
             <p className="btn-wrap-title">{template.name}</p>

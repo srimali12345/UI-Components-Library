@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import ToolBox from "./ToolBox";
 import MainContent from "./MainContent";
 import CodePanels from "./CodePanels";
-import "../../styles/components/buttonsCustomization.scss";
 
 const ButtonCustomization = () => {
   const { buttonType } = useParams();
