@@ -1,19 +1,23 @@
 // Utility function for generating border radius CSS
 export const generateBorderRadius = (styles = {}) => {
   const {
-    topLeftRadius = "0px",
-    topRightRadius = "0px",
-    bottomRightRadius = "0px",
-    bottomLeftRadius = "0px",
+    topLeftRadius = "5px",
+    topRightRadius = "5px",
+    bottomRightRadius = "5px",
+    bottomLeftRadius = "5px",
   } = styles;
   
-  const allAreZero = [topLeftRadius, topRightRadius, bottomRightRadius, bottomLeftRadius].every(
-    val => val === "0px" || !val
-  );
-  
-  if (allAreZero) return "5px"; // Default border radius is 5px
-  
-  return `${topLeftRadius || "0px"} ${topRightRadius || "0px"} ${bottomRightRadius || "0px"} ${bottomLeftRadius || "0px"}`;
+  const tl = parseInt(topLeftRadius) || 5;
+  const tr = parseInt(topRightRadius) || 5;
+  const br = parseInt(bottomRightRadius) || 5;
+  const bl = parseInt(bottomLeftRadius) || 5;
+
+    if (tl === tr && tr === br && br === bl) {
+      return `${tl}px`;
+    }
+    
+   
+    return `${topLeftRadius} ${topRightRadius} ${bottomLeftRadius} ${bottomRightRadius} `;
 };
 
 // Generate HTML code for the button

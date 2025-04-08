@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Copy } from "lucide-react";
-import { generateHTML, generateCSS, generateSCSS } from "./CodeGenerator";
+import { generateHTML, generateCSS, generateSCSS, generateBorderRadius} from "./CodeGenerator";
 
 const CodeModal = ({ buttonType, buttonStyles = {}, buttonText, onClose }) => {
   const [activeTab, setActiveTab] = useState("css");
@@ -42,7 +42,7 @@ const CodeModal = ({ buttonType, buttonStyles = {}, buttonText, onClose }) => {
             buttonStyles.borderWidth ||
             (buttonType === "Outline" ? "2px" : "0px")
           } solid ${buttonStyles.borderColor || "#6d45ff"}`,
-    borderRadius: buttonStyles.borderRadius || "5px",
+    borderRadius: generateBorderRadius(buttonStyles),
     fontWeight: buttonStyles.fontWeight || "normal",
     fontSize: buttonStyles.fontSize || "16px",
     height: buttonStyles.height || "40px",

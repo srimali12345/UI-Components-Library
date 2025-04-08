@@ -36,6 +36,23 @@ const ToolBox = ({
     font: false,
   });
 
+ 
+  useEffect(() => {
+    const defaultBorderRadius = "5px";
+    
+    if (!buttonStyles.topLeftRadius && !buttonStyles.topRightRadius && 
+        !buttonStyles.bottomLeftRadius && !buttonStyles.bottomRightRadius) {
+    
+      setButtonStyles(prev => ({
+        ...prev,
+        topLeftRadius: defaultBorderRadius,
+        topRightRadius: defaultBorderRadius,
+        bottomLeftRadius: defaultBorderRadius,
+        bottomRightRadius: defaultBorderRadius
+      }));
+    }
+  }, [buttonStyles, setButtonStyles]);
+
   const toggleSection = (section) => {
     setExpandedSections({
       ...expandedSections,
@@ -340,49 +357,53 @@ const ToolBox = ({
                         <input
                           type="number"
                           min="0"
-                          value={parseInt(buttonStyles.topLeftRadius) || 0}
-                          onChange={(e) =>
+                          value={parseInt(buttonStyles.topLeftRadius) || 5}
+                          onChange={(e) => {
+                            const newValue = `${e.target.value}px`;
                             setButtonStyles((prev) => ({
                               ...prev,
-                              topLeftRadius: `${e.target.value}px`,
-                            }))
-                          }
+                              topLeftRadius: newValue,
+                            }));
+                          }}
                           placeholder="TL"
                         />
                         <input
                           type="number"
                           min="0"
-                          value={parseInt(buttonStyles.topRightRadius) || 0}
-                          onChange={(e) =>
+                          value={parseInt(buttonStyles.topRightRadius) || 5}
+                          onChange={(e) => {
+                            const newValue = `${e.target.value}px`;
                             setButtonStyles((prev) => ({
                               ...prev,
-                              topRightRadius: `${e.target.value}px`,
-                            }))
-                          }
+                              topRightRadius: newValue,
+                            }));
+                          }}
                           placeholder="TR"
                         />
                         <input
                           type="number"
                           min="0"
-                          value={parseInt(buttonStyles.bottomLeftRadius) || 0}
-                          onChange={(e) =>
+                          value={parseInt(buttonStyles.bottomLeftRadius) || 5}
+                          onChange={(e) => {
+                            const newValue = `${e.target.value}px`;
                             setButtonStyles((prev) => ({
                               ...prev,
-                              bottomLeftRadius: `${e.target.value}px`,
-                            }))
-                          }
+                              bottomLeftRadius: newValue,
+                            }));
+                          }}
                           placeholder="BL"
                         />
                         <input
                           type="number"
                           min="0"
-                          value={parseInt(buttonStyles.bottomRightRadius) || 0}
-                          onChange={(e) =>
+                          value={parseInt(buttonStyles.bottomRightRadius) || 5}
+                          onChange={(e) => {
+                            const newValue = `${e.target.value}px`;
                             setButtonStyles((prev) => ({
                               ...prev,
-                              bottomRightRadius: `${e.target.value}px`,
-                            }))
-                          }
+                              bottomRightRadius: newValue,
+                            }));
+                          }}
                           placeholder="BR"
                         />
                         <span>px</span>
