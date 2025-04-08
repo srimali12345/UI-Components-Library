@@ -649,6 +649,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  &.s3 {
+
+    .nav-link {
+      color: #1a1f2c;
+    }
+  }
 }
 
 .navbar-left {

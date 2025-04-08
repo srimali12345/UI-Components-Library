@@ -37,7 +37,7 @@ const NavbarTemplates = ({ onSelect }) => {
               >
                 <div className="preview-pane">
                   <div
-                    className="navbar-preview"
+                    className={`navbar-preview s${template.id}`}
                     style={{
                       backgroundColor: template.style.backgroundColor,
                       color: template.style.textColor,
