@@ -7,7 +7,7 @@ import NavbarCodeModal from "./NavbarCodeModal";
 import { Bell, Code, Search, Settings, User } from "lucide-react";
 import "../../styles/components/navCustomization.scss";
 
-const DEFAULT_LOGO_URL = "https://1billiontech.com/assets/images/logo.png";
+const DEFAULT_LOGO_URL = "../../images/logonew.png";
 
 const NavbarTemplates = ({ onSelect }) => {
   const navigate = useNavigate();

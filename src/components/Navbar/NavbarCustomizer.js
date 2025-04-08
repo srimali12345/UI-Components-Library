@@ -89,14 +89,14 @@ const NavbarCustomizer = ({ onSelect, template }) => {
             <div className="flex-wrap">
               <button
                 className="btn-icon-wrap"
-                onClick={() => navigate(`/navbar`)}
+                onClick={() => navigate(`/dashboard`)}
               >
                 <ChevronLeft size={20} />
               </button>
               <span>Customization</span>
             </div>
 
-            <div className="text-gray">Nav - {templates.name} </div>
+            <div className="text-gray">Navbar  {templates.name} </div>
             {/* <div>
               <button className="btn-icon-wrap vertical">
                 <MoreHorizontal size={20} />

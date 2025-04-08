@@ -6,7 +6,7 @@ import {
   generateSASS,
 } from "././utils/CodeGenerator";
 
-const DEFAULT_LOGO_URL = "https://1billiontech.com/assets/images/logo.png";
+const DEFAULT_LOGO_URL = "../../images/logo.png";
 
 const NavbarCodeModal = ({ template, onClose }) => {
   const [activeTab, setActiveTab] = useState("html");

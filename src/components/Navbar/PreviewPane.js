@@ -2,7 +2,7 @@ import React from "react";
 import { Bell, Search, User } from "lucide-react";
 import "../../styles/components/navbarCustomization.scss";
 
-const DEFAULT_LOGO_URL = "https://1billiontech.com/assets/images/logo.png";
+const DEFAULT_LOGO_URL = "../../images/logo.png";
 
 const PreviewPane = ({ navbarStyle, navItems }) => {
   const navbarStyles = {
