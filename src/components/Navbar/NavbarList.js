@@ -1,24 +1,5 @@
 export const templates = [
   {
-    id: 1,
-    name: "Dark Navbar",
-    style: {
-      backgroundColor: "#1A1F2C",
-      textColor: "#ffffff",
-      activeColor: "#9b87f5",
-      hoverColor: "#7E69AB",
-      borderRadius: "0px",
-      hasSearch: false,
-      navPosition: "left",
-    },
-    navItems: [
-      { id: 1, text: "Item1", active: true, url: "/" },
-      { id: 2, text: "Item2", active: false, url: "/item2" },
-      { id: 3, text: "Item3", active: false, url: "/item3" },
-    ],
-    thumbnail: "dark-navbar.png",
-  },
-  {
     id: 2,
     name: "Dark Navbar with Search",
     style: {

@@ -245,7 +245,7 @@
   .nav-list {
     display: grid;
     gap: 20px 40px;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     margin-top: 20px;
 
     .btn-list-wrap {
@@ -576,7 +576,8 @@
     width: 100% !important;
   }
 
-  input[type="number"],  input[type="file"] {
+  input[type="number"],
+  input[type="file"] {
     width: 84% !important;
   }
 }

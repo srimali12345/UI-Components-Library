@@ -17,7 +17,7 @@ const MainContent = ({
         <div className="flex-wrap">
           <button
             className="btn-icon-wrap"
-            onClick={() => navigate(`/dashboard/`)}
+            onClick={() => navigate(`/buttons`)}
           >
             <ChevronLeft size={20} />
           </button>

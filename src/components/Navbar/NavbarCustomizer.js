@@ -89,7 +89,7 @@ const NavbarCustomizer = ({ onSelect, template }) => {
             <div className="flex-wrap">
               <button
                 className="btn-icon-wrap"
-                onClick={() => navigate(`/dashboard/`)}
+                onClick={() => navigate(`/navbar`)}
               >
                 <ChevronLeft size={20} />
               </button>

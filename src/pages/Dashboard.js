@@ -22,7 +22,14 @@ const Dashboard = () => {
             >
               Buttons
             </li>
-            <li className="menu-text">Forms</li>
+            <li
+              className={`menu-text ${
+                activeComponent === "forms" ? "active" : ""
+              }`}
+              onClick={() => setActiveComponent("forms")}
+            >
+              Forms
+            </li>
           </ul>
         </div>
         <div className="mt-10">
@@ -30,7 +37,9 @@ const Dashboard = () => {
           <ul>
             <li className="menu-text">Login</li>
             <li
-              className="menu-text"
+              className={`menu-text ${
+                activeComponent === "navbar" ? "active" : ""
+              }`}
               onClick={() => setActiveComponent("navbar")}
             >
               Navbar
@@ -41,7 +50,9 @@ const Dashboard = () => {
 
       <div className="dashboard-content">
         {activeComponent === "buttons" && <ButtonSelection />}
-        {activeComponent === "navbar" && <NavbarTemplates />}
+        {activeComponent === "navbar" && (
+          <NavbarTemplates onSelect={onselect} />
+        )}
       </div>
     </div>
   );

@@ -1,6 +1,12 @@
 import React, { useState } from "react";
-import { Copy } from "lucide-react";
-import { generateHTML, generateCSS, generateSASS } from "./utils/CodeGenerator";
+import { Copy, Bell, Search, User } from "lucide-react";
+import {
+  generateHTML,
+  generateCSS,
+  generateSASS,
+} from "././utils/CodeGenerator";
+
+const DEFAULT_LOGO_URL = "https://1billiontech.com/assets/images/logo.png";
 
 const NavbarCodeModal = ({ template, onClose }) => {
   const [activeTab, setActiveTab] = useState("html");
@@ -24,6 +30,24 @@ const NavbarCodeModal = ({ template, onClose }) => {
     alert("Code copied!");
   };
 
+  const navbarStyles = {
+    backgroundColor: template.style.backgroundColor,
+    color: template.style.textColor,
+    height: template.style.height || "60px",
+    padding: template.style.padding || "0 20px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    borderRadius: template.style.borderRadius || "0px",
+  };
+
+  const activeItemStyles = {
+    color: template.style.activeColor,
+    borderBottom: `2px solid ${template.style.activeColor}`,
+  };
+
+  const logoUrl = template.style.logoUrl || DEFAULT_LOGO_URL;
+
   return (
     <div className="modal-overlay">
       <div className="modal">
@@ -36,45 +60,81 @@ const NavbarCodeModal = ({ template, onClose }) => {
 
         <div className="btn-preview-container">
           <div key={template.id} className="navbar-template">
-            <div
-              className="navbar-header"
-              style={{
-                backgroundColor: template.style.backgroundColor,
-                color: template.style.textColor,
-                borderRadius: template.style.borderRadius,
-              }}
-            >
-              <div className="icon-placeholder"></div>
+            <div className="preview-pane">
+              <div className="navbar-preview" style={navbarStyles}>
+                <div
+                  className={`navbar-left ${
+                    template.style.navPosition === "right" ? "full-width" : ""
+                  }`}
+                >
+                  <div className="navbar-logo">
+                    <img src={logoUrl} alt="Logo" className="logo-image" />
+                  </div>
 
-              {template.style.navPosition === "left" && (
-                <div className="nav-items-left">
-                  {template.navItems.map((item, i) => (
-                    <div
-                      key={i}
-                      className={item.active ? "nav-item-active" : undefined}
-                    >
-                      {item.text}
+                  {template.style.navPosition === "left" && (
+                    <div className="nav-links">
+                      {template.navItems.map((item) => (
+                        <a
+                          key={item.id || item.text}
+                          href={item.url || "#"}
+                          className="nav-link"
+                          style={item.active ? activeItemStyles : {}}
+                        >
+                          {item.text}
+                        </a>
+                      ))}
                     </div>
-                  ))}
+                  )}
+
+                  {template.style.navPosition === "right" &&
+                    template.style.hasSearch && (
+                      <div className="search-container right">
+                        <Search size={18} className="search-icon" />
+                        <input
+                          type="text"
+                          placeholder="Search"
+                          className="search-input"
+                          style={{ color: template.style.textColor }}
+                        />
+                      </div>
+                    )}
                 </div>
-              )}
 
-              {template.style.hasSearch && (
-                <div className="search-icon">🔍</div>
-              )}
+                <div className="navbar-right">
+                  {template.style.navPosition === "left" &&
+                    template.style.hasSearch && (
+                      <div className="search-container">
+                        <Search size={18} className="search-icon" />
+                        <input
+                          type="text"
+                          placeholder="Search"
+                          className="search-input"
+                          style={{ color: template.style.textColor }}
+                        />
+                      </div>
+                    )}
 
-              {template.style.navPosition === "right" && (
-                <div className="nav-items-right">
-                  {template.navItems.map((item, i) => (
-                    <div
-                      key={i}
-                      className={item.active ? "nav-item-active" : undefined}
-                    >
-                      {item.text}
+                  {template.style.navPosition === "right" && (
+                    <div className="nav-links right">
+                      {template.navItems.map((item) => (
+                        <a
+                          key={item.id || item.text}
+                          href={item.url || "#"}
+                          className="nav-link"
+                          style={item.active ? activeItemStyles : {}}
+                        >
+                          {item.text}
+                        </a>
+                      ))}
                     </div>
-                  ))}
+                  )}
+
+                  <Bell size={20} className="notification-icon" />
+                  <div className="profile-icon">
+                    <User size={16} className="user-icon" />
+                  </div>
                 </div>
-              )}
+              </div>
             </div>
           </div>
         </div>
