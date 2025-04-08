@@ -236,16 +236,16 @@
   }
 }
 
-.button-dashboard {
+.nav-dashboard {
   .component-title {
     margin: 0;
     text-align: left;
   }
 
-  .button-list {
+  .nav-list {
     display: grid;
     gap: 20px 40px;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     margin-top: 20px;
 
     .btn-list-wrap {
@@ -254,6 +254,10 @@
         font-size: 14px;
         margin-bottom: 5px;
       }
+    }
+
+    .navbar-template {
+      width: 100%;
     }
 
     .btn-wrap {

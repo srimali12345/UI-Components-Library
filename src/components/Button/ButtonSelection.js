@@ -4,6 +4,8 @@ import copyIcon from "../../images/code.png";
 import toolIcon from "../../images/tool.png";
 import { buttonTypes } from "./ButtonList";
 import CodeModal from "./CodeModal";
+import "../../styles/components/buttonsCustomization.scss";
+
 
 const ButtonSelection = () => {
   const navigate = useNavigate();

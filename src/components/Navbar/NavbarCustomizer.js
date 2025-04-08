@@ -97,11 +97,11 @@ const NavbarCustomizer = ({ onSelect, template }) => {
             </div>
 
             <div className="text-gray">Nav - {templates.name} </div>
-            <div>
+            {/* <div>
               <button className="btn-icon-wrap vertical">
                 <MoreHorizontal size={20} />
               </button>
-            </div>
+            </div> */}
           </div>
           <div className="middle-section">
             <PreviewPane navbarStyle={navbarStyle} navItems={navItems} />
