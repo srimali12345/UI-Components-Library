@@ -2,7 +2,7 @@ import React from "react";
 import { Bell, Search, User } from "lucide-react";
 import "../../styles/components/navbarCustomization.scss";
 
-const DEFAULT_LOGO_URL = "../../images/logo.png";
+const DEFAULT_LOGO_URL = "https://www.pngkey.com/png/full/233-2332677_image-500580-placeholder-transparent.png";
 
 const PreviewPane = ({ navbarStyle, navItems }) => {
   const navbarStyles = {

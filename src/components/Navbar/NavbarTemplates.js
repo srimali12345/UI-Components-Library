@@ -7,7 +7,7 @@ import NavbarCodeModal from "./NavbarCodeModal";
 import { Bell, Code, Search, Settings, User } from "lucide-react";
 import "../../styles/components/navCustomization.scss";
 
-const DEFAULT_LOGO_URL = "../../images/logonew.png";
+const DEFAULT_LOGO_URL = "https://www.pngkey.com/png/full/233-2332677_image-500580-placeholder-transparent.png";
 
 const NavbarTemplates = ({ onSelect }) => {
   const navigate = useNavigate();
