@@ -641,7 +641,7 @@
   border: 1px solid #e5e7eb;
   border-radius: 8px;
   overflow: auto;
-  max-width: 700px;
+  margin:0 auto;
   width: 100%;
 }
 
@@ -649,6 +649,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  &.s3 {
+
+    .nav-link {
+      color: #1a1f2c;
+    }
+  }
 }
 
 .navbar-left {
@@ -663,10 +670,8 @@
 }
 
 .navbar-logo {
-  width: 96px;
   height: 40px;
   margin-right: 24px;
-  background-color: #e5e7eb;
   color: #1f2937;
   display: flex;
   align-items: center;
@@ -696,6 +701,8 @@
     text-decoration: none;
     white-space: nowrap;
     transition: color 0.2s;
+    font-size: 13px;
+    color: #FFFFFF;
 
     &:hover {
       opacity: 0.8;
@@ -707,13 +714,13 @@
   display: flex;
   align-items: center;
   background-color: rgba(255, 255, 255, 0.2);
+  border: 1px solid #abadc6;
   border-radius: 6px;
   padding: 6px 12px;
-  margin-left: 16px;
   flex-shrink: 0;
 
   &.right {
-    margin-left: 16px;
+    // margin-left: 16px;
   }
 
   .search-icon {

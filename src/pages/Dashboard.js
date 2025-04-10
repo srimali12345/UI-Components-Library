@@ -41,6 +41,7 @@ const Dashboard = () => {
                 activeComponent === "navbar" ? "active" : ""
               }`}
               onClick={() => setActiveComponent("navbar")}
+              
             >
               Navbar
             </li>

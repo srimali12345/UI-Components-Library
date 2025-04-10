@@ -20,12 +20,12 @@ const App = () => {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/docs" element={<Docs/>} />
           <Route path="/faq" element={<FAQ/>} />
-          <Route path="/buttons" element={<ButtonSelection />} />
+          <Route path="/dashboard" element={<ButtonSelection />} />
           <Route
             path="/customize/:buttonType"
             element={<ButtonCustomization />}
           />
-          <Route path="/navbar" element={<NavbarTemplates />} />
+          <Route path="/dashbord" element={<NavbarTemplates />} />
           <Route path="/customizer/:template" element={<NavbarCustomizer />} />
         </Route>
       </Routes>
