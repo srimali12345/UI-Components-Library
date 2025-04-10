@@ -1,15 +1,23 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
+import { useLocation } from 'react-router-dom';
 import ButtonSelection from "../components/Button/ButtonSelection";
 import NavbarCustomizer from "../components/Navbar/NavbarCustomizer";
 import "../styles/pages/dashboard.scss";
 import NavbarTemplates from "../components/Navbar/NavbarTemplates";
 
 const Dashboard = () => {
+  const location = useLocation();
   const [activeComponent, setActiveComponent] = useState("buttons");
+
+  useEffect(() => {
+    if (location.state?.active) {
+      setActiveComponent(location.state.active);
+    }
+  }, [location.state]);
 
   return (
     <div className="container dashboard-wrap">
-      <div className="sidebar-wrap">
+      <div className="sidebar-wrap" activeComponent={activeComponent} setActiveComponent={setActiveComponent} >
         <p className="sub-title">Components</p>
         <div>
           <p className="sub-text">General</p>
