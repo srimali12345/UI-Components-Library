@@ -550,6 +550,30 @@
           border-radius: 4px;
           object-fit: contain;
         }
+        .remove-icon-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          background-color: rgba(0, 0, 0, 0.1);
+          border: none;
+          margin-left: 5px;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          color: #666;
+          
+          &:hover {
+            background-color: #ea384c;
+            color: white;
+            transform: scale(1.05);
+          }
+          
+          &:active {
+            transform: scale(0.95);
+          }
+        }
       }
     }
   }

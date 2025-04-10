@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ChevronDown, ChevronRight } from "lucide-react";
+import { ChevronDown, ChevronRight, X } from "lucide-react";
 
 const ToolBox = ({
   buttonStyles,
@@ -36,7 +36,6 @@ const ToolBox = ({
     font: false,
   });
 
- 
   useEffect(() => {
     const defaultBorderRadius = "5px";
     
@@ -72,6 +71,13 @@ const ToolBox = ({
       };
       reader.readAsDataURL(file);
     }
+  };
+  
+  const handleRemoveIcon = () => {
+    setButtonStyles((prev) => ({
+      ...prev,
+      icon: null,
+    }));
   };
 
   useEffect(() => {
@@ -496,6 +502,7 @@ const ToolBox = ({
                       type="file"
                       accept="image/*"
                       onChange={handleIconUpload}
+                      key={buttonStyles.icon ? "with-icon" : "no-icon"}
                     />
                     {buttonStyles.icon && (
                       <div className="icon-preview">
@@ -505,6 +512,14 @@ const ToolBox = ({
                           width="50"
                           height="50"
                         />
+                        <button 
+                          type="button"
+                          className="remove-icon-btn"
+                          onClick={handleRemoveIcon}
+                          title="Remove icon"
+                        >
+                          <X size={16} />
+                        </button>
                       </div>
                     )}
                   </div>

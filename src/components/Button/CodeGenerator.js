@@ -1,4 +1,3 @@
-// Utility function for generating border radius CSS
 export const generateBorderRadius = (styles = {}) => {
   const {
     topLeftRadius = "5px",
@@ -6,21 +5,19 @@ export const generateBorderRadius = (styles = {}) => {
     bottomRightRadius = "5px",
     bottomLeftRadius = "5px",
   } = styles;
-  
+
   const tl = parseInt(topLeftRadius) || 5;
   const tr = parseInt(topRightRadius) || 5;
   const br = parseInt(bottomRightRadius) || 5;
   const bl = parseInt(bottomLeftRadius) || 5;
 
-    if (tl === tr && tr === br && br === bl) {
-      return `${tl}px`;
-    }
-    
-   
-    return `${topLeftRadius} ${topRightRadius} ${bottomLeftRadius} ${bottomRightRadius} `;
+  if (tl === tr && tr === br && br === bl) {
+    return `${tl}px`;
+  }
+
+  return `${topLeftRadius} ${topRightRadius} ${bottomLeftRadius} ${bottomRightRadius} `;
 };
 
-// Generate HTML code for the button
 export const generateHTML = ({ buttonType, buttonText, buttonStyles = {} }) => {
   const { icon = null, iconPosition = "right" } = buttonStyles;
   const buttonTypeClass = buttonType || "Primary";
@@ -44,7 +41,6 @@ export const generateHTML = ({ buttonType, buttonText, buttonStyles = {} }) => {
 </button>`;
 };
 
-// Generate CSS code for the button
 export const generateCSS = ({ buttonType, buttonStyles = {} }) => {
   const {
     color = "#000",
@@ -52,7 +48,7 @@ export const generateCSS = ({ buttonType, buttonStyles = {} }) => {
     fontSize = "16px",
     height = "40px",
     width = "100px",
-    borderWidth = buttonType === "Primary" ? "0px" : "2px", // Primary has no border by default
+    borderWidth = buttonType === "Primary" ? "0px" : "2px",
     borderColor = "#6d45ff",
     backgroundColor = "#6d45ff",
     textDecoration = "none",
@@ -61,6 +57,7 @@ export const generateCSS = ({ buttonType, buttonStyles = {} }) => {
     hoverTextColor = "inherit",
     hoverBorderColor = "#5a35e0",
     icon = null,
+    iconPosition = "right",
   } = buttonStyles;
 
   const borderRadius = generateBorderRadius(buttonStyles);
@@ -83,20 +80,26 @@ export const generateCSS = ({ buttonType, buttonStyles = {} }) => {
       ? `
   border-radius: ${borderRadius};`
       : "";
-      
-  const iconStyles = icon ? `
-.button-icon {
+
+  const iconStyles = icon
+    ? `.button-icon {
   height: 12px;
   vertical-align: middle;
 }
 
-.button-icon-left {
-  margin-right: 5px;
-}
-
-.button-icon-right {
+ ${
+   iconPosition === "left"
+     ? `.button-icon-left {
+          margin-right: 5px;
+        }
+       `
+     : `.button-icon-right {
   margin-left: 5px;
-}` : '';
+  }
+      `
+ }
+    `
+    : "";
 
   let cssCode = "";
 
@@ -114,7 +117,9 @@ export const generateCSS = ({ buttonType, buttonStyles = {} }) => {
   background-color: ${hoverBackgroundColor || "rgba(62, 65, 255, 0.1)"};
   color: ${hoverTextColor || color};
   border-color: ${hoverBorderColor || borderColor};
-}${iconStyles}`;
+}
+
+${iconStyles}`;
       break;
 
     case "Link":
@@ -130,7 +135,9 @@ export const generateCSS = ({ buttonType, buttonStyles = {} }) => {
 .button.Link:hover {
   text-decoration: underline;
   color: ${hoverTextColor || color};
-}${iconStyles}`;
+}
+
+${iconStyles}`;
       break;
 
     default:
@@ -146,7 +153,9 @@ export const generateCSS = ({ buttonType, buttonStyles = {} }) => {
   background-color: ${hoverBackgroundColor || "#5a35e0"};
   color: ${hoverTextColor || "#ffffff"};
   border-color: ${hoverBorderColor || borderColor};
-}${iconStyles}`;
+}
+
+${iconStyles}`;
   }
 
   return cssCode;
@@ -224,7 +233,9 @@ $button-border: ${borderWidth} solid ${borderColor};
     }
   }
   
-  ${icon ? `
+  ${
+    icon
+      ? `
   .button-icon {
     height: 12px;
     vertical-align: middle;
@@ -236,7 +247,9 @@ $button-border: ${borderWidth} solid ${borderColor};
     &.button-icon-right {
       margin-left: 5px;
     }
-  }` : ''}
+  }`
+      : ""
+  }
 }`;
       break;
 
@@ -264,7 +277,9 @@ $button-text-decoration: ${textDecoration};
     }
   }
   
-  ${icon ? `
+  ${
+    icon
+      ? `
   .button-icon {
     height: 12px;
     vertical-align: middle;
@@ -276,7 +291,9 @@ $button-text-decoration: ${textDecoration};
     &.button-icon-right {
       margin-left: 5px;
     }
-  }` : ''}
+  }`
+      : ""
+  }
 }`;
       break;
 
@@ -307,7 +324,9 @@ $button-border: ${borderWidth} solid ${borderColor};
     }
   }
   
-  ${icon ? `
+  ${
+    icon
+      ? `
   .button-icon {
     height: 12px;
     vertical-align: middle;
@@ -319,7 +338,9 @@ $button-border: ${borderWidth} solid ${borderColor};
     &.button-icon-right {
       margin-left: 5px;
     }
-  }` : ''}
+  }`
+      : ""
+  }
 }`;
   }
 
