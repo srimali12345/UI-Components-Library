@@ -1,6 +1,6 @@
 export const templates = [
   {
-    id: 2,
+    id: 1,
     name: "Dark Navbar with Search",
     style: {
       backgroundColor: "#1A1F2C",
@@ -19,7 +19,7 @@ export const templates = [
     thumbnail: "dark-navbar-search.png",
   },
   {
-    id: 3,
+    id: 2,
     name: "Light Rounded Navbar",
     style: {
       backgroundColor: "#ffffff",

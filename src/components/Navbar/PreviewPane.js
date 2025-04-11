@@ -4,7 +4,7 @@ import "../../styles/components/navbarCustomization.scss";
 
 const DEFAULT_LOGO_URL = "https://www.pngkey.com/png/full/233-2332677_image-500580-placeholder-transparent.png";
 
-const PreviewPane = ({ navbarStyle, navItems }) => {
+const PreviewPane = ({ navbarStyle, navItems, templateId }) => {
   const navbarStyles = {
     backgroundColor: navbarStyle.backgroundColor,
     color: navbarStyle.textColor,
@@ -24,7 +24,7 @@ const PreviewPane = ({ navbarStyle, navItems }) => {
   const logoUrl = navbarStyle.logoUrl || DEFAULT_LOGO_URL;
   return (
     <div className="preview-pane">
-      <div className="navbar-preview" style={navbarStyles}>
+      <div className={`navbar-preview ${templateId ? `s${templateId}` : ''}`} style={navbarStyles}>
         <div
           className={`navbar-left ${
             navbarStyle.navPosition === "right" ? "full-width" : ""

@@ -43,8 +43,7 @@ const Dashboard = () => {
         <div className="mt-10">
           <p className="sub-text">Themes</p>
           <ul>
-            <li className="menu-text">Login</li>
-            <li
+          <li
               className={`menu-text ${
                 activeComponent === "navbar" ? "active" : ""
               }`}
@@ -53,6 +52,8 @@ const Dashboard = () => {
             >
               Navbar
             </li>
+            <li className="menu-text">Login</li>
+           
           </ul>
         </div>
       </div>

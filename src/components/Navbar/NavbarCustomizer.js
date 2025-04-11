@@ -96,7 +96,7 @@ const NavbarCustomizer = ({ onSelect, template }) => {
               <span>Customization</span>
             </div>
 
-            <div className="text-gray">Navbar  {templates.name} </div>
+            <div className="text-gray">{selectedTemplate.name} </div>
             {/* <div>
               <button className="btn-icon-wrap vertical">
                 <MoreHorizontal size={20} />
@@ -104,7 +104,7 @@ const NavbarCustomizer = ({ onSelect, template }) => {
             </div> */}
           </div>
           <div className="middle-section">
-            <PreviewPane navbarStyle={navbarStyle} navItems={navItems} />
+            <PreviewPane navbarStyle={navbarStyle} navItems={navItems} templateId={selectedTemplate ? selectedTemplate.id :null}  />
           </div>
         </div>
 

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Copy, Bell, Search, User } from "lucide-react";
+import { useLocation } from "react-router-dom";
 import {
   generateHTML,
   generateCSS,
@@ -8,9 +9,10 @@ import {
 
 const DEFAULT_LOGO_URL = "https://www.pngkey.com/png/full/233-2332677_image-500580-placeholder-transparent.png";
 
-const NavbarCodeModal = ({ template, onClose }) => {
+const NavbarCodeModal = ({ template, onClose,templateId }) => {
   const [activeTab, setActiveTab] = useState("html");
-
+  const location = useLocation();
+  const selectedTemplate = location.state?.template;
   const getCode = () => {
     switch (activeTab) {
       case "html":
@@ -58,10 +60,10 @@ const NavbarCodeModal = ({ template, onClose }) => {
           </button>
         </div>
 
-        <div className="btn-preview-container">
+        <div className="preview-container-navbar">
           <div key={template.id} className="navbar-template">
             <div className="preview-pane">
-              <div className="navbar-preview" style={navbarStyles}>
+              <div className={`navbar-preview s${template.id}`}  style={navbarStyles}>
                 <div
                   className={`navbar-left ${
                     template.style.navPosition === "right" ? "full-width" : ""

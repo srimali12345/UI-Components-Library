@@ -137,9 +137,9 @@ const NavbarTemplates = ({ onSelect }) => {
                         </div>
                       )}
 
-                      <Bell size={14} className="notification-icon" />
+                      <Bell size={20} className="notification-icon" />
                       <div className="profile-icon">
-                        <User size={12} className="user-icon" />
+                        <User size={16} className="user-icon" />
                       </div>
                     </div>
                   </div>
