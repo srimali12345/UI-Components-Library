@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import ToolBox from "./ToolBox";
-import MainContent from "./MainContent";
-import CodePanels from "./CodePanels";
+import CustomizationLayout from "../../commonComponents/CustomizationLayout";
+import ButtonPreview from "./ButtonPreview";
+import CodePanel from "./CodePanels";
 
 const ButtonCustomization = () => {
   const { buttonType } = useParams();
-
+  const [activeTab, setActiveTab] = useState("html");
   const buttonDefaults = {
     Primary: {
       backgroundColor: "#6d45ff",
@@ -54,7 +55,6 @@ const ButtonCustomization = () => {
 
   const actualButtonType = buttonType || "Primary";
 
-
   const [buttonStyles, setButtonStyles] = useState(
     buttonDefaults[actualButtonType] || buttonDefaults.Primary
   );
@@ -93,31 +93,36 @@ const ButtonCustomization = () => {
   const toolBoxProps = getToolBoxProps();
 
   return (
-    <div className="main-custom-wrap">
-      <div className="customization-container">
-        <MainContent
-          buttonStyles={buttonStyles}
-          buttonText={buttonText}
-          buttonType={actualButtonType}
-          setButtonStyles={setButtonStyles}
-        />
-
-        <CodePanels
-          buttonStyles={buttonStyles}
-          buttonText={buttonText}
-          buttonType={actualButtonType}
-          {...toolBoxProps}
-        />
-      </div>
-      <ToolBox
-        buttonStyles={buttonStyles}
-        setButtonStyles={setButtonStyles}
-        {...toolBoxProps}
-        buttonText={buttonText}
-        setButtonText={setButtonText}
-        buttonType={actualButtonType}
+    <>
+      <CustomizationLayout
+       activeTabOnBack="buttons"
+        itemLabel={`BTN1 - ${buttonType || "Primary"} Button`}
+        mainContent={
+          <ButtonPreview
+            buttonStyles={buttonStyles}
+            buttonText={buttonText}
+            buttonType={buttonType}
+          />
+        }
+        codePanel={
+          <CodePanel
+            buttonText={buttonText}
+            buttonType={buttonType}
+            buttonStyles={buttonStyles}
+          />
+        }
+        toolBox={
+          <ToolBox
+            buttonStyles={buttonStyles}
+            setButtonStyles={setButtonStyles}
+            buttonText={buttonText}
+            setButtonText={setButtonText}
+            buttonType={actualButtonType}
+            {...toolBoxProps}
+          />
+        }
       />
-    </div>
+    </>
   );
 };
 

@@ -19,7 +19,7 @@ const NavbarToolBox = ({
     border: false,
     layout: false,
     logo: false,
-    border:false,
+    border: false,
   });
 
   const toggle = (section) =>
@@ -92,10 +92,10 @@ const NavbarToolBox = ({
                 <ChevronRight size={16} />
               )}
             </div>
-            {expandedSections.background &&  (
+            {expandedSections.background && (
               <div className="section-content">
                 <div className="input-group">
-                <label> Background Color:</label>
+                  <label> Background Color:</label>
                   <input
                     type="color"
                     value={navbarStyle.backgroundColor}
@@ -106,23 +106,22 @@ const NavbarToolBox = ({
                       })
                     }
                   />
-</div>
-                  {navbarStyle.hasSearch &&(
-                    <div className="input-group">
-                     <label> SearchBar Background Color:</label>
+                </div>
+                {navbarStyle.hasSearch && (
+                  <div className="input-group">
+                    <label> SearchBar Background Color:</label>
                     <input
-                    type="color"
-                    value={navbarStyle.searchBarBackgroundColor}
-                    onChange={(e) =>
-                      setNavbarStyle({
-                        ...navbarStyle,
-                        searchBarBackgroundColor: e.target.value,
-                      })
-                    }
-                  />
+                      type="color"
+                      value={navbarStyle.searchBarBackgroundColor}
+                      onChange={(e) =>
+                        setNavbarStyle({
+                          ...navbarStyle,
+                          searchBarBackgroundColor: e.target.value,
+                        })
+                      }
+                    />
                   </div>
-                  )}
-                
+                )}
               </div>
             )}
           </div>
@@ -170,7 +169,7 @@ const NavbarToolBox = ({
                 <label>Hover Text Color:</label>
                 <input
                   type="color"
-                  value={navbarStyle.hoverColor || '#ffffff'}
+                  value={navbarStyle.hoverColor || "#ffffff"}
                   onChange={(e) =>
                     setNavbarStyle({
                       ...navbarStyle,
@@ -183,127 +182,122 @@ const NavbarToolBox = ({
           )}
         </div>
 
-      {/* borde section */}
-     
-              <div className="collapsible-section">
-                <div
-                  className="section-header"
-                  onClick={() => toggle("border")}
-                >
-                  <span>Border</span>
-                  {expandedSections.border ? (
-                    <ChevronDown size={16} />
-                  ) : (
-                    <ChevronRight size={16} />
-                  )}
-                </div>
-                {expandedSections.border && (
-                  <div className="section-content">
-                    <div className="input-group">
-                      <label>Border Color:</label>
-                      <input
-                        type="color"
-                        value={navbarStyle.borderColor || "#6d45ff"}
-                        onChange={(e) =>
-                          setNavbarStyle({
-                            ...navbarStyle,
-                            borderColor: e.target.value,
-                          })
-                        }
-                      />
-                    </div>
-                    <div className="input-group">
-                      <label>SearchField Border Color:</label>
-                      <input
-                        type="color"
-                        value={navbarStyle.SearchBarBorderColor}
-                        onChange={(e) =>
-                          setNavbarStyle({
-                            ...navbarStyle,
-                            SearchBarBorderColor: e.target.value,
-                          })
-                        }
-                      />
-                    </div>
+        {/* borde section */}
 
-
-                    <div className="input-group">
-                      <label>Border Radius:</label>
-                      <div className="border-radius-inputs">
-                        <input
-                          type="number"
-                          min="0"
-                          value={parseInt(navbarStyle.topLeftRadius) || 6}
-                          onChange={(e) => {
-                            const newValue = `${e.target.value}px`;
-                            setNavbarStyle((prev) => ({
-                              ...prev,
-                              topLeftRadius: newValue,
-                            }));
-                          }}
-                          placeholder="TL"
-                        />
-                        <input
-                          type="number"
-                          min="0"
-                          value={parseInt(navbarStyle.topRightRadius) || 6}
-                          onChange={(e) => {
-                            const newValue = `${e.target.value}px`;
-                            setNavbarStyle((prev) => ({
-                              ...prev,
-                              topRightRadius: newValue,
-                            }));
-                          }}
-                          placeholder="TR"
-                        />
-                        <input
-                          type="number"
-                          min="0"
-                          value={parseInt(navbarStyle.bottomLeftRadius) || 6}
-                          onChange={(e) => {
-                            const newValue = `${e.target.value}px`;
-                            setNavbarStyle((prev) => ({
-                              ...prev,
-                              bottomLeftRadius: newValue,
-                            }));
-                          }}
-                          placeholder="BL"
-                        />
-                        <input
-                          type="number"
-                          min="0"
-                          value={parseInt(navbarStyle.bottomRightRadius) || 6}
-                          onChange={(e) => {
-                            const newValue = `${e.target.value}px`;
-                            setNavbarStyle((prev) => ({
-                              ...prev,
-                              bottomRightRadius: newValue,
-                            }));
-                          }}
-                          placeholder="BR"
-                        />
-                        <span>px</span>
-                      </div>
-                    </div>
-
-                    <div className="input-group">
-                      <label>Border Width:</label>
-                      <input
-                        type="number"
-                        min="0"
-                        value={parseInt(navbarStyle.borderWidth) || 0}
-                        onChange={(e) =>
-                          setNavbarStyle((prev) => ({
-                            ...prev,
-                            borderWidth: `${e.target.value}px`,
-                          }))
-                        }
-                      />
-                    </div>
-                  </div>
-                )}
+        <div className="collapsible-section">
+          <div className="section-header" onClick={() => toggle("border")}>
+            <span>Border</span>
+            {expandedSections.border ? (
+              <ChevronDown size={16} />
+            ) : (
+              <ChevronRight size={16} />
+            )}
+          </div>
+          {expandedSections.border && (
+            <div className="section-content">
+              <div className="input-group">
+                <label>Border Color:</label>
+                <input
+                  type="color"
+                  value={navbarStyle.borderColor || "#6d45ff"}
+                  onChange={(e) =>
+                    setNavbarStyle({
+                      ...navbarStyle,
+                      borderColor: e.target.value,
+                    })
+                  }
+                />
               </div>
-            
+              <div className="input-group">
+                <label>SearchField Border Color:</label>
+                <input
+                  type="color"
+                  value={navbarStyle.SearchBarBorderColor}
+                  onChange={(e) =>
+                    setNavbarStyle({
+                      ...navbarStyle,
+                      SearchBarBorderColor: e.target.value,
+                    })
+                  }
+                />
+              </div>
+
+              <div className="input-group">
+                <label>Border Radius:</label>
+                <div className="border-radius-inputs">
+                  <input
+                    type="number"
+                    min="0"
+                    value={parseInt(navbarStyle.topLeftRadius) || 6}
+                    onChange={(e) => {
+                      const newValue = `${e.target.value}px`;
+                      setNavbarStyle((prev) => ({
+                        ...prev,
+                        topLeftRadius: newValue,
+                      }));
+                    }}
+                    placeholder="TL"
+                  />
+                  <input
+                    type="number"
+                    min="0"
+                    value={parseInt(navbarStyle.topRightRadius) || 6}
+                    onChange={(e) => {
+                      const newValue = `${e.target.value}px`;
+                      setNavbarStyle((prev) => ({
+                        ...prev,
+                        topRightRadius: newValue,
+                      }));
+                    }}
+                    placeholder="TR"
+                  />
+                  <input
+                    type="number"
+                    min="0"
+                    value={parseInt(navbarStyle.bottomLeftRadius) || 6}
+                    onChange={(e) => {
+                      const newValue = `${e.target.value}px`;
+                      setNavbarStyle((prev) => ({
+                        ...prev,
+                        bottomLeftRadius: newValue,
+                      }));
+                    }}
+                    placeholder="BL"
+                  />
+                  <input
+                    type="number"
+                    min="0"
+                    value={parseInt(navbarStyle.bottomRightRadius) || 6}
+                    onChange={(e) => {
+                      const newValue = `${e.target.value}px`;
+                      setNavbarStyle((prev) => ({
+                        ...prev,
+                        bottomRightRadius: newValue,
+                      }));
+                    }}
+                    placeholder="BR"
+                  />
+                  <span>px</span>
+                </div>
+              </div>
+
+              <div className="input-group">
+                <label>Border Width:</label>
+                <input
+                  type="number"
+                  min="0"
+                  value={parseInt(navbarStyle.borderWidth) || 0}
+                  onChange={(e) =>
+                    setNavbarStyle((prev) => ({
+                      ...prev,
+                      borderWidth: `${e.target.value}px`,
+                    }))
+                  }
+                />
+              </div>
+            </div>
+          )}
+        </div>
 
         {/* Logo Section */}
         <div className="collapsible-section">

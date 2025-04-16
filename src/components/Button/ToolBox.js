@@ -28,7 +28,7 @@ const ToolBox = ({
 
   const [activeTab, setActiveTab] = useState("design");
   const [expandedSections, setExpandedSections] = useState({
-    text: true,
+    text: false,
     background: false,
     border: false,
     dimensions: false,
@@ -38,16 +38,19 @@ const ToolBox = ({
 
   useEffect(() => {
     const defaultBorderRadius = "5px";
-    
-    if (!buttonStyles.topLeftRadius && !buttonStyles.topRightRadius && 
-        !buttonStyles.bottomLeftRadius && !buttonStyles.bottomRightRadius) {
-    
-      setButtonStyles(prev => ({
+
+    if (
+      !buttonStyles.topLeftRadius &&
+      !buttonStyles.topRightRadius &&
+      !buttonStyles.bottomLeftRadius &&
+      !buttonStyles.bottomRightRadius
+    ) {
+      setButtonStyles((prev) => ({
         ...prev,
         topLeftRadius: defaultBorderRadius,
         topRightRadius: defaultBorderRadius,
         bottomLeftRadius: defaultBorderRadius,
-        bottomRightRadius: defaultBorderRadius
+        bottomRightRadius: defaultBorderRadius,
       }));
     }
   }, [buttonStyles, setButtonStyles]);
@@ -72,7 +75,7 @@ const ToolBox = ({
       reader.readAsDataURL(file);
     }
   };
-  
+
   const handleRemoveIcon = () => {
     setButtonStyles((prev) => ({
       ...prev,
@@ -512,7 +515,7 @@ const ToolBox = ({
                           width="50"
                           height="50"
                         />
-                        <button 
+                        <button
                           type="button"
                           className="remove-icon-btn"
                           onClick={handleRemoveIcon}

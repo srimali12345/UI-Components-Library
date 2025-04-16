@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Copy } from "lucide-react";
 
-const CodeViewer = ({ activeTab, html, css, sass }) => {
+const CodeViewer = ({ html, css, sass }) => {
   const getActiveCode = () => {
     switch (activeTab) {
       case "html":
@@ -24,16 +24,39 @@ const CodeViewer = ({ activeTab, html, css, sass }) => {
       alert("Failed to copy code");
     }
   };
+  const [activeTab, setActiveTab] = useState("html");
 
   return (
-    <div className="relative-content">
-      <button onClick={copyToClipboard} title="Copy to clipboard">
-        <Copy size={18} />
-      </button>
-      <pre>
-        <code>{getActiveCode()}</code>
-      </pre>
-    </div>
+    <>
+      <div className="btn-group">
+        <div
+          className={`btn-outline ${activeTab === "html" ? "active" : ""}`}
+          onClick={() => setActiveTab("html")}
+        >
+          HTML
+        </div>
+        <div
+          className={`btn-outline ${activeTab === "css" ? "active" : ""}`}
+          onClick={() => setActiveTab("css")}
+        >
+          CSS
+        </div>
+        <div
+          className={`btn-outline ${activeTab === "scss" ? "active" : ""}`}
+          onClick={() => setActiveTab("scss")}
+        >
+          SCSS
+        </div>
+      </div>
+      <div className="relative-content">
+        <button onClick={copyToClipboard} title="Copy to clipboard">
+          <Copy size={18} />
+        </button>
+        <pre>
+          <code>{getActiveCode()}</code>
+        </pre>
+      </div>
+    </>
   );
 };
 
