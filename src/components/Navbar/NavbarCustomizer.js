@@ -8,6 +8,7 @@ import NavbarToolBox from "./NavbarToolBox";
 import { useNavigate } from "react-router-dom";
 import { ChevronLeft, MoreHorizontal } from "lucide-react";
 import { templates } from "./NavbarList";
+
 const NavbarCustomizer = ({ onSelect, template }) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -23,6 +24,15 @@ const NavbarCustomizer = ({ onSelect, template }) => {
     borderRadius: "0px",
     hasSearch: false,
     navPosition: "left",
+    borderColor: "#e5e7eb",
+    borderWidth: "1px",
+    topLeftRadius: "6px",
+    topRightRadius: "6px",
+    bottomLeftRadius: "6px",
+    bottomRightRadius: "6px",
+    searchBarBackgroundColor: "rgba(255, 255, 255, 0.1)",
+    SearchBorderWidth: 1,
+    SearchBarBorderColor: "#e5e7eb",
   });
 
   const [navItems, setNavItems] = useState([
@@ -30,6 +40,7 @@ const NavbarCustomizer = ({ onSelect, template }) => {
     { id: 2, text: "Item2", active: false, url: "/item2" },
     { id: 3, text: "Item3", active: false, url: "/item3" },
   ]);
+
   const [isCodeVisible, setIsCodeVisible] = useState(false);
 
   const handleCopy = (code) => {
@@ -40,6 +51,13 @@ const NavbarCustomizer = ({ onSelect, template }) => {
   const toggleCodeVisibility = () => {
     setIsCodeVisible(!isCodeVisible);
   };
+
+  useEffect(() => {
+    document.documentElement.style.setProperty(
+      "--nav-hover-color",
+      navbarStyle.hoverColor || "#7E69AB"
+    );
+  }, [navbarStyle.hoverColor]);
 
   useEffect(() => {
     if (selectedTemplate) {
@@ -89,14 +107,18 @@ const NavbarCustomizer = ({ onSelect, template }) => {
             <div className="flex-wrap">
               <button
                 className="btn-icon-wrap"
-                onClick={() => navigate('/dashboard', { state: { active: 'navbar' } })}
+                onClick={() =>
+                  navigate("/dashboard", { state: { active: "navbar" } })
+                }
               >
                 <ChevronLeft size={20} />
               </button>
               <span>Customization</span>
             </div>
 
-            <div className="text-gray">{selectedTemplate.name} </div>
+            <div className="text-gray">
+              {selectedTemplate?.name || "Custom Navbar"}
+            </div>
             {/* <div>
               <button className="btn-icon-wrap vertical">
                 <MoreHorizontal size={20} />
@@ -104,7 +126,11 @@ const NavbarCustomizer = ({ onSelect, template }) => {
             </div> */}
           </div>
           <div className="middle-section">
-            <PreviewPane navbarStyle={navbarStyle} navItems={navItems} templateId={selectedTemplate ? selectedTemplate.id :null}  />
+            <PreviewPane
+              navbarStyle={navbarStyle}
+              navItems={navItems}
+              templateId={selectedTemplate ? selectedTemplate.id : null}
+            />
           </div>
         </div>
 
@@ -200,6 +226,7 @@ const NavbarCustomizer = ({ onSelect, template }) => {
         onUpdateNavItem={handleUpdateNavItem}
         onDeleteNavItem={handleDeleteNavItem}
         onSetActiveItem={handleSetActiveItem}
+        setNavItems={setNavItems}
       />
     </div>
   );

@@ -7,9 +7,10 @@ import {
   generateSASS,
 } from "././utils/CodeGenerator";
 
-const DEFAULT_LOGO_URL = "https://www.pngkey.com/png/full/233-2332677_image-500580-placeholder-transparent.png";
+const DEFAULT_LOGO_URL =
+  "https://www.pngkey.com/png/full/233-2332677_image-500580-placeholder-transparent.png";
 
-const NavbarCodeModal = ({ template, onClose,templateId }) => {
+const NavbarCodeModal = ({ template, onClose, templateId }) => {
   const [activeTab, setActiveTab] = useState("html");
   const location = useLocation();
   const selectedTemplate = location.state?.template;
@@ -41,6 +42,11 @@ const NavbarCodeModal = ({ template, onClose,templateId }) => {
     alignItems: "center",
     justifyContent: "space-between",
     borderRadius: template.style.borderRadius || "0px",
+    border: template.style.borderWidth
+      ? `${template.style.borderWidth} solid ${
+          template.style.borderColor || "#000"
+        }`
+      : "none",
   };
 
   const activeItemStyles = {
@@ -63,7 +69,10 @@ const NavbarCodeModal = ({ template, onClose,templateId }) => {
         <div className="preview-container-navbar">
           <div key={template.id} className="navbar-template">
             <div className="preview-pane">
-              <div className={`navbar-preview s${template.id}`}  style={navbarStyles}>
+              <div
+                className={`navbar-preview s${template.id}`}
+                style={navbarStyles}
+              >
                 <div
                   className={`navbar-left ${
                     template.style.navPosition === "right" ? "full-width" : ""
@@ -90,7 +99,20 @@ const NavbarCodeModal = ({ template, onClose,templateId }) => {
 
                   {template.style.navPosition === "right" &&
                     template.style.hasSearch && (
-                      <div className="search-container right">
+                      <div
+                        className="search-container right"
+                        style={{
+                          backgroundColor:
+                            template.style.searchBarBackgroundColor,
+                          borderRadius:
+                            template.style.SearchBarBorderRadius || "6px",
+                          border: template.style.SearchBorderWidth
+                            ? `${template.style.SearchBorderWidth} solid ${
+                                template.style.SearchBarBorderColor || "#000"
+                              }`
+                            : "none",
+                        }}
+                      >
                         <Search size={18} className="search-icon" />
                         <input
                           type="text"

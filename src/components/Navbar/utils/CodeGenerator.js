@@ -1,3 +1,23 @@
+export const generateBorderRadius = (styles = {}) => {
+  const {
+    topLeftRadius = "6px",
+    topRightRadius = "6px",
+    bottomRightRadius = "6px",
+    bottomLeftRadius = "6px",
+  } = styles;
+
+  const tl = parseInt(topLeftRadius) || 6;
+  const tr = parseInt(topRightRadius) || 6;
+  const br = parseInt(bottomRightRadius) || 6;
+  const bl = parseInt(bottomLeftRadius) || 6;
+
+  if (tl === tr && tr === br && br === bl) {
+    return `${tl}px`;
+  }
+
+  return `${topLeftRadius} ${topRightRadius} ${bottomLeftRadius} ${bottomRightRadius} `;
+};
+
 export const generateHTML = (navbarStyle, navItems) => {
   const navItems_html = navItems
     .map((item) => {
@@ -79,13 +99,27 @@ export const generateHTML = (navbarStyle, navItems) => {
 };
 
 export const generateCSS = (navbarStyle) => {
+  const borderRadius = generateBorderRadius(navbarStyle);
+  const borderStyles = navbarStyle.borderWidth
+    ? `border: ${navbarStyle.borderWidth} solid ${
+        navbarStyle.borderColor || "#000"
+      };`
+    : "";
+
+  const searchBarBorder = navbarStyle.SearchBorderWidth
+    ? `border: ${navbarStyle.SearchBorderWidth} solid ${
+        navbarStyle.SearchBarBorderColor || "#000"
+      };`
+    : "";
+
   return `/* Custom navbar styles */
 .custom-navbar {
   background-color: ${navbarStyle.backgroundColor};
   color: ${navbarStyle.textColor};
   height: ${navbarStyle.height};
   padding: ${navbarStyle.padding};
-  border-radius: ${navbarStyle.borderRadius};
+  ${borderStyles}
+  border-radius:${borderRadius}
 }
 
 .navbar-container {
@@ -130,7 +164,7 @@ export const generateCSS = (navbarStyle) => {
 }
 
 .nav-item:hover {
-  color: ${navbarStyle.hoverColor};
+  color: ${navbarStyle.hoverColor || "#7E69AB"};
 }
 
 .nav-item.active {
@@ -139,8 +173,11 @@ export const generateCSS = (navbarStyle) => {
 }
 
 .nav-search {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
+  background-color: ${
+    navbarStyle.searchBarBackgroundColor || "rgba(255, 255, 255, 0.1)"
+  };
+  border-radius: ${navbarStyle.SearchBarBorderRadius || "6px"};
+  ${searchBarBorder}
   padding: 0.3rem 0.5rem;
   display: flex;
   align-items: center;
@@ -218,13 +255,37 @@ export const generateCSS = (navbarStyle) => {
 };
 
 export const generateSASS = (navbarStyle) => {
+  const borderStyles = navbarStyle.borderWidth
+    ? `border: ${navbarStyle.borderWidth} solid ${
+        navbarStyle.borderColor || "#000"
+      };`
+    : "";
+
+  const borderRadius =
+    navbarStyle.topLeftRadius ||
+    navbarStyle.topRightRadius ||
+    navbarStyle.bottomRightRadius ||
+    navbarStyle.bottomLeftRadius
+      ? `border-radius: ${navbarStyle.topLeftRadius || 0} 
+       ${navbarStyle.topRightRadius || 0} 
+       ${navbarStyle.bottomRightRadius || 0} 
+       ${navbarStyle.bottomLeftRadius || 0};`
+      : `border-radius: ${navbarStyle.borderRadius || "0px"};`;
+
+  const searchBarBorder = navbarStyle.SearchBorderWidth
+    ? `border: ${navbarStyle.SearchBorderWidth} solid ${
+        navbarStyle.SearchBarBorderColor || "#000"
+      };`
+    : "";
+
   return `// Custom navbar styles
 .custom-navbar {
   background-color: ${navbarStyle.backgroundColor};
   color: ${navbarStyle.textColor};
   height: ${navbarStyle.height};
   padding: ${navbarStyle.padding};
-  border-radius: ${navbarStyle.borderRadius};
+  ${borderStyles}
+  ${borderRadius}
 
   .navbar-container {
     display: flex;
@@ -267,7 +328,7 @@ export const generateSASS = (navbarStyle) => {
     transition: color 0.2s ease;
 
     &:hover {
-      color: ${navbarStyle.hoverColor};
+      color: ${navbarStyle.hoverColor || "#7E69AB"};
     }
 
     &.active {
@@ -277,8 +338,11 @@ export const generateSASS = (navbarStyle) => {
   }
 
   .nav-search {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
+    background-color: ${
+      navbarStyle.searchBarBackgroundColor || "rgba(255, 255, 255, 0.1)"
+    };
+    border-radius: ${navbarStyle.SearchBarBorderRadius || "4px"};
+    ${searchBarBorder}
     padding: 0.3rem 0.5rem;
     display: flex;
     align-items: center;
