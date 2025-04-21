@@ -75,8 +75,17 @@ const NavbarToolBox = ({
       }))
     );
   };
+  const [activeTab, setActiveTab] = useState("design");
   return (
     <div className="toolbar">
+      <div className="toolbar-tabs">
+        <div
+          className={`toolbar-tab ${activeTab === "design" ? "active" : ""}`}
+          onClick={() => setActiveTab("design")}
+        >
+          <span>Design</span>
+        </div>
+      </div>
       {/* Background Section */}
       <div className="toolbar-content">
         <div className="design-tab-content">

@@ -1,9 +1,10 @@
-import React, { useState,useEffect } from "react";
-import { useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import ButtonSelection from "../components/Button/ButtonSelection";
 import NavbarCustomizer from "../components/Navbar/NavbarCustomizer";
 import "../styles/pages/dashboard.scss";
 import NavbarTemplates from "../components/Navbar/NavbarTemplates";
+import InputSelection from "../components/InputFeild/InputFeildSelection";
 
 const Dashboard = () => {
   const location = useLocation();
@@ -17,7 +18,11 @@ const Dashboard = () => {
 
   return (
     <div className="container dashboard-wrap">
-      <div className="sidebar-wrap" activeComponent={activeComponent} setActiveComponent={setActiveComponent} >
+      <div
+        className="sidebar-wrap"
+        activeComponent={activeComponent}
+        setActiveComponent={setActiveComponent}
+      >
         <p className="sub-title">Components</p>
         <div>
           <p className="sub-text">General</p>
@@ -32,6 +37,14 @@ const Dashboard = () => {
             </li>
             <li
               className={`menu-text ${
+                activeComponent === "input" ? "active" : ""
+              }`}
+              onClick={() => setActiveComponent("input")}
+            >
+              Input
+            </li>
+            <li
+              className={`menu-text ${
                 activeComponent === "forms" ? "active" : ""
               }`}
               onClick={() => setActiveComponent("forms")}
@@ -43,17 +56,15 @@ const Dashboard = () => {
         <div className="mt-10">
           <p className="sub-text">Themes</p>
           <ul>
-          <li
+            <li
               className={`menu-text ${
                 activeComponent === "navbar" ? "active" : ""
               }`}
               onClick={() => setActiveComponent("navbar")}
-              
             >
               Navbar
             </li>
             <li className="menu-text">Login</li>
-           
           </ul>
         </div>
       </div>
@@ -63,6 +74,7 @@ const Dashboard = () => {
         {activeComponent === "navbar" && (
           <NavbarTemplates onSelect={onselect} />
         )}
+        {activeComponent === "input" && <InputSelection />}
       </div>
     </div>
   );

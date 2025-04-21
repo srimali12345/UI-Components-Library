@@ -32,7 +32,7 @@ const NavbarCustomizer = ({ onSelect, template }) => {
     bottomLeftRadius: "6px",
     bottomRightRadius: "6px",
     searchBarBackgroundColor: "rgba(255, 255, 255, 0.1)",
-    SearchBorderWidth: 1,
+    SearchBorderWidth: "1px",
     SearchBarBorderColor: "#e5e7eb",
   });
 

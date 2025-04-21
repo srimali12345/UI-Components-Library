@@ -16,7 +16,6 @@ export const templates = [
       { id: 2, text: "Item2", active: false, url: "/item2" },
       { id: 3, text: "Item3", active: false, url: "/item3" },
     ],
-    thumbnail: "dark-navbar-search.png",
   },
   {
     id: 2,
@@ -35,6 +34,5 @@ export const templates = [
       { id: 2, text: "Item2", active: false, url: "/item2" },
       { id: 3, text: "Item3", active: false, url: "/item3" },
     ],
-    thumbnail: "light-navbar.png",
   },
 ];

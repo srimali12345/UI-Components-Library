@@ -10,6 +10,8 @@ import "./styles/components/navbarCustomization.scss";
 import NavbarTemplates from "./components/Navbar/NavbarTemplates";
 import Docs from './pages/docs';
 import FAQ from './pages/faq';
+import InputCustomization from "./components/InputFeild/InputCustomization";
+import InputSelection from "./components/InputFeild/InputFeildSelection";
 
 const App = () => {
   return (
@@ -27,6 +29,8 @@ const App = () => {
           />
           <Route path="/dashbord" element={<NavbarTemplates />} />
           <Route path="/customizer/:template" element={<NavbarCustomizer />} />
+          <Route path="/dashbord" element={<InputSelection/>} />
+          <Route path="/customize-input/:inputType"  element={<InputCustomization/>} />
         </Route>
       </Routes>
     </Router>
