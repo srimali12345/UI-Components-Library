@@ -17,7 +17,7 @@ const InputCodePanel = ({ inputStyles = {}, placeholderText, inputType }) => {
     return `.custom-input.${inputType} {
   width: ${styles.width || "200px"};
   height: ${styles.height || "40px"};
-  padding: ${styles.padding || "8px 12px"};
+  padding: ${styles.padding || "0px 12px"};
   background-color: ${styles.backgroundColor || "#ffffff"};
   color: ${styles.color || "#333333"};
   border: ${styles.borderWidth || "1px"} ${styles.borderStyle || "solid"} ${

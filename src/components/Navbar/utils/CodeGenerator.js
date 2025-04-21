@@ -119,12 +119,7 @@ export const generateHTML = (navbarStyle, navItems) => {
 export const generateCSS = (navbarStyle) => {
   const borderRadius = generateBorderRadius(navbarStyle);
 
-  const borderStyles =
-    navbarStyle.borderWidth && parseInt(navbarStyle.borderWidth) > 0
-      ? `border: ${navbarStyle.borderWidth} solid ${
-          navbarStyle.borderColor || "#000"
-        };`
-      : "";
+  const borderStyles = `border: ${navbarStyle.borderWidth || "1px"} solid ${navbarStyle.borderColor || "#e5e7eb"};`;
 
   const searchBarBorder = navbarStyle.SearchBorderWidth
     ? `border: ${navbarStyle.SearchBorderWidth} solid ${
