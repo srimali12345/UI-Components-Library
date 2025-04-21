@@ -51,12 +51,18 @@ const PreviewPane = ({ navbarStyle, navItems, templateId }) => {
   const searchContainerStyles = {
     backgroundColor:
       navbarStyle.searchBarBackgroundColor || "rgba(255, 255, 255, 0.1)",
-    borderRadius: navbarStyle.SearchBarBorderRadius || "6px",
-    border: navbarStyle.SearchBorderWidth
-      ? `${navbarStyle.SearchBorderWidth}px solid ${
-          navbarStyle.SearchBarBorderColor || "#e5e7eb"
-        }`
-      : "none",
+    borderRadius:
+      navbarStyle.searchBorderTopLeftRadius ||
+      navbarStyle.searchBorderTopRightRadius ||
+      navbarStyle.searchBorderBottomRightRadius ||
+      navbarStyle.searchBorderBottomLeftRadius
+        ? `${navbarStyle.searchBorderTopLeftRadius || "6px"} 
+           ${navbarStyle.searchBorderTopRightRadius || "6px"} 
+           ${navbarStyle.searchBorderBottomRightRadius || "6px"}
+           ${navbarStyle.searchBorderBottomLeftRadius || "6px"} `
+        : navbarStyle.searchBorderRadius || "6px",
+    border: `${navbarStyle.SearchBorderWidth} solid ${navbarStyle.SearchBarBorderColor}`,
+    color: navbarStyle.textColor,
   };
 
   return (

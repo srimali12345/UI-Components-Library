@@ -32,8 +32,13 @@ const NavbarCustomizer = ({ onSelect, template }) => {
     bottomLeftRadius: "6px",
     bottomRightRadius: "6px",
     searchBarBackgroundColor: "rgba(255, 255, 255, 0.1)",
+    searchBorderTopLeftRadius: "6px",
+    searchBorderTopRightRadius: "6px",
+    searchBorderBottomLeftRadius: "6px",
+    searchBorderBottomRightRadius: "6px",
     SearchBorderWidth: "1px",
     SearchBarBorderColor: "#e5e7eb",
+    searchBorderRadius: "6px",
   });
 
   const [navItems, setNavItems] = useState([
@@ -90,14 +95,6 @@ const NavbarCustomizer = ({ onSelect, template }) => {
         active: item.id === itemId,
       }))
     );
-  };
-
-  const handleTemplateSelect = (template) => {
-    setNavbarStyle((prevStyle) => ({
-      ...prevStyle,
-      ...template.style,
-    }));
-    setNavItems(template.navItems);
   };
 
   return (

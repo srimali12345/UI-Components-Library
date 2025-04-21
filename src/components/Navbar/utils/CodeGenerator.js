@@ -18,6 +18,26 @@ export const generateBorderRadius = (styles = {}) => {
   return `${topLeftRadius} ${topRightRadius} ${bottomLeftRadius} ${bottomRightRadius}`;
 };
 
+export const generateSearchBorderRadius = (styles = {}) => {
+  const {
+    searchBorderTopLeftRadius = "6px",
+    searchBorderTopRightRadius = "6px",
+    searchBorderBottomLeftRadius = "6px",
+    searchBorderBottomRightRadius = "6px",
+  } = styles;
+
+  const tl = parseInt(searchBorderTopLeftRadius) || 6;
+  const tr = parseInt(searchBorderTopRightRadius) || 6;
+  const br = parseInt(searchBorderBottomLeftRadius) || 6;
+  const bl = parseInt(searchBorderBottomRightRadius) || 6;
+
+  if (tl === tr && tr === br && br === bl) {
+    return `${tl}px`;
+  }
+
+  return `${searchBorderTopLeftRadius} ${searchBorderTopRightRadius} ${searchBorderBottomLeftRadius} ${searchBorderBottomRightRadius}`;
+};
+
 export const generateHTML = (navbarStyle, navItems) => {
   const navItems_html = navItems
     .map((item) => {
@@ -118,8 +138,11 @@ export const generateHTML = (navbarStyle, navItems) => {
 
 export const generateCSS = (navbarStyle) => {
   const borderRadius = generateBorderRadius(navbarStyle);
+  const searchBorderRadius = generateSearchBorderRadius(navbarStyle);
 
-  const borderStyles = `border: ${navbarStyle.borderWidth || "1px"} solid ${navbarStyle.borderColor || "#e5e7eb"};`;
+  const borderStyles = `border: ${navbarStyle.borderWidth || "1px"} solid ${
+    navbarStyle.borderColor || "#e5e7eb"
+  };`;
 
   const searchBarBorder = navbarStyle.SearchBorderWidth
     ? `border: ${navbarStyle.SearchBorderWidth} solid ${
@@ -151,7 +174,7 @@ export const generateCSS = (navbarStyle) => {
   background-color: ${
     navbarStyle.searchBarBackgroundColor || "rgba(255, 255, 255, 0.1)"
   };
-  border-radius: ${navbarStyle.SearchBarBorderRadius || "6px"};
+  border-radius:${searchBorderRadius};
   ${searchBarBorder};
   padding: 6px 12px;
   flex-shrink: 0;
