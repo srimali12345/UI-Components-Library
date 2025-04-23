@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Copy } from "lucide-react";
+import { Copy, Search } from "lucide-react";
 import { generateHTML, generateCSS, generateSCSS } from "./InputCodeGenerator";
+import "../../styles/components/inputCustomization.scss";
 
 const InputCodeModal = ({
   inputType,
@@ -39,22 +40,28 @@ const InputCodeModal = ({
         </div>
 
         <div className="input-preview-container">
-          <input
-            type={inputType.toLowerCase()}
-            className={`custom-input ${inputType}`}
-            placeholder={placeholderText}
-            style={{
-              backgroundColor: inputStyles.backgroundColor || "#ffffff",
-              color: inputStyles.color || "#333333",
-              border: `${inputStyles.borderWidth || "1px"} ${
-                inputStyles.borderStyle || "solid"
-              } ${inputStyles.borderColor || "#cccccc"}`,
-              borderRadius: inputStyles.borderRadius || "4px",
-              padding: "0px 12px",
-              width: "200px",
-             height:"40px"
-            }}
-          />
+          <div style={{ position: "relative", display: "inline-block" }}>
+            {inputType === "Search" && (
+              <Search size={18} className="svg-icon-search-modal" />
+            )}
+            <input
+              type={inputType.toLowerCase()}
+              className={`custom-input ${inputType}`}
+              placeholder={placeholderText}
+              style={{
+                backgroundColor: inputStyles.backgroundColor || "#ffffff",
+                color: inputStyles.color || "#333333",
+                border: `${inputStyles.borderWidth || "1px"} ${
+                  inputStyles.borderStyle || "solid"
+                } ${inputStyles.borderColor || "#cccccc"}`,
+                borderRadius: inputStyles.borderRadius || "4px",
+                padding: "0px 12px",
+                width: "200px",
+                height: "40px",
+                paddingRight: inputType === "Search" ? "40px" : "12px", // Extra space for the icon
+              }}
+            />
+          </div>
         </div>
 
         <div className="tabs-copy-container">

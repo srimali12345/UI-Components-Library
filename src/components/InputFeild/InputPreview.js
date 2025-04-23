@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Search } from "lucide-react";
 
 const InputPreview = ({ inputStyles = {}, placeholderText, inputType }) => {
   useEffect(() => {
@@ -35,10 +36,25 @@ const InputPreview = ({ inputStyles = {}, placeholderText, inputType }) => {
     };
   }, [inputStyles, inputType]);
 
+  const computePadding = () => {
+    if (inputType !== "Search" || !inputStyles.showSearchIcon) {
+      return inputStyles.padding || "0px 20px";
+    }
+    
+    const iconSize = inputStyles.iconSize ||20;
+    const iconPadding = iconSize + 10; 
+    
+    if (inputStyles.iconPosition === "left") {
+      return `0px 12px 0px ${iconPadding}px`;
+    } else {
+      return `0px ${iconPadding}px 0px 12px`;
+    }
+  };
+
   const styles = {
     width: inputStyles.width || "200px",
     height: inputStyles.height || "40px",
-    padding: inputStyles.padding || "8px 12px",
+    padding: computePadding(),
     margin: inputStyles.margin || "0",
     backgroundColor: inputStyles.backgroundColor || "#ffffff",
     color: inputStyles.color || "#333333",
@@ -61,10 +77,27 @@ const InputPreview = ({ inputStyles = {}, placeholderText, inputType }) => {
     display: inputStyles.display || "block",
   };
 
+  const iconStyles = {
+    position: "absolute",
+    top: "50%",
+    transform: "translateY(-50%)",
+    ...(inputStyles.iconPosition === "left" 
+        ? { left: "20px" } 
+        : { right: "20px" }),
+    color: inputStyles.iconColor || "#8E9196",
+    pointerEvents: "none", // so the icon doesn't interfere with input interactions
+  };
+  
   return (
-    <div className="input-container">
+    <div className="input-container" >
+      {inputType === "Search" && inputStyles.showSearchIcon && (
+        <Search 
+          size={inputStyles.iconSize || 18} 
+          style={iconStyles} 
+        />
+      )}
       <input
-        type={inputType.toLowerCase()}
+        type={inputType.toLowerCase() === "search" ? "text" : inputType.toLowerCase()}
         placeholder={placeholderText || `Enter ${inputType}`}
         style={styles}
         className={`custom-input-${inputType}`}

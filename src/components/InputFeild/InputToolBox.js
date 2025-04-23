@@ -29,6 +29,7 @@ const InputToolBox = ({
     border: false,
     typography: false,
     placeholder: false,
+    searchIcon: false,
   });
 
   const toggleSection = (section) => {
@@ -427,6 +428,90 @@ const InputToolBox = ({
             </div>
           )}
         </div>
+
+        {inputType === "Search" && (
+          <div className="collapsible-section">
+            <div
+              className="section-header"
+              onClick={() => toggleSection("searchIcon")}
+            >
+              <span>Search Icon</span>
+              {expandedSections.searchIcon ? (
+                <ChevronDown size={16} />
+              ) : (
+                <ChevronRight size={16} />
+              )}
+            </div>
+            {expandedSections.searchIcon && (
+              <div className="section-content">
+                <div className="input-group">
+                  <label>Show Search Icon:</label>
+                  <input
+                    type="checkbox"
+                    checked={inputStyles.showSearchIcon || false}
+                    onChange={(e) =>
+                      setInputStyles((prev) => ({
+                        ...prev,
+                        showSearchIcon: e.target.checked,
+                      }))
+                    }
+                  />
+                </div>
+
+                {inputStyles.showSearchIcon && (
+                  <>
+                    <div className="input-group">
+                      <label>Icon Position:</label>
+                      <select
+                        value={inputStyles.iconPosition || "right"}
+                        onChange={(e) =>
+                          setInputStyles((prev) => ({
+                            ...prev,
+                            iconPosition: e.target.value,
+                          }))
+                        }
+                      >
+                      
+                        <option value="right">Right</option>
+                        <option value="left">Left</option>
+                      </select>
+                    </div>
+
+                    <div className="input-group">
+                      <label>Icon Size:</label>
+                      <input
+                        type="number"
+                        min="10"
+                        max="30"
+                        value={inputStyles.iconSize || 18}
+                        onChange={(e) =>
+                          setInputStyles((prev) => ({
+                            ...prev,
+                            iconSize: parseInt(e.target.value),
+                          }))
+                        }
+                      />
+                    </div>
+
+                    <div className="input-group">
+                      <label>Icon Color:</label>
+                      <input
+                        type="color"
+                        value={inputStyles.iconColor || "#8E9196"}
+                        onChange={(e) =>
+                          setInputStyles((prev) => ({
+                            ...prev,
+                            iconColor: e.target.value,
+                          }))
+                        }
+                      />
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

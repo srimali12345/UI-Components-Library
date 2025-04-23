@@ -70,6 +70,10 @@ const InputCustomization = () => {
       placeholderFontSize: "14px",
       placeholderOpacity: "0.7",
       placeholderFontStyle: "normal",
+      showSearchIcon: true,
+      iconPosition: "right",
+      iconSize: 18,
+      iconColor: "#8E9196",
     },
   };
 
@@ -123,7 +127,7 @@ const InputCustomization = () => {
         />
       }
     />
-  );
+  )
 };
 
 export default InputCustomization;
