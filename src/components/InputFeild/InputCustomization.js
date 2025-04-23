@@ -127,7 +127,7 @@ const InputCustomization = () => {
         />
       }
     />
-  )
+  );
 };
 
 export default InputCustomization;

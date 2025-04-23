@@ -43,14 +43,7 @@ const Dashboard = () => {
             >
               Input
             </li>
-            <li
-              className={`menu-text ${
-                activeComponent === "forms" ? "active" : ""
-              }`}
-              onClick={() => setActiveComponent("forms")}
-            >
-              Forms
-            </li>
+        
           </ul>
         </div>
         <div className="mt-10">
@@ -64,7 +57,7 @@ const Dashboard = () => {
             >
               Navbar
             </li>
-            <li className="menu-text">Login</li>
+          
           </ul>
         </div>
       </div>
