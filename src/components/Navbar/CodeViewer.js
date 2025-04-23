@@ -28,7 +28,8 @@ const CodeViewer = ({ html, css, sass }) => {
 
   return (
     <>
-      <div className="btn-group">
+    <div className=" navbar-code">
+    <div className="btn-group">
         <div
           className={`btn-outline ${activeTab === "html" ? "active" : ""}`}
           onClick={() => setActiveTab("html")}
@@ -48,12 +49,14 @@ const CodeViewer = ({ html, css, sass }) => {
           SCSS
         </div>
       </div>
-      <div className="relative-content">
-        <button onClick={copyToClipboard} title="Copy to clipboard">
+    <button onClick={copyToClipboard} title="Copy to clipboard">
           <Copy size={18} />
         </button>
-        <pre>
-          <code>{getActiveCode()}</code>
+    </div>
+     
+      <div className="relative-content">
+      <pre>
+         {getActiveCode()}
         </pre>
       </div>
     </>

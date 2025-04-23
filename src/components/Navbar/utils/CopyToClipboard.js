@@ -19,6 +19,7 @@ export const CopyToClipboard = ({ text }) => {
   return (
     <button onClick={handleCopy} className="copy-button">
       {copied ? "Copied!" : "Copy"}
+      <Copy size={16} />
     </button>
   );
 };

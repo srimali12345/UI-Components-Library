@@ -64,7 +64,7 @@ export const generateHTML = (navbarStyle, navItems) => {
   const logoHTML = `<div class="navbar-logo">
     ${
       navbarStyle.logoUrl
-        ? `<img src="${navbarStyle.logoUrl}" alt="Logo">`
+        ? `<img src="logo.png" alt="Logo">`
         : '<img class= "navbar-logo" src="https://www.pngkey.com/png/full/233-2332677_image-500580-placeholder-transparent.png"/>'
     }
   </div>`;

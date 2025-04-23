@@ -13,14 +13,14 @@
 
         .sub-title {
             color: #24242F;
-            font-size: 15px;
+            font-size: 17px;
             font-weight: 500;
             margin-top: 0;
         }
 
         .sub-text {
             border-bottom: 1px solid #F0F0F0;
-            color: #ABADC6;
+            color: #444445;
             font-size: 15px;
             font-weight: 500;
             margin-top: 0;
@@ -53,6 +53,13 @@
             
             li {
                 padding: 8px;
+            }
+        }
+
+        .disabled-menu {
+            color: #bdbdbd;
+            &:hover{
+                color: #bdbdbd;
             }
         }
     }

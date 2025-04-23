@@ -47,7 +47,7 @@ export const generateCSS = ({ buttonType, buttonStyles = {} }) => {
     fontWeight = "400",
     fontSize = "16px",
     height = "40px",
-    width = "100px",
+    width = "150px",
     borderWidth = buttonType === "Primary" ? "0px" : "2px",
     borderColor = "#6d45ff",
     backgroundColor = "#6d45ff",

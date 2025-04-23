@@ -41,9 +41,23 @@ const Dashboard = () => {
               }`}
               onClick={() => setActiveComponent("input")}
             >
-              Input
+              Input Fields
             </li>
-        
+            <li
+              className={`menu-text  disabled-menu `}
+            >
+              Select
+            </li>
+            <li
+              className={`menu-text  disabled-menu`}
+            >
+              Radio Buttons
+            </li>
+            <li
+              className={`menu-text  disabled-menu`}
+            >
+              Checkboxes
+            </li>
           </ul>
         </div>
         <div className="mt-10">
@@ -57,7 +71,21 @@ const Dashboard = () => {
             >
               Navbar
             </li>
-          
+            <li
+              className={`menu-text  disabled-menu `}
+            >
+              Footer
+            </li>
+            <li
+              className={`menu-text  disabled-menu`}
+            >
+              Cards
+            </li>
+            <li
+              className={`menu-text  disabled-menu`}
+            >
+              Login
+            </li>
           </ul>
         </div>
       </div>
