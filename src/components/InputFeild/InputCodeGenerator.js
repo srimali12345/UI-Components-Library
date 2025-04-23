@@ -1,12 +1,9 @@
-/**
- * Unified generator functions for input HTML/CSS/SCSS code blocks.
- */
 function generateBorderRadius(styles = {}) {
   const {
     topLeftRadius = "4px",
     topRightRadius = "4px",
     bottomRightRadius = "4px",
-    bottomLeftRadius = "4px"
+    bottomLeftRadius = "4px",
   } = styles;
 
   if (
@@ -20,14 +17,19 @@ function generateBorderRadius(styles = {}) {
   return `${topLeftRadius} ${topRightRadius} ${bottomRightRadius} ${bottomLeftRadius}`;
 }
 
-function generateHTML({ inputType, placeholderText }) {
+function generateHTML({ inputType, placeholderText, inputStyles = {} }) {
   const isSearch = inputType.toLowerCase() === "search";
+  const showSearchIcon = inputStyles.showSearchIcon;
   return `<div class="input-wrapper">
-  ${isSearch ? `<svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+  ${
+    isSearch && showSearchIcon
+      ? `<svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
     stroke-linecap="round" stroke-linejoin="round">
     <circle cx="11" cy="11" r="8" />
     <line x1="21" y1="21" x2="16.65" y2="16.65" />
-  </svg>` : ""}
+  </svg>`
+      : ""
+  }
   <input
     type="${inputType.toLowerCase()}"
     class="custom-input ${inputType}"
@@ -55,10 +57,15 @@ function generateCSS({ inputType, inputStyles = {} }) {
     placeholderFontSize = "14px",
     placeholderOpacity = "0.7",
     placeholderFontStyle = "normal",
-    borderRadius
+    borderRadius,
+    showSearchIcon = true,
+    iconSize = 18,
+    iconColor = color,
+    iconPosition = "right",
   } = inputStyles;
 
-  const resolvedBorderRadius = borderRadius || generateBorderRadius(inputStyles);
+  const resolvedBorderRadius =
+    borderRadius || generateBorderRadius(inputStyles);
   const isSearch = inputType.toLowerCase() === "search";
 
   return `.input-wrapper {
@@ -70,7 +77,8 @@ function generateCSS({ inputType, inputStyles = {} }) {
   width: ${width};
   height: ${height};
   padding: ${padding};
-  padding-right: ${isSearch ? "40px" : "12px"};
+  ${showSearchIcon && iconPosition === "right" ? `padding-right: 40px;` : ""}
+  ${showSearchIcon && iconPosition === "left" ? `padding-left: 40px;` : ""}
   background-color: ${backgroundColor};
   color: ${color};
   border: ${borderWidth} ${borderStyle} ${borderColor};
@@ -94,7 +102,9 @@ function generateCSS({ inputType, inputStyles = {} }) {
   font-style: ${placeholderFontStyle};
 }
 
-${isSearch ? `.search-icon {
+${
+  showSearchIcon
+    ? `.search-icon {
   position: absolute;
   top: 50%;
   right: 12px;
@@ -103,7 +113,9 @@ ${isSearch ? `.search-icon {
   height: 18px;
   color: ${color};
   pointer-events: none;
-}` : ""}`;
+}`
+    : ""
+}`;
 }
 
 function generateSCSS({ inputType, inputStyles = {} }) {
@@ -125,10 +137,11 @@ function generateSCSS({ inputType, inputStyles = {} }) {
     placeholderFontSize = "14px",
     placeholderOpacity = "0.7",
     placeholderFontStyle = "normal",
-    borderRadius
+    borderRadius,
   } = inputStyles;
 
-  const resolvedBorderRadius = borderRadius || generateBorderRadius(inputStyles);
+  const resolvedBorderRadius =
+    borderRadius || generateBorderRadius(inputStyles);
   const isSearch = inputType.toLowerCase() === "search";
 
   return `$input-bg: ${backgroundColor};
@@ -144,7 +157,9 @@ $placeholder-color: ${placeholderColor};
   position: relative;
   display: inline-block;
 
-  ${isSearch ? `.search-icon {
+  ${
+    isSearch
+      ? `.search-icon {
     position: absolute;
     top: 50%;
     right: 12px;
@@ -153,7 +168,9 @@ $placeholder-color: ${placeholderColor};
     height: 18px;
     color: $input-color;
     pointer-events: none;
-  }` : ""}
+  }`
+      : ""
+  }
 }
 
 .custom-input {

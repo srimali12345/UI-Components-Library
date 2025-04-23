@@ -18,13 +18,12 @@ const InputCodePanel = ({
         return generateSCSS({ inputType, inputStyles });
       case "html":
       default:
-        return generateHTML({ inputType, placeholderText });
+        return generateHTML({ inputType, placeholderText,inputStyles });
     }
   };
 
   const handleCopy = () => {
     navigator.clipboard.writeText(getCode());
-    // (Optional) You may want to show a toast here instead of alert!
     alert("Code copied!");
   };
 
