@@ -11,14 +11,28 @@ const InputCodeModal = ({
 }) => {
   const [activeTab, setActiveTab] = useState("css");
 
+  const searchInputStyles = inputType.toLowerCase() === "search" 
+    ? {
+        ...inputStyles,
+        showSearchIcon: true,
+        iconPosition: "right",
+        iconSize: 18,
+        iconColor: "#8E9196"
+      }
+    : inputStyles;
+
   const getCode = () => {
     switch (activeTab) {
       case "css":
-        return generateCSS({ inputType, inputStyles });
+        return generateCSS({ inputType, inputStyles: searchInputStyles });
       case "scss":
-        return generateSCSS({ inputType, inputStyles });
+        return generateSCSS({ inputType, inputStyles: searchInputStyles });
       case "html":
-        return generateHTML({ inputType, placeholderText });
+        return generateHTML({ 
+          inputType, 
+          placeholderText, 
+          inputStyles: searchInputStyles 
+        });
       default:
         return "";
     }
@@ -41,8 +55,13 @@ const InputCodeModal = ({
 
         <div className="input-preview-container">
           <div style={{ position: "relative", display: "inline-block" }}>
-            {inputType === "Search" && (
-              <Search size={18} className="svg-icon-search-modal" />
+            {inputType.toLowerCase() === "search" && (
+              <Search 
+                size={18} 
+                className="svg-icon-search-modal" 
+                
+              
+              />
             )}
             <input
               type={inputType.toLowerCase()}
@@ -55,10 +74,9 @@ const InputCodeModal = ({
                   inputStyles.borderStyle || "solid"
                 } ${inputStyles.borderColor || "#cccccc"}`,
                 borderRadius: inputStyles.borderRadius || "4px",
-                padding: "0px 12px",
+                padding: inputType === "Search" ? "0px 40px 0px 12px" : "0px 12px",
                 width: "200px",
                 height: "40px",
-                paddingRight: inputType === "Search" ? "40px" : "12px", // Extra space for the icon
               }}
             />
           </div>

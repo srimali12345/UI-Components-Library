@@ -85,7 +85,7 @@ const InputPreview = ({ inputStyles = {}, placeholderText, inputType }) => {
         ? { left: "20px" } 
         : { right: "20px" }),
     color: inputStyles.iconColor || "#8E9196",
-    pointerEvents: "none", // so the icon doesn't interfere with input interactions
+    pointerEvents: "none", 
   };
   
   return (

@@ -471,7 +471,6 @@ const InputToolBox = ({
                           }))
                         }
                       >
-                      
                         <option value="right">Right</option>
                         <option value="left">Left</option>
                       </select>

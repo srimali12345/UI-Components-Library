@@ -20,11 +20,11 @@ function generateBorderRadius(styles = {}) {
 function generateHTML({ inputType, placeholderText, inputStyles = {} }) {
   const isSearch = inputType.toLowerCase() === "search";
   const showSearchIcon = inputStyles.showSearchIcon;
+
   return `<div class="input-wrapper">
   ${
     isSearch && showSearchIcon
-      ? `<svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-    stroke-linecap="round" stroke-linejoin="round">
+      ? `<svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <circle cx="11" cy="11" r="8" />
     <line x1="21" y1="21" x2="16.65" y2="16.65" />
   </svg>`
@@ -64,9 +64,17 @@ function generateCSS({ inputType, inputStyles = {} }) {
     iconPosition = "right",
   } = inputStyles;
 
-  const resolvedBorderRadius =
-    borderRadius || generateBorderRadius(inputStyles);
+  const resolvedBorderRadius = borderRadius || generateBorderRadius(inputStyles);
   const isSearch = inputType.toLowerCase() === "search";
+  const additionalPadding =
+    showSearchIcon && isSearch
+      ? iconPosition === "right"
+        ? "padding-right: 40px;"
+        : "padding-left: 40px;"
+      : "";
+
+  const iconPositionStyle =
+    iconPosition === "left" ? "left: 12px;" : "right: 12px;";
 
   return `.input-wrapper {
   position: relative;
@@ -77,8 +85,7 @@ function generateCSS({ inputType, inputStyles = {} }) {
   width: ${width};
   height: ${height};
   padding: ${padding};
-  ${showSearchIcon && iconPosition === "right" ? `padding-right: 40px;` : ""}
-  ${showSearchIcon && iconPosition === "left" ? `padding-left: 40px;` : ""}
+  ${additionalPadding}
   background-color: ${backgroundColor};
   color: ${color};
   border: ${borderWidth} ${borderStyle} ${borderColor};
@@ -103,15 +110,15 @@ function generateCSS({ inputType, inputStyles = {} }) {
 }
 
 ${
-  showSearchIcon
+  showSearchIcon && isSearch
     ? `.search-icon {
   position: absolute;
   top: 50%;
-  right: 12px;
+  ${iconPositionStyle}
   transform: translateY(-50%);
-  width: 18px;
-  height: 18px;
-  color: ${color};
+  width: ${iconSize}px;
+  height: ${iconSize}px;
+  color: ${iconColor};
   pointer-events: none;
 }`
     : ""
@@ -138,11 +145,20 @@ function generateSCSS({ inputType, inputStyles = {} }) {
     placeholderOpacity = "0.7",
     placeholderFontStyle = "normal",
     borderRadius,
+    showSearchIcon = true,
+    iconPosition = "right",
+    iconSize = 18,
   } = inputStyles;
 
-  const resolvedBorderRadius =
-    borderRadius || generateBorderRadius(inputStyles);
+  const resolvedBorderRadius = borderRadius || generateBorderRadius(inputStyles);
   const isSearch = inputType.toLowerCase() === "search";
+  const iconPositionStyle = iconPosition === "left" ? "left: 12px;" : "right: 12px;";
+  const paddingAdjustment =
+    showSearchIcon && isSearch
+      ? iconPosition === "left"
+        ? "padding-left: 40px;"
+        : "padding-right: 40px;"
+      : "";
 
   return `$input-bg: ${backgroundColor};
 $input-color: ${color};
@@ -152,20 +168,23 @@ $input-radius: ${resolvedBorderRadius};
 $input-font-size: ${fontSize};
 $input-padding: ${padding};
 $placeholder-color: ${placeholderColor};
+$placeholder-font-size: ${placeholderFontSize};
+$placeholder-opacity: ${placeholderOpacity};
+$placeholder-style: ${placeholderFontStyle};
 
 .input-wrapper {
   position: relative;
   display: inline-block;
 
   ${
-    isSearch
+    isSearch && showSearchIcon
       ? `.search-icon {
     position: absolute;
     top: 50%;
-    right: 12px;
+    ${iconPositionStyle}
     transform: translateY(-50%);
-    width: 18px;
-    height: 18px;
+    width: ${iconSize}px;
+    height: ${iconSize}px;
     color: $input-color;
     pointer-events: none;
   }`
@@ -178,7 +197,7 @@ $placeholder-color: ${placeholderColor};
     width: ${width};
     height: ${height};
     padding: $input-padding;
-    padding-right: ${isSearch ? "40px" : "12px"};
+    ${paddingAdjustment}
     background-color: $input-bg;
     color: $input-color;
     border: $input-border;
@@ -196,9 +215,9 @@ $placeholder-color: ${placeholderColor};
 
     &::placeholder {
       color: $placeholder-color;
-      font-size: ${placeholderFontSize};
-      opacity: ${placeholderOpacity};
-      font-style: ${placeholderFontStyle};
+      font-size: $placeholder-font-size;
+      opacity: $placeholder-opacity;
+      font-style: $placeholder-style;
     }
   }
 }`;
