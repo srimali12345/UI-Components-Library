@@ -78,9 +78,9 @@ const NavbarCustomizer = ({ onSelect, template }) => {
     setNavItems([...navItems, { ...newItem, id: Date.now() }]);
   };
 
-  const handleUpdateNavItem = (updatedItem) => {
+  const handleUpdateNavItem = (parentId, updatedItem) => {
     setNavItems(
-      navItems.map((item) => (item.id === updatedItem.id ? updatedItem : item))
+      navItems.map((item) => (item.id === parentId ? updatedItem : item))
     );
   };
 
@@ -113,8 +113,8 @@ const NavbarCustomizer = ({ onSelect, template }) => {
           <CodeViewer
             activeTab={activeTab}
             html={generateHTML(navbarStyle, navItems)}
-            css={generateCSS(navbarStyle)}
-            sass={generateSASS(navbarStyle)}
+            css={generateCSS(navbarStyle, navItems)}
+            sass={generateSASS(navbarStyle, navItems)}
           />
         }
         toolBox={

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import LogoUploader from "./LogoUploader";
-import { ChevronDown, ChevronRight } from "lucide-react";
+import { ChevronDown, ChevronRight, Bell, User } from "lucide-react";
 import NavItemEditor from "./NavItemEditor";
 
 const NavbarToolBox = ({
@@ -19,7 +19,9 @@ const NavbarToolBox = ({
     border: false,
     layout: false,
     logo: false,
-    border: false,
+    searchField: false,
+    navItem: false,
+    icons: false,
   });
 
   const toggle = (section) =>
@@ -45,6 +47,7 @@ const NavbarToolBox = ({
       navPosition: position,
     }));
   };
+
   const handleTemplateSelect = (template) => {
     setNavbarStyle((prevStyle) => ({
       ...prevStyle,
@@ -53,7 +56,47 @@ const NavbarToolBox = ({
     setNavItems(template.navItems);
   };
 
+  const handleIconToggle = (iconType) => {
+    setNavbarStyle((prevStyle) => ({
+      ...prevStyle,
+      icons: {
+        ...(prevStyle.icons || {}),
+        [iconType]: {
+          ...(prevStyle.icons?.[iconType] || {}),
+          show: !(prevStyle.icons?.[iconType]?.show ?? true),
+        },
+      },
+    }));
+  };
+
+  const handleIconTypeChange = (iconType, iconVariant) => {
+    setNavbarStyle((prevStyle) => ({
+      ...prevStyle,
+      icons: {
+        ...(prevStyle.icons || {}),
+        [iconType]: {
+          ...(prevStyle.icons?.[iconType] || {}),
+          variant: iconVariant,
+        },
+      },
+    }));
+  };
+
+  const handleIconColorChange = (iconType, color) => {
+    setNavbarStyle((prevStyle) => ({
+      ...prevStyle,
+      icons: {
+        ...(prevStyle.icons || {}),
+        [iconType]: {
+          ...(prevStyle.icons?.[iconType] || {}),
+          color: color,
+        },
+      },
+    }));
+  };
+
   const [activeTab, setActiveTab] = useState("design");
+
   return (
     <div className="toolbar">
       <div className="toolbar-tabs">
@@ -64,6 +107,7 @@ const NavbarToolBox = ({
           <span>Design</span>
         </div>
       </div>
+
       {/* Background Section */}
       <div className="toolbar-content">
         <div className="design-tab-content">
@@ -154,8 +198,7 @@ const NavbarToolBox = ({
           )}
         </div>
 
-        {/* borde section */}
-
+        {/* Border section */}
         <div className="collapsible-section">
           <div className="section-header" onClick={() => toggle("border")}>
             <span>Border</span>
@@ -319,8 +362,122 @@ const NavbarToolBox = ({
           )}
         </div>
 
-        {/* searchfield section */}
+        {/* Icon Customization Section - NEW */}
+        <div className="collapsible-section">
+          <div className="section-header" onClick={() => toggle("icons")}>
+            <span>Icons</span>
+            {expandedSections.icons ? (
+              <ChevronDown size={16} />
+            ) : (
+              <ChevronRight size={16} />
+            )}
+          </div>
+          {expandedSections.icons && (
+            <div className="section-content">
+              {/* Notification Icon */}
+              <div className="icon-customization">
+                <h4>Notification Icon</h4>
 
+                <div className="checkbox-container">
+                  <input
+                    type="checkbox"
+                    id="hasNotificationIcon"
+                    checked={navbarStyle.icons?.notification?.show !== false}
+                    onChange={() => handleIconToggle("notification")}
+                  />
+                  <label htmlFor="hasNotificationIcon">
+                    Show Notification Icon
+                  </label>
+                </div>
+
+                {navbarStyle.icons?.notification?.show !== false && (
+                  <>
+                    <div className="input-group">
+                      <label>Icon Style:</label>
+                      <select
+                        value={
+                          navbarStyle.icons?.notification?.variant || "bell"
+                        }
+                        onChange={(e) =>
+                          handleIconTypeChange("notification", e.target.value)
+                        }
+                      >
+                        <option value="bell">Bell</option>
+                        <option value="bell-ring">Bell Ring</option>
+                        <option value="bell-plus">Bell Plus</option>
+                      </select>
+                    </div>
+
+                    <div className="input-group">
+                      <label>Icon Color:</label>
+                      <input
+                        type="color"
+                        value={
+                          navbarStyle.icons?.notification?.color ||
+                          navbarStyle.textColor ||
+                          "#ffffff"
+                        }
+                        onChange={(e) =>
+                          handleIconColorChange("notification", e.target.value)
+                        }
+                      />
+                    </div>
+                  </>
+                )}
+              </div>
+
+              {/* Profile Icon */}
+              <div className="icon-customization">
+                <h4>Profile Icon</h4>
+
+                <div className="checkbox-container">
+                  <input
+                    type="checkbox"
+                    id="hasProfileIcon"
+                    checked={navbarStyle.icons?.profile?.show !== false}
+                    onChange={() => handleIconToggle("profile")}
+                  />
+                  <label htmlFor="hasProfileIcon">Show Profile Icon</label>
+                </div>
+
+                {navbarStyle.icons?.profile?.show !== false && (
+                  <>
+                    <div className="input-group">
+                      <label>Icon Style:</label>
+                      <select
+                        value={navbarStyle.icons?.profile?.variant || "user"}
+                        onChange={(e) =>
+                          handleIconTypeChange("profile", e.target.value)
+                        }
+                      >
+                        <option value="user">User</option>
+                        <option value="user-circle">User Circle</option>
+                        <option value="user-round">User Round</option>
+                      </select>
+                    </div>
+
+                    <div className="input-group">
+                      <label>Icon Color:</label>
+                      <input
+                        type="color"
+                        value={
+                          navbarStyle.icons?.profile?.color ||
+                          navbarStyle.textColor ||
+                          "#ffffff"
+                        }
+                        onChange={(e) =>
+                          handleIconColorChange("profile", e.target.value)
+                        }
+                      />
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Search field section */}
         <div className="collapsible-section">
           <div className="section-header" onClick={() => toggle("searchField")}>
             <span>Search Field </span>
@@ -458,7 +615,6 @@ const NavbarToolBox = ({
         </div>
 
         {/* Navigation Section */}
-
         <div className="collapsible-section">
           <div className="section-header" onClick={() => toggle("navItem")}>
             <span>Navigation Items</span>
