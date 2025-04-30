@@ -35,7 +35,6 @@ const NavbarCodeModal = ({ template, onClose, templateId }) => {
     alert("Code copied!");
   };
 
-  // CORRECT border and borderRadius logic here using generateBorderRadius
   const borderVal =
     template.style.borderWidth && parseInt(template.style.borderWidth) > 0
       ? `${template.style.borderWidth} solid ${

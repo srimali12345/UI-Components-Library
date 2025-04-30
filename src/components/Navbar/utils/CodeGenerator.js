@@ -491,12 +491,11 @@ ${iconContainerStyles}
 };
 
 export const generateSASS = (navbarStyle, navItems = []) => {
-  // Check if any item has submenu
+
   const hasAnySubmenu =
     navItems &&
     navItems.some((item) => item.submenu && item.submenu.length > 0);
 
-  // Check if icons are enabled
   const hasNotificationIcon = navbarStyle.icons?.notification?.show !== false;
   const hasProfileIcon = navbarStyle.icons?.profile?.show !== false;
   const hasIcons = hasNotificationIcon || hasProfileIcon;
@@ -568,7 +567,6 @@ export const generateSASS = (navbarStyle, navItems = []) => {
 `
     : "";
 
-  // Add submenu styles in SASS format - only if we have submenus
   const submenuStyles = hasAnySubmenu
     ? `
   .nav-item-wrapper {
@@ -622,7 +620,6 @@ export const generateSASS = (navbarStyle, navItems = []) => {
   `
     : "";
 
-  // Add custom icon styles - only if icons are enabled
   const iconStyles = hasIcons
     ? `
   .nav-icons {
