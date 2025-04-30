@@ -43,8 +43,8 @@ const CodeViewer = ({ html, css, sass }) => {
           CSS
         </div>
         <div
-          className={`btn-outline ${activeTab === "scss" ? "active" : ""}`}
-          onClick={() => setActiveTab("scss")}
+          className={`btn-outline ${activeTab === "sass" ? "active" : ""}`}
+          onClick={() => setActiveTab("sass")}
         >
           SCSS
         </div>
