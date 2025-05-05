@@ -5,6 +5,7 @@ import NavbarCustomizer from "../components/Navbar/NavbarCustomizer";
 import "../styles/pages/dashboard.scss";
 import NavbarTemplates from "../components/Navbar/NavbarTemplates";
 import InputSelection from "../components/InputFeild/InputFeildSelection";
+import CardSelection from "../components/Card/CardSelection";
 
 const Dashboard = () => {
   const location = useLocation();
@@ -72,15 +73,19 @@ const Dashboard = () => {
               Navbar
             </li>
             <li
+             className={`menu-text ${
+              activeComponent === "card" ? "active" : ""
+            }`}
+              onClick={() => setActiveComponent("card")}
+            >
+              Cards
+            </li>
+            <li
               className={`menu-text  disabled-menu `}
             >
               Footer
             </li>
-            <li
-              className={`menu-text  disabled-menu`}
-            >
-              Cards
-            </li>
+         
             <li
               className={`menu-text  disabled-menu`}
             >
@@ -96,6 +101,7 @@ const Dashboard = () => {
           <NavbarTemplates onSelect={onselect} />
         )}
         {activeComponent === "input" && <InputSelection />}
+        {activeComponent === "card" && <CardSelection/>}
       </div>
     </div>
   );

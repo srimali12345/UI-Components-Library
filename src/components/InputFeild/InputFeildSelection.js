@@ -7,7 +7,7 @@ import toolIcon from "../../images/tool.png";
 import { Search } from "lucide-react";
 import "../../styles/components/inputCustomization.scss";
 
-const InputSelection = ({inputType}) => {
+const InputSelection = ({ inputType }) => {
   const navigate = useNavigate();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedInputType, setSelectedInputType] = useState("");
@@ -63,13 +63,9 @@ const InputSelection = ({inputType}) => {
           <div key={input.type} className="input-list-wrap">
             <p className="input-wrap-title">{input.label}</p>
             <div className="input-wrap">
-            {input.type === "Search" && (
-    <Search
-      size={18}
-      className="svg-icon-search"
-    
-    />
-  )}
+              {input.type === "Search" && (
+                <Search size={18} className="svg-icon-search" />
+              )}
               <input
                 type={input.type.toLowerCase()}
                 className={`dashboard-input ${input.type}`}

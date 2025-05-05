@@ -12,6 +12,8 @@ import Docs from './pages/docs';
 import FAQ from './pages/faq';
 import InputCustomization from "./components/InputFeild/InputCustomization";
 import InputSelection from "./components/InputFeild/InputFeildSelection";
+import CardSelection from "./components/Card/CardSelection";
+import CardCustomization from "./components/Card/CardCustomizer";
 
 const App = () => {
   return (
@@ -31,6 +33,8 @@ const App = () => {
           <Route path="/customizer/:template" element={<NavbarCustomizer />} />
           <Route path="/dashbord" element={<InputSelection/>} />
           <Route path="/customize-input/:inputType"  element={<InputCustomization/>} />
+          <Route path="/dashbord" element={<CardSelection/>} />
+          <Route path="/customize-card/:cardType"  element={<CardCustomization/>} />
         </Route>
       </Routes>
     </Router>
