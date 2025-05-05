@@ -63,7 +63,7 @@ const CardCodePanel = ({
 
       <div className="code-block" 
       >
-        <pre style={{ margin: 0, fontSize: "14px", whiteSpace: "pre-wrap" }}>{getCode()}</pre>
+        <pre style={{ margin: 0, whiteSpace: "pre-wrap" }}>{getCode()}</pre>
       </div>
     </div>
   );

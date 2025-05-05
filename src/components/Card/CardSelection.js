@@ -89,7 +89,6 @@ const CardSelection = () => {
             </div>
           </div>
         );
-
       case "Action":
         return (
           <div className="card-preview action">
@@ -138,7 +137,7 @@ const CardSelection = () => {
                   title="View code"
                   onClick={(e) => handleOpenModal(card.type, e)}
                 >
-                  <img src={copyIcon} alt="icon" className="input-icon" />
+                  <img src={copyIcon} alt="code icon" className="input-icon" />
                 </button>
                 <button
                   className="card-tool-wrap"
@@ -148,7 +147,7 @@ const CardSelection = () => {
                     navigate(`/customize-card/${card.type}`);
                   }}
                 >
-                  <img src={toolIcon} alt="icon" className="input-icon" />
+                  <img src={toolIcon} alt="tool icon" className="input-icon" />
                 </button>
               </div>
             </div>

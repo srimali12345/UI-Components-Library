@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 
 const CardPreview = ({ cardStyles = {}, cardTitle, cardContent, cardType }) => {
@@ -32,8 +31,7 @@ const CardPreview = ({ cardStyles = {}, cardTitle, cardContent, cardType }) => {
     };
   }, [cardStyles, cardType]);
 
-  const isImageCard = cardType === "Image" || cardType === "ImageOverlay";
-  const isOverlay = cardType === "ImageOverlay";
+  const isImageCard = cardType === "Image";
   const isActionCard = cardType === "Action";
   const isPricingCard = cardType === "Pricing";
   const isBasicCard = cardType === "Basic";
@@ -87,30 +85,17 @@ const CardPreview = ({ cardStyles = {}, cardTitle, cardContent, cardType }) => {
     backgroundPosition: "center",
   } : {};
 
-  const overlayStyle = isOverlay ? {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    height: cardStyles.imageHeight || "200px",
-    backgroundColor: cardStyles.overlayColor || "rgba(0, 0, 0, 0.4)",
-  } : {};
-
   const bodyStyle = {
     padding: cardStyles.padding || "20px",
-    position: isOverlay ? "absolute" : "relative",
-    bottom: isOverlay ? 0 : "auto",
-    left: isOverlay ? 0 : "auto",
-    right: isOverlay ? 0 : "auto",
-    color: isOverlay ? "#ffffff" : cardStyles.textColor || "#333333",
-    textShadow: isOverlay ? "0 1px 3px rgba(0, 0, 0, 0.8)" : "none",
+    position: "relative",
+    color: cardStyles.textColor || "#333333",
     flex: isBasicCard ? "1" : "initial",
   };
 
   const titleStyle = {
     fontSize: cardStyles.titleFontSize || "18px",
     fontWeight: cardStyles.titleFontWeight || "bold",
-    color: isOverlay ? "#ffffff" : cardStyles.titleColor || "#000000",
+    color: cardStyles.titleColor || "#000000",
     marginTop: 0,
     marginBottom: "10px",
     fontFamily: cardStyles.fontFamily || "Arial, sans-serif"
@@ -154,7 +139,6 @@ const CardPreview = ({ cardStyles = {}, cardTitle, cardContent, cardType }) => {
         {isBasicCard && <div style={headerStyle}>{cardStyles.headerText || "Header"}</div>}
         
         {isImageCard && <div style={imageStyle}></div>}
-        {isOverlay && <div style={overlayStyle}></div>}
         
         <div style={bodyStyle}>
           <h3 style={titleStyle}>{cardTitle || `${cardType} Card`}</h3>

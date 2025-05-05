@@ -1,8 +1,7 @@
 import React from 'react';
 
 export const generateHTML = ({ cardType, cardTitle, cardContent, cardStyles }) => {
-  const isImageCard = cardType === "Image" || cardType === "ImageOverlay";
-  const isOverlay = cardType === "ImageOverlay";
+  const isImageCard = cardType === "Image";
   const isActionCard = cardType === "Action";
   const isPricingCard = cardType === "Pricing";
   
@@ -21,9 +20,6 @@ export const generateHTML = ({ cardType, cardTitle, cardContent, cardStyles }) =
 
   else if (isImageCard) {
     html += `  <div class="card-image"></div>\n`;
-    if (isOverlay) {
-      html += `  <div class="card-overlay"></div>\n`;
-    }
     html += `  <div class="card-body">\n`;
     html += `    <h3 class="card-title">${cardTitle || 'Card Title'}</h3>\n`;
     html += `    <p class="card-text">${cardContent || 'Card content goes here...'}</p>\n`;
@@ -65,8 +61,7 @@ export const generateHTML = ({ cardType, cardTitle, cardContent, cardStyles }) =
 };
 
 export const generateCSS = ({ cardType, cardStyles }) => {
-  const isImageCard = cardType === "Image" || cardType === "ImageOverlay";
-  const isOverlay = cardType === "ImageOverlay";
+  const isImageCard = cardType === "Image";
   const isActionCard = cardType === "Action";
   const isPricingCard = cardType === "Pricing";
   
@@ -125,30 +120,6 @@ export const generateCSS = ({ cardType, cardStyles }) => {
     css += `}\n\n`;
   }
   
-  if (isOverlay) {
-    css += `.card-${cardType.toLowerCase()} .card-overlay {\n`;
-    css += `  position: absolute;\n`;
-    css += `  top: 0;\n`;
-    css += `  left: 0;\n`;
-    css += `  right: 0;\n`;
-    css += `  height: ${cardStyles.imageHeight || '200px'};\n`;
-    css += `  background-color: ${cardStyles.overlayColor || 'rgba(0, 0, 0, 0.4)'};\n`;
-    css += `}\n\n`;
-    
-    css += `.card-${cardType.toLowerCase()} {\n`;
-    css += `  position: relative;\n`;
-    css += `}\n\n`;
-    
-    css += `.card-${cardType.toLowerCase()} .card-body {\n`;
-    css += `  position: absolute;\n`;
-    css += `  bottom: 0;\n`;
-    css += `  left: 0;\n`;
-    css += `  right: 0;\n`;
-    css += `  color: #ffffff;\n`;
-    css += `  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);\n`;
-    css += `}\n\n`;
-  }
-  
   css += `.card-${cardType.toLowerCase()} .card-body {\n`;
   css += `  padding: ${cardStyles.padding || '20px'};\n`;
   css += `}\n\n`;
@@ -156,7 +127,7 @@ export const generateCSS = ({ cardType, cardStyles }) => {
   css += `.card-${cardType.toLowerCase()} .card-title {\n`;
   css += `  font-size: ${cardStyles.titleFontSize || '18px'};\n`;
   css += `  font-weight: ${cardStyles.titleFontWeight || 'bold'};\n`;
-  css += `  color: ${isOverlay ? '#ffffff' : cardStyles.titleColor || '#000000'};\n`;
+  css += `  color: ${cardStyles.titleColor || '#000000'};\n`;
   css += `  margin-top: 0;\n`;
   css += `  margin-bottom: 10px;\n`;
   css += `}\n\n`;
@@ -214,8 +185,7 @@ export const generateCSS = ({ cardType, cardStyles }) => {
 };
 
 export const generateSCSS = ({ cardType, cardStyles }) => {
-  const isImageCard = cardType === "Image" || cardType === "ImageOverlay";
-  const isOverlay = cardType === "ImageOverlay";
+  const isImageCard = cardType === "Image";
   const isActionCard = cardType === "Action";
   const isPricingCard = cardType === "Pricing";
   
@@ -224,7 +194,7 @@ export const generateSCSS = ({ cardType, cardStyles }) => {
   scss += `// Card variables\n`;
   scss += `$card-bg: ${cardStyles.backgroundColor || '#ffffff'};\n`;
   scss += `$card-text: ${cardStyles.textColor || '#333333'};\n`;
-  scss += `$card-title: ${isOverlay ? '#ffffff' : cardStyles.titleColor || '#000000'};\n`;
+  scss += `$card-title: ${cardStyles.titleColor || '#000000'};\n`;
   scss += `$card-border: ${cardStyles.borderColor || '#e0e0e0'};\n`;
   scss += `$card-shadow: ${cardStyles.boxShadow || '0 2px 8px rgba(0, 0, 0, 0.1)'};\n`;
   if (isActionCard || isPricingCard) {
@@ -291,34 +261,10 @@ export const generateSCSS = ({ cardType, cardStyles }) => {
     scss += `  }\n`;
   }
   
-  // Overlay styles
-  if (isOverlay) {
-    scss += `  position: relative;\n`;
-    
-    scss += `\n  .card-overlay {\n`;
-    scss += `    position: absolute;\n`;
-    scss += `    top: 0;\n`;
-    scss += `    left: 0;\n`;
-    scss += `    right: 0;\n`;
-    scss += `    height: ${cardStyles.imageHeight || '200px'};\n`;
-    scss += `    background-color: ${cardStyles.overlayColor || 'rgba(0, 0, 0, 0.4)'};\n`;
-    scss += `  }\n`;
-    
-    scss += `\n  .card-body {\n`;
-    scss += `    position: absolute;\n`;
-    scss += `    bottom: 0;\n`;
-    scss += `    left: 0;\n`;
-    scss += `    right: 0;\n`;
-    scss += `    color: #ffffff;\n`;
-    scss += `    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);\n`;
-    scss += `    padding: ${cardStyles.padding || '20px'};\n`;
-    scss += `  }\n`;
-  } else {
-    // Common body styles
-    scss += `\n  .card-body {\n`;
-    scss += `    padding: ${cardStyles.padding || '20px'};\n`;
-    scss += `  }\n`;
-  }
+  // Common body styles
+  scss += `\n  .card-body {\n`;
+  scss += `    padding: ${cardStyles.padding || '20px'};\n`;
+  scss += `  }\n`;
   
   // Title styles
   scss += `\n  .card-title {\n`;

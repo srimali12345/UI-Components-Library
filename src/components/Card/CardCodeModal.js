@@ -31,8 +31,7 @@ const CardCodeModal = ({
   };
 
   const renderCardPreview = () => {
-    const isImageCard = cardType === "Image" || cardType === "ImageOverlay";
-    const isOverlay = cardType === "ImageOverlay";
+    const isImageCard = cardType === "Image";
     const isActionCard = cardType === "Action";
     const isPricingCard = cardType === "Pricing";
     const isBasicCard = cardType === "Basic";
@@ -59,7 +58,11 @@ const CardCodeModal = ({
         {isBasicCard && (
           <div
             className="preview-card-header"
-          
+            style={{
+              padding: "15px",
+              borderBottom: `1px solid ${cardStyles.borderColor || "#e0e0e0"}`,
+              fontWeight: "bold"
+            }}
           >
             {cardStyles.headerText || "Header"}
           </div>
@@ -77,28 +80,13 @@ const CardCodeModal = ({
             }}
           ></div>
         )}
-        {isOverlay && (
-          <div
-            className="preview-card-overlay"
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              height: cardStyles.imageHeight || "200px",
-              backgroundColor: cardStyles.overlayColor || "rgba(0, 0, 0, 0.4)",
-            }}
-          ></div>
-        )}
+        
         <div
           className="preview-card-body"
           style={{
             padding: cardStyles.padding || "20px",
-            position: isOverlay ? "absolute" : "relative",
-            bottom: isOverlay ? 0 : "auto",
-            left: isOverlay ? 0 : "auto",
-            right: isOverlay ? 0 : "auto",
-            color: isOverlay ? "#ffffff" : cardStyles.textColor || "#333333",
+            position: "relative",
+            color: cardStyles.textColor || "#333333",
             flex: isBasicCard ? "1" : "initial",
           }}
         >
@@ -106,7 +94,7 @@ const CardCodeModal = ({
             style={{
               fontSize: cardStyles.titleFontSize || "18px",
               fontWeight: cardStyles.titleFontWeight || "bold",
-              color: isOverlay ? "#ffffff" : cardStyles.titleColor || "#000000",
+              color: cardStyles.titleColor || "#000000",
               marginTop: 0,
               marginBottom: "10px",
               fontFamily: cardStyles.fontFamily || "Arial, sans-serif"
