@@ -33,7 +33,7 @@ const App = () => {
             element={<ButtonCustomization />}
           />
           <Route path="/dashbord" element={<NavbarTemplates/>} />
-          <Route path="/customizer/:template" element={<NavbarCustomizer />} />
+          <Route path="/customize-navbar/:template" element={<NavbarCustomizer />} />
           <Route path="/dashbord" element={<InputSelection/>} />
           <Route path="/customize-input/:inputType"  element={<InputCustomization/>} />
           <Route path="/dashbord" element={<CardSelection/>} />

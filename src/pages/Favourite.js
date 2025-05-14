@@ -35,48 +35,8 @@ const Favourite = () => {
     }
   };
 
-  // Render the correct component preview based on type
-  const renderComponentPreview = (component) => {
-    switch (component.type) {
-      case "Button":
-        return (
-          <button
-            className={`dashboard-btn ${component.subtype}`}
-          >
-            {component.label}
-          </button>
-        );
-      case "Card":
-        return (
-          <div className="card-preview">
-            <div className={`dashboard-card ${component.subtype}`}>
-              {component.label}
-            </div>
-          </div>
-        );
-      case "Input":
-        return (
-          <div className="input-preview">
-            <input 
-              type="text" 
-              placeholder={component.label} 
-              className={`dashboard-input ${component.subtype}`} 
-              readOnly
-            />
-          </div>
-        );
-      case "Navbar":
-        return (
-          <div className="navbar-preview">
-            <div className={`dashboard-navbar-sample ${component.subtype}`}>
-              {component.label}
-            </div>
-          </div>
-        );
-      default:
-        return <div>{component.label}</div>;
-    }
-  };
+  
+ 
 
   return (
     <div className="favorites-container">
@@ -103,7 +63,6 @@ const Favourite = () => {
                   <p className="btn-wrap-title">{component.label}</p>
                   <div className="btn-wrap">
                     <div className="component-preview" onClick={() => handleCustomize(component)}>
-                      {renderComponentPreview(component)}
                     </div>
                     <div className="flex-wrap">
                       <button

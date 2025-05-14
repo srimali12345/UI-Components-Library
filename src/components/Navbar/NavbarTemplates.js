@@ -5,6 +5,7 @@ import copyIcon from "../../images/code.png";
 import toolIcon from "../../images/tool.png";
 import NavbarCodeModal from "./NavbarCodeModal";
 import { Bell, Code, Search, Settings, User } from "lucide-react";
+import FavoriteButton from "../../commonComponents/FavouriteButton";
 import "../../styles/components/navCustomization.scss";
 
 const DEFAULT_LOGO_URL =
@@ -16,7 +17,7 @@ const NavbarTemplates = ({ onSelect }) => {
   const [selectedTemplate, setSelectedTemplate] = useState(null);
 
   const handleTemplateClick = (template) => {
-    navigate(`/customizer/${template.name}`, { state: { template } });
+    navigate(`/customize-navbar/${template.name}`, { state: { template } });
   };
   const handleCopyClick = (template) => {
     setSelectedTemplate(template);
@@ -203,6 +204,14 @@ const NavbarTemplates = ({ onSelect }) => {
                 </div>
               </div>
               <div className="flex-wrap">
+                <FavoriteButton
+                  component={{
+                    id: `navbar-${template.id}`,
+                    type: "Navbar",
+                    subtype: template.name,
+                    label: template.name,
+                  }}
+                />
                 <button
                   className="btn-tool-wrap"
                   title="View code"
