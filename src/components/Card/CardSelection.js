@@ -4,6 +4,7 @@ import { cardTypes } from "./CardList";
 import CardCodeModal from "./CardCodeModal";
 import copyIcon from "../../images/code.png";
 import toolIcon from "../../images/tool.png";
+import FavoriteButton from "../../commonComponents/FavouriteButton";
 
 
 const CardSelection = () => {
@@ -66,11 +67,11 @@ const CardSelection = () => {
     navigate(`/customize-card/${type}`);
   };
 
-  const renderCardPreview = (card) => {
+  const renderCardPreview = (card, onClick) => {
     switch (card.type) {
       case "Basic":
         return (
-          <div className="card-preview basic">
+          <div className="card-preview basic" onClick={onClick}>
             <div className="card-header">Header</div>
             <div className="card-body">
               <h3 className="card-title">Basic Card</h3>
@@ -81,7 +82,7 @@ const CardSelection = () => {
         );
       case "Image":
         return (
-          <div className="card-preview image">
+          <div className="card-preview image" onClick={onClick}>
             <div className="card-image"></div>
             <div className="card-body">
               <h3 className="card-title">Image Card</h3>
@@ -91,7 +92,7 @@ const CardSelection = () => {
         );
       case "Action":
         return (
-          <div className="card-preview action">
+          <div className="card-preview action" onClick={onClick}>
             <div className="card-body">
               <h3 className="card-title">Action Card</h3>
               <p className="card-text">Card with action button.</p>
@@ -103,7 +104,7 @@ const CardSelection = () => {
         );
       case "Pricing":
         return (
-          <div className="card-preview pricing">
+          <div className="card-preview pricing" onClick={onClick}>
             <div className="card-body">
               <h3 className="card-title">Pricing Card</h3>
               <p className="card-text">Card with pricing information and CTA buttons.</p>
@@ -128,10 +129,18 @@ const CardSelection = () => {
             <p className="card-wrap-title">{card.label}</p>
             <div 
               className="card-wrap" 
-              onClick={(e) => handleCardClick(card.type, e)}
+             
             >
-              {renderCardPreview(card)}
+              {renderCardPreview(card,(e) => handleCardClick(card.type, e)) }
               <div className="flex-wrap">
+
+                <FavoriteButton component={{
+                  id: card.type,
+                  type: 'Card',
+                  subtype: card.type,
+                  label:card.label
+
+                }}/>
                 <button
                   className="card-tool-wrap"
                   title="View code"
@@ -144,7 +153,9 @@ const CardSelection = () => {
                   title="Customize styles"
                   onClick={(e) => {
                     e.stopPropagation();
-                    navigate(`/customize-card/${card.type}`);
+                    navigate(`/customize-card/${card.type}`,{
+                      state:{card},
+                    });
                   }}
                 >
                   <img src={toolIcon} alt="tool icon" className="input-icon" />

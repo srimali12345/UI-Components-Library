@@ -26,6 +26,9 @@
     a {
       text-decoration: none !important;
       color: #24242f;
+      display: flex;
+      align-items: center;
+      gap: 5px;
 
       &:hover {
         color: #6d45ff;

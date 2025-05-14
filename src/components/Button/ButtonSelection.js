@@ -5,7 +5,7 @@ import toolIcon from "../../images/tool.png";
 import { buttonTypes } from "./ButtonList";
 import CodeModal from "./CodeModal";
 import "../../styles/components/buttonsCustomization.scss";
-
+import FavouriteButton from "../../commonComponents/FavouriteButton";
 
 const ButtonSelection = () => {
   const navigate = useNavigate();
@@ -58,7 +58,16 @@ const ButtonSelection = () => {
               >
                 {btn.label}
               </button>
+
               <div className="flex-wrap">
+                <FavouriteButton
+                  component={{
+                    id: `button-${btn.type}`,
+                    type: "Button",
+                    subtype: btn.type,
+                    label: btn.label,
+                  }}
+                />
                 <button
                   className="btn-tool-wrap"
                   title="View code"

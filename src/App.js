@@ -14,10 +14,13 @@ import InputCustomization from "./components/InputFeild/InputCustomization";
 import InputSelection from "./components/InputFeild/InputFeildSelection";
 import CardSelection from "./components/Card/CardSelection";
 import CardCustomization from "./components/Card/CardCustomizer";
+import { FavoritesProvider } from "./contexts/FavouriteContext";
+import Favourite from "./pages/Favourite";
 
 const App = () => {
   return (
     <Router>
+      <FavoritesProvider>
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<LandingPage />} />
@@ -29,14 +32,16 @@ const App = () => {
             path="/customize/:buttonType"
             element={<ButtonCustomization />}
           />
-          <Route path="/dashbord" element={<NavbarTemplates />} />
+          <Route path="/dashbord" element={<NavbarTemplates/>} />
           <Route path="/customizer/:template" element={<NavbarCustomizer />} />
           <Route path="/dashbord" element={<InputSelection/>} />
           <Route path="/customize-input/:inputType"  element={<InputCustomization/>} />
           <Route path="/dashbord" element={<CardSelection/>} />
           <Route path="/customize-card/:cardType"  element={<CardCustomization/>} />
+          <Route path="/favourites" element={<Favourite/>} />
         </Route>
       </Routes>
+      </FavoritesProvider>
     </Router>
   );
 };

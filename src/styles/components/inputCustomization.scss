@@ -26,6 +26,7 @@
       .flex-wrap {
         display: flex;
         gap: 10px;
+        align-items: center;
         justify-content: flex-end;
         margin-top: 10px;
         width: 100%;
@@ -47,9 +48,7 @@
         &.Search {
           padding-left: 12px !important;
           border-radius: 20px !important;
-
         }
-
       }
       .svg-icon-search {
         position: absolute;
@@ -60,7 +59,6 @@
         pointer-events: none;
       }
 
-
       .input-tool-wrap {
         background-color: transparent;
         border-radius: 5px;
@@ -70,9 +68,6 @@
         line-height: 41px;
         margin-top: 10px;
         width: 34px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
 
         .input-icon {
           height: 18px;
@@ -82,13 +77,11 @@
   }
 }
 
-.input-container{
+.input-container {
   position: relative;
   padding: 0px 12px;
-
-
 }
-.svg-icon-search-modal{
+.svg-icon-search-modal {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
