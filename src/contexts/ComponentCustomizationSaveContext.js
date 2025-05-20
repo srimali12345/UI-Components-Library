@@ -4,34 +4,40 @@ export const useComponentCustomization = (
   componentType,
   componentId,
   defaultStyles,
-  defaultText = ""
+  defaultTitle = "",
+  defaultContent = ""
 ) => {
   // Create storage keys based on component type and ID
   const stylesStorageKey = `${componentType}-styles-${componentId}`;
-  const textStorageKey = `${componentType}-text-${componentId}`;
+  const titleStorageKey = `${componentType}-title-${componentId}`;
+  const contentStorageKey = `${componentType}-content-${componentId}`;
 
-  // Load saved styles and text from localStorage on component mount
-  const getSavedStyles = () => {
+  // Load saved data from localStorage on component mount
+  const getSavedData = () => {
     try {
       const savedStyles = localStorage.getItem(stylesStorageKey);
-      const savedText = localStorage.getItem(textStorageKey);
+      const savedTitle = localStorage.getItem(titleStorageKey);
+      const savedContent = localStorage.getItem(contentStorageKey);
 
       return {
         styles: savedStyles ? JSON.parse(savedStyles) : defaultStyles,
-        text: savedText || defaultText,
+        title: savedTitle || defaultTitle,
+        content: savedContent || defaultContent,
       };
     } catch (error) {
-      console.error("Error loading saved styles:", error);
+      console.error("Error loading saved data:", error);
       return {
         styles: defaultStyles,
-        text: defaultText,
+        title: defaultTitle,
+        content: defaultContent,
       };
     }
   };
 
-  const savedData = getSavedStyles();
+  const savedData = getSavedData();
   const [styles, setStyles] = useState(savedData.styles);
-  const [text, setText] = useState(savedData.text);
+  const [title, setTitle] = useState(savedData.title);
+  const [content, setContent] = useState(savedData.content);
 
   // Save changes to localStorage whenever they update
   useEffect(() => {
@@ -43,33 +49,53 @@ export const useComponentCustomization = (
   }, [styles, stylesStorageKey]);
 
   useEffect(() => {
-    if (text) {
+    if (title) {
       try {
-        localStorage.setItem(textStorageKey, text);
+        localStorage.setItem(titleStorageKey, title);
       } catch (error) {
-        console.error("Error saving text to localStorage:", error);
+        console.error("Error saving title to localStorage:", error);
       }
     }
-  }, [text, textStorageKey]);
+  }, [title, titleStorageKey]);
+
+  useEffect(() => {
+    if (content) {
+      try {
+        localStorage.setItem(contentStorageKey, content);
+      } catch (error) {
+        console.error("Error saving content to localStorage:", error);
+      }
+    }
+  }, [content, contentStorageKey]);
 
   // Revert function to restore default settings
   const handleRevert = () => {
     try {
-      // Clear saved styles from localStorage
+      // Clear saved data from localStorage
       localStorage.removeItem(stylesStorageKey);
-      localStorage.removeItem(textStorageKey);
+      localStorage.removeItem(titleStorageKey);
+      localStorage.removeItem(contentStorageKey);
 
-      // Reset to default styles and text
+      // Reset to defaults
       setStyles(defaultStyles);
-      setText(defaultText);
+      setTitle(defaultTitle);
+      setContent(defaultContent);
 
       console.log(
-        `${componentType} ${componentId} has been reset to default styling`
+        `${componentType} ${componentId} has been reset to default settings`
       );
     } catch (error) {
-      console.error("Error reverting to default styles:", error);
+      console.error("Error reverting to defaults:", error);
     }
   };
 
-  return [styles, setStyles, text, setText, handleRevert];
+  return [
+    styles,
+    setStyles,
+    title,
+    setTitle,
+    content,
+    setContent,
+    handleRevert,
+  ];
 };

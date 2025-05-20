@@ -100,21 +100,23 @@ const CardCustomization = () => {
   }, [cardType, navigate]);
 
   const actualCardType = cardType || "Basic";
-  const [cardStyles, setCardStyles] = useState(
-    cardDefaults[actualCardType] || cardDefaults.Basic
+  const defaultTitle = `${actualCardType} Card`;
+  const defaultContent = `This is a ${actualCardType} card with sample content.`;
+  const [
+    cardStyles,
+    setCardStyles,
+    cardTitle,
+    setCardTitle,
+    cardContent,
+    setCardContent,
+    handleRevert,
+  ] = useComponentCustomization(
+    "card",
+    actualCardType,
+    cardDefaults[actualCardType],
+    defaultTitle,
+    defaultContent
   );
-  const [cardTitle, setCardTitle] = useState(`${actualCardType} Card `);
-  const [cardContent, setCardContent] = useState(
-    `This is a ${actualCardType} card with sample content.`
-  );
-
-  useEffect(() => {
-    if (cardDefaults[actualCardType]) {
-      setCardStyles(cardDefaults[actualCardType]);
-      setCardTitle(`${actualCardType} Card`);
-      setCardContent(`This is a ${actualCardType} card with sample content.`);
-    }
-  }, [actualCardType]);
 
   return (
     <CustomizationLayout
@@ -145,6 +147,7 @@ const CardCustomization = () => {
           cardContent={cardContent}
           setCardContent={setCardContent}
           cardType={actualCardType}
+          onRevert={handleRevert}
         />
       }
     />
