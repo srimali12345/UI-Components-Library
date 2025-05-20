@@ -4,6 +4,7 @@ import ToolBox from "./ToolBox";
 import CustomizationLayout from "../../commonComponents/CustomizationLayout";
 import ButtonPreview from "./ButtonPreview";
 import CodePanel from "./CodePanels";
+import { useComponentCustomization } from "../../contexts/ComponentCustomizationSaveContext";
 
 const ButtonCustomization = () => {
   const { buttonType } = useParams();
@@ -54,16 +55,20 @@ const ButtonCustomization = () => {
   };
 
   const actualButtonType = buttonType || "Primary";
+  const defaultButtonText = `${actualButtonType} Button`;
 
-  const [buttonStyles, setButtonStyles] = useState(
-    buttonDefaults[actualButtonType] || buttonDefaults.Primary
+  const [
+    buttonStyles,
+    setButtonStyles,
+    buttonText,
+    setButtonText,
+    handleRevert,
+  ] = useComponentCustomization(
+    "button",
+    actualButtonType,
+    buttonDefaults[actualButtonType],
+    defaultButtonText
   );
-  const [buttonText, setButtonText] = useState(`${actualButtonType} Button`);
-
-  useEffect(() => {
-    setButtonStyles(buttonDefaults[actualButtonType] || buttonDefaults.Primary);
-    setButtonText(`${actualButtonType} Button`);
-  }, [actualButtonType]);
 
   const getToolBoxProps = () => {
     switch (actualButtonType) {
@@ -95,7 +100,7 @@ const ButtonCustomization = () => {
   return (
     <>
       <CustomizationLayout
-       activeTabOnBack="buttons"
+        activeTabOnBack="buttons"
         itemLabel={`BTN1 - ${buttonType || "Primary"} Button`}
         mainContent={
           <ButtonPreview
@@ -118,6 +123,7 @@ const ButtonCustomization = () => {
             buttonText={buttonText}
             setButtonText={setButtonText}
             buttonType={actualButtonType}
+            onRevert={handleRevert}
             {...toolBoxProps}
           />
         }

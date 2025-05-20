@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ChevronDown, ChevronRight, X } from "lucide-react";
+import { ChevronDown, ChevronRight, X, RotateCcw } from "lucide-react";
 
 const ToolBox = ({
   buttonStyles,
@@ -11,6 +11,7 @@ const ToolBox = ({
   buttonText,
   setButtonText,
   buttonType,
+  onRevert,
 }) => {
   const [fontList] = useState([
     "Arial",
@@ -554,6 +555,16 @@ const ToolBox = ({
             </div>
           </div>
         )}
+        <div className="revert-section">
+          <button
+            onClick={onRevert}
+            className="revert-button"
+            title="Revert to default styles"
+          >
+            <RotateCcw size={16} />
+            <span>Revert</span>
+          </button>
+        </div>
       </div>
     </div>
   );

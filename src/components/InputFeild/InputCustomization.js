@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
+import InputToolBox from "./InputToolBox";
 import CustomizationLayout from "../../commonComponents/CustomizationLayout";
 import InputPreview from "./InputPreview";
 import InputCodePanel from "./InputCodePanel";
-import InputToolBox from "./InputToolBox";
+import { useComponentCustomization } from "../../contexts/ComponentCustomizationSaveContext";
 
 const InputCustomization = () => {
   const { inputType } = useParams();
-  const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState("html");
+  const actualInputType = inputType || "Text";
 
   const inputDefaults = {
     Text: {
@@ -77,27 +77,40 @@ const InputCustomization = () => {
     },
   };
 
-  // Validate inputType and redirect if invalid
-  useEffect(() => {
-    if (!inputType || !inputDefaults[inputType]) {
-      navigate("/input");
-    }
-  }, [inputType, navigate]);
+  const defaultPlaceholderText = `Enter ${actualInputType}`;
 
-  const actualInputType = inputType || "Text";
-  const [inputStyles, setInputStyles] = useState(
-    inputDefaults[actualInputType] || inputDefaults.Text
-  );
-  const [placeholderText, setPlaceholderText] = useState(
-    `Enter ${actualInputType}`
+  const [
+    inputStyles,
+    setInputStyles,
+    placeholderText,
+    setPlaceholderText,
+    handleRevert,
+  ] = useComponentCustomization(
+    "input",
+    actualInputType,
+    inputDefaults[actualInputType],
+    defaultPlaceholderText
   );
 
-  useEffect(() => {
-    if (inputDefaults[actualInputType]) {
-      setInputStyles(inputDefaults[actualInputType]);
-      setPlaceholderText(`Enter ${actualInputType}`);
+  const getToolBoxProps = () => {
+    switch (actualInputType) {
+      case "Search":
+        return {
+          showBackgroundColor: true,
+          showBorderColor: true,
+          showFontStyling: true,
+          showIconSettings: true,
+        };
+      default:
+        return {
+          showBackgroundColor: true,
+          showBorderColor: true,
+          showFontStyling: true,
+        };
     }
-  }, [actualInputType]);
+  };
+
+  const toolBoxProps = getToolBoxProps();
 
   return (
     <CustomizationLayout
@@ -124,6 +137,8 @@ const InputCustomization = () => {
           placeholderText={placeholderText}
           setPlaceholderText={setPlaceholderText}
           inputType={actualInputType}
+          onRevert={handleRevert}
+          {...toolBoxProps}
         />
       }
     />

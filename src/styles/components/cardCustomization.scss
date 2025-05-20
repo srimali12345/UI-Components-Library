@@ -1,6 +1,6 @@
 .code-block {
   background-color: #24242f;
-  color: #f8f8f2;
+  color: #ffffff;
   padding: 15px;
   border-radius: 8px;
   overflow-x: auto;
@@ -8,7 +8,6 @@
   font-size: 14px;
   line-height: 1.5;
   max-height: 300px;
-  margin: 20px;
 }
 
 .copy-btn {
@@ -207,7 +206,6 @@
   max-height: 90vh;
   overflow-y: auto;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  text-align: left !important;
 
   .modal-header {
     display: flex;
@@ -287,6 +285,9 @@
     padding: 0 20px 10px;
     border-bottom: 1px solid #e0e0e0;
   }
+}
+.card-modal {
+  text-align: left !important ;
 }
 
 .card-container {

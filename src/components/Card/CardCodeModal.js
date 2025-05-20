@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Copy } from "lucide-react";
 import { generateHTML, generateCSS, generateSCSS } from "./CardCodeGenerator";
 
-
 const CardCodeModal = ({
   cardType,
   cardStyles = {},
@@ -61,26 +60,27 @@ const CardCodeModal = ({
             style={{
               padding: "15px",
               borderBottom: `1px solid ${cardStyles.borderColor || "#e0e0e0"}`,
-              fontWeight: "bold"
+              fontWeight: "bold",
             }}
           >
             {cardStyles.headerText || "Header"}
           </div>
         )}
-        
+
         {isImageCard && (
           <div
             className="preview-card-image"
             style={{
               height: cardStyles.imageHeight || "200px",
               backgroundColor: "#e9e9e9",
-              backgroundImage: "url('https://source.unsplash.com/random/300x200/?nature')",
+              backgroundImage:
+                "url('https://source.unsplash.com/random/300x200/?nature')",
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
           ></div>
         )}
-        
+
         <div
           className="preview-card-body"
           style={{
@@ -97,7 +97,7 @@ const CardCodeModal = ({
               color: cardStyles.titleColor || "#000000",
               marginTop: 0,
               marginBottom: "10px",
-              fontFamily: cardStyles.fontFamily || "Arial, sans-serif"
+              fontFamily: cardStyles.fontFamily || "Arial, sans-serif",
             }}
           >
             {cardTitle}
@@ -106,8 +106,8 @@ const CardCodeModal = ({
             style={{
               fontSize: cardStyles.contentFontSize || "14px",
               lineHeight: cardStyles.contentLineHeight || "1.5",
-              marginBottom: (isActionCard || isPricingCard) ? "15px" : "0",
-              fontFamily: cardStyles.fontFamily || "Arial, sans-serif"
+              marginBottom: isActionCard || isPricingCard ? "15px" : "0",
+              fontFamily: cardStyles.fontFamily || "Arial, sans-serif",
             }}
           >
             {cardContent}
@@ -125,7 +125,8 @@ const CardCodeModal = ({
                   padding: "8px 16px",
                   border: "none",
                   borderRadius: "4px",
-                  backgroundColor: cardStyles.buttonBackgroundColor || "#f1f1f1",
+                  backgroundColor:
+                    cardStyles.buttonBackgroundColor || "#f1f1f1",
                   color: cardStyles.buttonTextColor || "#333333",
                   cursor: "pointer",
                 }}
@@ -138,7 +139,8 @@ const CardCodeModal = ({
                     padding: "8px 16px",
                     border: "none",
                     borderRadius: "4px",
-                    backgroundColor: cardStyles.primaryButtonBackgroundColor || "#4a6cf7",
+                    backgroundColor:
+                      cardStyles.primaryButtonBackgroundColor || "#4a6cf7",
                     color: cardStyles.primaryButtonTextColor || "#ffffff",
                     cursor: "pointer",
                   }}
@@ -149,7 +151,7 @@ const CardCodeModal = ({
             </div>
           )}
         </div>
-        
+
         {isBasicCard && (
           <div
             className="preview-card-footer"
@@ -157,7 +159,7 @@ const CardCodeModal = ({
               padding: "15px",
               borderTop: `1px solid ${cardStyles.borderColor || "#e0e0e0"}`,
               fontSize: "12px",
-              color: "#8E9196"
+              color: "#8E9196",
             }}
           >
             {cardStyles.footerText || "Footer"}
@@ -169,7 +171,7 @@ const CardCodeModal = ({
 
   return (
     <div className="modal-overlay">
-      <div className="modal">
+      <div className="modal card-modal">
         <div className="modal-header">
           <h3>Card - {cardType}</h3>
           <button className="close-btn" onClick={onClose}>
@@ -177,9 +179,7 @@ const CardCodeModal = ({
           </button>
         </div>
 
-        <div className="card-preview-container">
-          {renderCardPreview()}
-        </div>
+        <div className="card-preview-container">{renderCardPreview()}</div>
 
         <div className="tabs-copy-container">
           <div className="btn-group">

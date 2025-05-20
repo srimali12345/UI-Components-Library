@@ -39,6 +39,7 @@ const Favourite = () => {
  
 
   return (
+    
     <div className="favorites-container">
       <div className="favorites-header">
         <h2 className="component-title">Favorite Components</h2>
@@ -47,6 +48,7 @@ const Favourite = () => {
             className="clear-favorites-btn" 
             onClick={clearAllFavorites}
             title="Clear all favorites"
+            
           >
             Clear All
           </button>
@@ -76,7 +78,6 @@ const Favourite = () => {
                         className="btn-tool-wrap"
                         title="View code"
                         onClick={() => {
-                          // Handle code viewing logic
                           console.log("View code for", component.id);
                         }}
                       >
@@ -105,7 +106,9 @@ const Favourite = () => {
           </button>
         </div>
       )}
+      
     </div>
+    
   );
 };
 

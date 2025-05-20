@@ -1,25 +1,30 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-export const useComponentCustomization = (componentType, componentId, defaultStyles, defaultText) => {
+export const useComponentCustomization = (
+  componentType,
+  componentId,
+  defaultStyles,
+  defaultText = ""
+) => {
   // Create storage keys based on component type and ID
   const stylesStorageKey = `${componentType}-styles-${componentId}`;
   const textStorageKey = `${componentType}-text-${componentId}`;
-  
+
   // Load saved styles and text from localStorage on component mount
   const getSavedStyles = () => {
     try {
       const savedStyles = localStorage.getItem(stylesStorageKey);
       const savedText = localStorage.getItem(textStorageKey);
-      
+
       return {
         styles: savedStyles ? JSON.parse(savedStyles) : defaultStyles,
-        text: savedText || defaultText
+        text: savedText || defaultText,
       };
     } catch (error) {
       console.error("Error loading saved styles:", error);
       return {
         styles: defaultStyles,
-        text: defaultText
+        text: defaultText,
       };
     }
   };
@@ -30,25 +35,40 @@ export const useComponentCustomization = (componentType, componentId, defaultSty
 
   // Save changes to localStorage whenever they update
   useEffect(() => {
-    localStorage.setItem(stylesStorageKey, JSON.stringify(styles));
+    try {
+      localStorage.setItem(stylesStorageKey, JSON.stringify(styles));
+    } catch (error) {
+      console.error("Error saving styles to localStorage:", error);
+    }
   }, [styles, stylesStorageKey]);
-  
+
   useEffect(() => {
-    localStorage.setItem(textStorageKey, text);
+    if (text) {
+      try {
+        localStorage.setItem(textStorageKey, text);
+      } catch (error) {
+        console.error("Error saving text to localStorage:", error);
+      }
+    }
   }, [text, textStorageKey]);
 
   // Revert function to restore default settings
   const handleRevert = () => {
-    // Clear saved styles from localStorage
-    localStorage.removeItem(stylesStorageKey);
-    localStorage.removeItem(textStorageKey);
-    
-    // Reset to default styles and text
-    setStyles(defaultStyles);
-    setText(defaultText);
-    
-    // Show toast notification
-    alert(`${componentType} ${componentId} has been reset to default styling`);
+    try {
+      // Clear saved styles from localStorage
+      localStorage.removeItem(stylesStorageKey);
+      localStorage.removeItem(textStorageKey);
+
+      // Reset to default styles and text
+      setStyles(defaultStyles);
+      setText(defaultText);
+
+      console.log(
+        `${componentType} ${componentId} has been reset to default styling`
+      );
+    } catch (error) {
+      console.error("Error reverting to default styles:", error);
+    }
   };
 
   return [styles, setStyles, text, setText, handleRevert];

@@ -9,12 +9,12 @@ import { useNavigate } from "react-router-dom";
 import { ChevronLeft, MoreHorizontal } from "lucide-react";
 import { templates } from "./NavbarList";
 import CustomizationLayout from "../../commonComponents/CustomizationLayout";
+import { useComponentCustomization } from "../../contexts/ComponentCustomizationSaveContext";
 
 const NavbarCustomizer = ({ onSelect, template }) => {
-  const navigate = useNavigate();
   const location = useLocation();
   const selectedTemplate = location.state?.template;
-  const [navbarStyle, setNavbarStyle] = useState({
+  const defaultNavbarStyle = {
     backgroundColor: "#1A1F2C",
     textColor: "#ffffff",
     activeColor: "#9b87f5",
@@ -39,15 +39,51 @@ const NavbarCustomizer = ({ onSelect, template }) => {
     SearchBorderWidth: "1px",
     SearchBarBorderColor: "#e5e7eb",
     searchBorderRadius: "6px",
-  });
-
-  const [navItems, setNavItems] = useState([
+  };
+  const defaultNavItems = [
     { id: 1, text: "Item1", active: true, url: "/" },
     { id: 2, text: "Item2", active: false, url: "/item2" },
     { id: 3, text: "Item3", active: false, url: "/item3" },
-  ]);
-
+  ];
+  const navbarType = selectedTemplate?.name || "Custom";
   const [isCodeVisible, setIsCodeVisible] = useState(false);
+
+  // Use the hook with all the required parameters
+  const [navbarStyle, setNavbarStyle, navbarText, setNavbarText, handleRevert] =
+    useComponentCustomization(
+      "navbar",
+      navbarType,
+      selectedTemplate
+        ? { ...defaultNavbarStyle, ...selectedTemplate.style }
+        : defaultNavbarStyle,
+      ""
+    );
+
+  // Initialize navItems from localStorage if available, otherwise use default or template items
+  const navItemsStorageKey = `navbar-items-${navbarType}`;
+
+  const getInitialNavItems = () => {
+    try {
+      const savedItems = localStorage.getItem(navItemsStorageKey);
+      return savedItems
+        ? JSON.parse(savedItems)
+        : selectedTemplate?.navItems || defaultNavItems;
+    } catch (error) {
+      console.error("Error loading saved nav items:", error);
+      return selectedTemplate?.navItems || defaultNavItems;
+    }
+  };
+
+  const [navItems, setNavItems] = useState(getInitialNavItems());
+
+  // Save navItems to localStorage whenever they change
+  useEffect(() => {
+    try {
+      localStorage.setItem(navItemsStorageKey, JSON.stringify(navItems));
+    } catch (error) {
+      console.error("Error saving nav items to localStorage:", error);
+    }
+  }, [navItems, navItemsStorageKey]);
 
   const handleCopy = (code) => {
     navigator.clipboard.writeText(code);
@@ -70,7 +106,7 @@ const NavbarCustomizer = ({ onSelect, template }) => {
       setNavbarStyle((prev) => ({ ...prev, ...selectedTemplate.style }));
       setNavItems(selectedTemplate.navItems);
     }
-  }, [selectedTemplate]);
+  }, [selectedTemplate, setNavbarStyle]);
 
   const [activeTab, setActiveTab] = useState("html");
 
@@ -95,6 +131,15 @@ const NavbarCustomizer = ({ onSelect, template }) => {
         active: item.id === itemId,
       }))
     );
+  };
+
+  // Custom revert handler that also resets nav items
+  const handleCompleteRevert = () => {
+    handleRevert();
+
+    // Reset navItems and remove from localStorage
+    localStorage.removeItem(navItemsStorageKey);
+    setNavItems(selectedTemplate?.navItems || defaultNavItems);
   };
 
   return (
@@ -127,6 +172,7 @@ const NavbarCustomizer = ({ onSelect, template }) => {
             onDeleteNavItem={handleDeleteNavItem}
             onSetActiveItem={handleSetActiveItem}
             setNavItems={setNavItems}
+            onRevert={handleCompleteRevert}
           />
         }
       />

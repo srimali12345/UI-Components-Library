@@ -131,17 +131,15 @@
         padding: 20px;
 
         .code-viewer {
-          background-color: #f6f6f6;
           border-radius: 6px;
 
           .code-block {
             position: relative;
             margin-top: 10px;
-
+            color: #ffffff;
+            background-color: #24242f;
             pre {
-              background-color: #f6f6f6;
               border-radius: 6px;
-              color: #333;
               font-family: "Poppins", sans-serif;
               font-size: 13px;
               margin: 0;

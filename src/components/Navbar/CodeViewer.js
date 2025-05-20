@@ -1,35 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Copy } from "lucide-react";
 
-const CodeViewer = ({ html, css, sass }) => {
-  const getActiveCode = () => {
-    switch (activeTab) {
-      case "html":
-        return html;
-      case "css":
-        return css;
-      case "sass":
-        return sass;
-      default:
-        return "";
-    }
-  };
-
-  const copyToClipboard = async () => {
-    try {
-      await navigator.clipboard.writeText(getActiveCode());
-      alert("Code copied to clipboard");
-    } catch (err) {
-      console.error("Failed to copy: ", err);
-      alert("Failed to copy code");
-    }
-  };
+const CodeViewer = ({ html = "", css = "", sass = "" }) => {
   const [activeTab, setActiveTab] = useState("html");
+
+  const handleCopy = (code) => {
+    navigator.clipboard.writeText(code);
+    alert("Code copied!");
+  };
 
   return (
     <>
-    <div className=" navbar-code">
-    <div className="btn-group">
+      <div className="btn-group">
         <div
           className={`btn-outline ${activeTab === "html" ? "active" : ""}`}
           onClick={() => setActiveTab("html")}
@@ -49,15 +31,34 @@ const CodeViewer = ({ html, css, sass }) => {
           SCSS
         </div>
       </div>
-    <button onClick={copyToClipboard} title="Copy to clipboard">
-          <Copy size={18} />
-        </button>
-    </div>
-     
-      <div className="relative-content">
-      <pre>
-         {getActiveCode()}
-        </pre>
+
+      <div className="code-viewer">
+        {activeTab === "html" && (
+          <div className="code-block">
+            <pre>{html}</pre>
+            <button className="copy-button" onClick={() => handleCopy(html)}>
+              <Copy size={16} />
+            </button>
+          </div>
+        )}
+
+        {activeTab === "css" && (
+          <div className="code-block">
+            <pre>{css}</pre>
+            <button className="copy-button" onClick={() => handleCopy(css)}>
+              <Copy size={16} />
+            </button>
+          </div>
+        )}
+
+        {activeTab === "sass" && (
+          <div className="code-block">
+            <pre>{sass}</pre>
+            <button className="copy-button" onClick={() => handleCopy(sass)}>
+              <Copy size={16} />
+            </button>
+          </div>
+        )}
       </div>
     </>
   );

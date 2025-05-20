@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import LogoUploader from "./LogoUploader";
-import { ChevronDown, ChevronRight, Bell, User } from "lucide-react";
+import { ChevronDown, ChevronRight, RotateCcw } from "lucide-react";
 import NavItemEditor from "./NavItemEditor";
 
 const NavbarToolBox = ({
@@ -12,6 +12,7 @@ const NavbarToolBox = ({
   onDeleteNavItem,
   onSetActiveItem,
   setNavItems,
+  onRevert,
 }) => {
   const [expandedSections, setExpandedSections] = useState({
     background: false,
@@ -131,10 +132,10 @@ const NavbarToolBox = ({
                     type="color"
                     value={navbarStyle.backgroundColor}
                     onChange={(e) =>
-                      setNavbarStyle({
-                        ...navbarStyle,
+                      setNavbarStyle((prev) => ({
+                        ...prev,
                         backgroundColor: e.target.value,
-                      })
+                      }))
                     }
                   />
                 </div>
@@ -161,10 +162,10 @@ const NavbarToolBox = ({
                   type="color"
                   value={navbarStyle.textColor}
                   onChange={(e) =>
-                    setNavbarStyle({
-                      ...navbarStyle,
+                    setNavbarStyle((prev) => ({
+                      ...prev,
                       textColor: e.target.value,
-                    })
+                    }))
                   }
                 />
               </div>
@@ -174,10 +175,10 @@ const NavbarToolBox = ({
                   type="color"
                   value={navbarStyle.activeColor}
                   onChange={(e) =>
-                    setNavbarStyle({
-                      ...navbarStyle,
+                    setNavbarStyle((prev) => ({
+                      ...prev,
                       activeColor: e.target.value,
-                    })
+                    }))
                   }
                 />
               </div>
@@ -187,10 +188,10 @@ const NavbarToolBox = ({
                   type="color"
                   value={navbarStyle.hoverColor || "#ffffff"}
                   onChange={(e) =>
-                    setNavbarStyle({
-                      ...navbarStyle,
+                    setNavbarStyle((prev) => ({
+                      ...prev,
                       hoverColor: e.target.value,
-                    })
+                    }))
                   }
                 />
               </div>
@@ -216,10 +217,10 @@ const NavbarToolBox = ({
                   type="color"
                   value={navbarStyle.borderColor || "#6d45ff"}
                   onChange={(e) =>
-                    setNavbarStyle({
-                      ...navbarStyle,
+                    setNavbarStyle((prev) => ({
+                      ...prev,
                       borderColor: e.target.value,
-                    })
+                    }))
                   }
                 />
               </div>
@@ -507,12 +508,15 @@ const NavbarToolBox = ({
                     <label> SearchBar Background Color:</label>
                     <input
                       type="color"
-                      value={navbarStyle.searchBarBackgroundColor}
+                      value={
+                        navbarStyle.searchBarBackgroundColor ||
+                        "rgba(255, 255, 255, 0.1)"
+                      }
                       onChange={(e) =>
-                        setNavbarStyle({
-                          ...navbarStyle,
+                        setNavbarStyle((prev) => ({
+                          ...prev,
                           searchBarBackgroundColor: e.target.value,
-                        })
+                        }))
                       }
                     />
                   </div>
@@ -522,10 +526,10 @@ const NavbarToolBox = ({
                       type="color"
                       value={navbarStyle.SearchBarBorderColor || "#cccccc"}
                       onChange={(e) =>
-                        setNavbarStyle({
-                          ...navbarStyle,
+                        setNavbarStyle((prev) => ({
+                          ...prev,
                           SearchBarBorderColor: e.target.value,
-                        })
+                        }))
                       }
                     />
                   </div>
@@ -535,12 +539,12 @@ const NavbarToolBox = ({
                     <input
                       type="number"
                       min="0"
-                      value={parseInt(navbarStyle.SearchBorderWidth)}
+                      value={parseInt(navbarStyle.SearchBorderWidth) || 1}
                       onChange={(e) =>
-                        setNavbarStyle({
-                          ...navbarStyle,
+                        setNavbarStyle((prev) => ({
+                          ...prev,
                           SearchBorderWidth: `${e.target.value}px`,
-                        })
+                        }))
                       }
                     />
                   </div>
@@ -554,10 +558,10 @@ const NavbarToolBox = ({
                           parseInt(navbarStyle.searchBorderTopLeftRadius) || 6
                         }
                         onChange={(e) =>
-                          setNavbarStyle({
-                            ...navbarStyle,
+                          setNavbarStyle((prev) => ({
+                            ...prev,
                             searchBorderTopLeftRadius: `${e.target.value}px`,
-                          })
+                          }))
                         }
                         placeholder="TL"
                       />
@@ -568,10 +572,10 @@ const NavbarToolBox = ({
                           parseInt(navbarStyle.searchBorderTopRightRadius) || 6
                         }
                         onChange={(e) =>
-                          setNavbarStyle({
-                            ...navbarStyle,
+                          setNavbarStyle((prev) => ({
+                            ...prev,
                             searchBorderTopRightRadius: `${e.target.value}px`,
-                          })
+                          }))
                         }
                         placeholder="TR"
                       />
@@ -583,10 +587,10 @@ const NavbarToolBox = ({
                           6
                         }
                         onChange={(e) =>
-                          setNavbarStyle({
-                            ...navbarStyle,
+                          setNavbarStyle((prev) => ({
+                            ...prev,
                             searchBorderBottomLeftRadius: `${e.target.value}px`,
-                          })
+                          }))
                         }
                         placeholder="BL"
                       />
@@ -598,10 +602,10 @@ const NavbarToolBox = ({
                           6
                         }
                         onChange={(e) =>
-                          setNavbarStyle({
-                            ...navbarStyle,
+                          setNavbarStyle((prev) => ({
+                            ...prev,
                             searchBorderBottomRightRadius: `${e.target.value}px`,
-                          })
+                          }))
                         }
                         placeholder="BR"
                       />
@@ -635,6 +639,17 @@ const NavbarToolBox = ({
               />
             </div>
           )}
+        </div>
+
+        <div className="revert-section">
+          <button
+            onClick={onRevert}
+            className="revert-button"
+            title="Revert to default styles"
+          >
+            <RotateCcw size={16} />
+            <span>Revert</span>
+          </button>
         </div>
       </div>
     </div>

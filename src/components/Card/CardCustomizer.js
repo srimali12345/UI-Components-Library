@@ -4,6 +4,7 @@ import CardPreview from "./CardPreview";
 import CardCodePanel from "./CardCodePanel";
 import CardToolBox from "./CardToolBox";
 import CustomizationLayout from "../../commonComponents/CustomizationLayout";
+import { useComponentCustomization } from "../../contexts/ComponentCustomizationSaveContext";
 import "../../styles/components/cardCustomization.scss";
 
 const CardCustomization = () => {
@@ -103,7 +104,9 @@ const CardCustomization = () => {
     cardDefaults[actualCardType] || cardDefaults.Basic
   );
   const [cardTitle, setCardTitle] = useState(`${actualCardType} Card `);
-  const [cardContent, setCardContent] = useState(`This is a ${actualCardType} card with sample content.`);
+  const [cardContent, setCardContent] = useState(
+    `This is a ${actualCardType} card with sample content.`
+  );
 
   useEffect(() => {
     if (cardDefaults[actualCardType]) {

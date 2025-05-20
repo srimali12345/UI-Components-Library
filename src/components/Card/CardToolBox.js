@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ChevronDown, ChevronRight } from "lucide-react";
+import { ChevronDown, ChevronRight, RotateCcw } from "lucide-react";
 
 const CardToolBox = ({
   cardStyles,
@@ -9,6 +9,7 @@ const CardToolBox = ({
   cardContent,
   setCardContent,
   cardType,
+  onRevert,
 }) => {
   const [fontList] = useState([
     "Arial",
@@ -532,7 +533,9 @@ const CardToolBox = ({
                       <label>Primary Button Background:</label>
                       <input
                         type="color"
-                        value={cardStyles.primaryButtonBackgroundColor || "#4a6cf7"}
+                        value={
+                          cardStyles.primaryButtonBackgroundColor || "#4a6cf7"
+                        }
                         onChange={(e) =>
                           setCardStyles((prev) => ({
                             ...prev,
@@ -595,6 +598,17 @@ const CardToolBox = ({
               </div>
             </div>
           )}
+
+          <div className="revert-section">
+            <button
+              onClick={onRevert}
+              className="revert-button"
+              title="Revert to default styles"
+            >
+              <RotateCcw size={16} />
+              <span>Revert</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>

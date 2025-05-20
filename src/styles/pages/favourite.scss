@@ -87,8 +87,29 @@
   margin-top: 10px;
   width: 34px;
 }
+.revert-section {
+  display: flex;
+  justify-content: flex-end;
+  .revert-button {
+    display: flex;
+    gap: 6px;
+    padding: 6px 12px;
+    background-color: #fefefe;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    width: 100px;
+    margin-top: 20px;
 
-// Responsive styles
+    svg {
+      color: #666;
+      transition: color 0.2s ease;
+    }
+  }
+}
+
 @media (max-width: 768px) {
   .favorites-container {
     padding: 15px;
