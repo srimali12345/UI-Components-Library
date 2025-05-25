@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 
 export const useComponentCustomization = (
@@ -5,12 +6,14 @@ export const useComponentCustomization = (
   componentId,
   defaultStyles,
   defaultTitle = "",
-  defaultContent = ""
+  defaultContent = "",
+  defaultNavItems = []
 ) => {
   // Create storage keys based on component type and ID
   const stylesStorageKey = `${componentType}-styles-${componentId}`;
   const titleStorageKey = `${componentType}-title-${componentId}`;
   const contentStorageKey = `${componentType}-content-${componentId}`;
+  const navItemsStorageKey = `${componentType}-navItems-${componentId}`;
 
   // Load saved data from localStorage on component mount
   const getSavedData = () => {
@@ -18,11 +21,13 @@ export const useComponentCustomization = (
       const savedStyles = localStorage.getItem(stylesStorageKey);
       const savedTitle = localStorage.getItem(titleStorageKey);
       const savedContent = localStorage.getItem(contentStorageKey);
+      const savedNavItems = localStorage.getItem(navItemsStorageKey);
 
       return {
         styles: savedStyles ? JSON.parse(savedStyles) : defaultStyles,
         title: savedTitle || defaultTitle,
         content: savedContent || defaultContent,
+        navItems: savedNavItems ? JSON.parse(savedNavItems) : defaultNavItems,
       };
     } catch (error) {
       console.error("Error loading saved data:", error);
@@ -30,6 +35,7 @@ export const useComponentCustomization = (
         styles: defaultStyles,
         title: defaultTitle,
         content: defaultContent,
+        navItems: defaultNavItems,
       };
     }
   };
@@ -38,6 +44,7 @@ export const useComponentCustomization = (
   const [styles, setStyles] = useState(savedData.styles);
   const [title, setTitle] = useState(savedData.title);
   const [content, setContent] = useState(savedData.content);
+  const [navItems, setNavItems] = useState(savedData.navItems);
 
   // Save changes to localStorage whenever they update
   useEffect(() => {
@@ -68,6 +75,14 @@ export const useComponentCustomization = (
     }
   }, [content, contentStorageKey]);
 
+  useEffect(() => {
+    try {
+      localStorage.setItem(navItemsStorageKey, JSON.stringify(navItems));
+    } catch (error) {
+      console.error("Error saving navItems to localStorage:", error);
+    }
+  }, [navItems, navItemsStorageKey]);
+
   // Revert function to restore default settings
   const handleRevert = () => {
     try {
@@ -75,11 +90,13 @@ export const useComponentCustomization = (
       localStorage.removeItem(stylesStorageKey);
       localStorage.removeItem(titleStorageKey);
       localStorage.removeItem(contentStorageKey);
+      localStorage.removeItem(navItemsStorageKey);
 
       // Reset to defaults
       setStyles(defaultStyles);
       setTitle(defaultTitle);
       setContent(defaultContent);
+      setNavItems(defaultNavItems);
 
       console.log(
         `${componentType} ${componentId} has been reset to default settings`
@@ -96,6 +113,8 @@ export const useComponentCustomization = (
     setTitle,
     content,
     setContent,
+    navItems,
+    setNavItems,
     handleRevert,
   ];
 };
