@@ -1,5 +1,4 @@
-
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 
 export const useComponentCustomization = (
   componentType,
@@ -15,77 +14,133 @@ export const useComponentCustomization = (
   const contentStorageKey = `${componentType}-content-${componentId}`;
   const navItemsStorageKey = `${componentType}-navItems-${componentId}`;
 
+  // State for saving status
+  const [savingState, setSavingState] = useState("idle");
+  const [hasPreviouslySaved, setHasPreviouslySaved] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
+  const [hasStartedCustomizing, setHasStartedCustomizing] = useState(false);
+
+  // Use refs to store timeout IDs
+  const timeoutRefs = useRef({});
+
+  // Initialize state with defaults first
+  const [styles, setStyles] = useState(defaultStyles);
+  const [title, setTitle] = useState(defaultTitle);
+  const [content, setContent] = useState(defaultContent);
+  const [navItems, setNavItems] = useState(defaultNavItems);
+
   // Load saved data from localStorage on component mount
-  const getSavedData = () => {
+  useEffect(() => {
     try {
       const savedStyles = localStorage.getItem(stylesStorageKey);
       const savedTitle = localStorage.getItem(titleStorageKey);
       const savedContent = localStorage.getItem(contentStorageKey);
       const savedNavItems = localStorage.getItem(navItemsStorageKey);
 
-      return {
-        styles: savedStyles ? JSON.parse(savedStyles) : defaultStyles,
-        title: savedTitle || defaultTitle,
-        content: savedContent || defaultContent,
-        navItems: savedNavItems ? JSON.parse(savedNavItems) : defaultNavItems,
-      };
+      // Check if any data was previously saved
+      const hasAnyPreviousData = savedStyles || savedTitle || savedContent || savedNavItems;
+      setHasPreviouslySaved(!!hasAnyPreviousData);
+
+      // If there's previously saved data, show "saved" status immediately
+      if (hasAnyPreviousData) {
+        setSavingState("saved");
+      }
+
+      // Only update states if there's saved data
+      if (savedStyles) {
+        setStyles(JSON.parse(savedStyles));
+      }
+      if (savedTitle) {
+        setTitle(savedTitle);
+      }
+      if (savedContent) {
+        setContent(savedContent);
+      }
+      if (savedNavItems) {
+        setNavItems(JSON.parse(savedNavItems));
+      }
+
+      setIsInitialized(true);
     } catch (error) {
       console.error("Error loading saved data:", error);
-      return {
-        styles: defaultStyles,
-        title: defaultTitle,
-        content: defaultContent,
-        navItems: defaultNavItems,
-      };
+      setIsInitialized(true);
     }
-  };
+  }, [stylesStorageKey, titleStorageKey, contentStorageKey, navItemsStorageKey]);
 
-  const savedData = getSavedData();
-  const [styles, setStyles] = useState(savedData.styles);
-  const [title, setTitle] = useState(savedData.title);
-  const [content, setContent] = useState(savedData.content);
-  const [navItems, setNavItems] = useState(savedData.navItems);
-
-  // Save changes to localStorage whenever they update
-  useEffect(() => {
-    try {
-      localStorage.setItem(stylesStorageKey, JSON.stringify(styles));
-    } catch (error) {
-      console.error("Error saving styles to localStorage:", error);
+  // Debounced save function with stable reference
+  const debouncedSave = useCallback((key, value, delay = 1000) => {
+    // Clear existing timeout for this key
+    if (timeoutRefs.current[key]) {
+      clearTimeout(timeoutRefs.current[key]);
     }
-  }, [styles, stylesStorageKey]);
 
-  useEffect(() => {
-    if (title) {
+    setSavingState("saving");
+    // Mark that user has started customizing
+    setHasStartedCustomizing(true);
+
+    timeoutRefs.current[key] = setTimeout(() => {
       try {
-        localStorage.setItem(titleStorageKey, title);
+        if (typeof value === "object") {
+          localStorage.setItem(key, JSON.stringify(value));
+        } else {
+          localStorage.setItem(key, value);
+        }
+        setSavingState("saved");
       } catch (error) {
-        console.error("Error saving title to localStorage:", error);
+        console.error(`Error saving ${key} to localStorage:`, error);
+        setSavingState("idle");
       }
-    }
-  }, [title, titleStorageKey]);
+    }, delay);
+
+    return timeoutRefs.current[key];
+  }, []);
+
+  // Save changes to localStorage whenever they update (only after initialization)
+  useEffect(() => {
+    if (!isInitialized) return;
+
+    const timeoutId = debouncedSave(stylesStorageKey, styles);
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, [styles, stylesStorageKey, debouncedSave, isInitialized]);
 
   useEffect(() => {
-    if (content) {
-      try {
-        localStorage.setItem(contentStorageKey, content);
-      } catch (error) {
-        console.error("Error saving content to localStorage:", error);
-      }
-    }
-  }, [content, contentStorageKey]);
+    if (!isInitialized || title === defaultTitle) return;
+
+    const timeoutId = debouncedSave(titleStorageKey, title);
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, [title, titleStorageKey, defaultTitle, debouncedSave, isInitialized]);
 
   useEffect(() => {
-    try {
-      localStorage.setItem(navItemsStorageKey, JSON.stringify(navItems));
-    } catch (error) {
-      console.error("Error saving navItems to localStorage:", error);
-    }
-  }, [navItems, navItemsStorageKey]);
+    if (!isInitialized || content === defaultContent) return;
+
+    const timeoutId = debouncedSave(contentStorageKey, content);
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, [content, contentStorageKey, defaultContent, debouncedSave, isInitialized]);
+
+  useEffect(() => {
+    if (!isInitialized) return;
+
+    const timeoutId = debouncedSave(navItemsStorageKey, navItems);
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, [navItems, navItemsStorageKey, debouncedSave, isInitialized]);
 
   // Revert function to restore default settings
-  const handleRevert = () => {
+  const handleRevert = useCallback(() => {
     try {
+      // Clear all timeouts
+      Object.values(timeoutRefs.current).forEach(timeoutId => {
+        if (timeoutId) clearTimeout(timeoutId);
+      });
+      timeoutRefs.current = {};
+
       // Clear saved data from localStorage
       localStorage.removeItem(stylesStorageKey);
       localStorage.removeItem(titleStorageKey);
@@ -97,6 +152,9 @@ export const useComponentCustomization = (
       setTitle(defaultTitle);
       setContent(defaultContent);
       setNavItems(defaultNavItems);
+      setHasPreviouslySaved(false);
+      setHasStartedCustomizing(false);
+      setSavingState("idle");
 
       console.log(
         `${componentType} ${componentId} has been reset to default settings`
@@ -104,7 +162,7 @@ export const useComponentCustomization = (
     } catch (error) {
       console.error("Error reverting to defaults:", error);
     }
-  };
+  }, [componentType, componentId, defaultStyles, defaultTitle, defaultContent, defaultNavItems, stylesStorageKey, titleStorageKey, contentStorageKey, navItemsStorageKey]);
 
   return [
     styles,
@@ -116,5 +174,7 @@ export const useComponentCustomization = (
     navItems,
     setNavItems,
     handleRevert,
+    savingState,
+    hasPreviouslySaved,
   ];
 };

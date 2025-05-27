@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Copy, EyeOff, Eye } from "lucide-react";
@@ -56,7 +57,9 @@ const NavbarCustomizer = () => {
     setNavbarContent,
     navItems,
     setNavItems,
-    handleRevert
+    handleRevert,
+    savingState,
+    hasPreviouslySaved
   ] = useComponentCustomization(
     "navbar",
     selectedTemplate ? selectedTemplate.id : "custom",
@@ -102,6 +105,8 @@ const NavbarCustomizer = () => {
     <CustomizationLayout
       itemLabel={navbarTitle}
       activeTabOnBack="navbar"
+      savingState={savingState}
+      hasPreviouslySaved={hasPreviouslySaved}
       mainContent={
         <PreviewPane
           navbarStyle={navbarStyle}
@@ -118,17 +123,17 @@ const NavbarCustomizer = () => {
         />
       }
       toolBox={
-          <NavbarToolBox
-            navbarStyle={navbarStyle}
-            setNavbarStyle={setNavbarStyle}
-            navItems={navItems}
-            onAddNavItem={handleAddNavItem}
-            onUpdateNavItem={handleUpdateNavItem}
-            onDeleteNavItem={handleDeleteNavItem}
-            onSetActiveItem={handleSetActiveItem}
-            setNavItems={setNavItems}
-            onRevert={handleRevert}
-          />
+        <NavbarToolBox
+          navbarStyle={navbarStyle}
+          setNavbarStyle={setNavbarStyle}
+          navItems={navItems}
+          onAddNavItem={handleAddNavItem}
+          onUpdateNavItem={handleUpdateNavItem}
+          onDeleteNavItem={handleDeleteNavItem}
+          onSetActiveItem={handleSetActiveItem}
+          setNavItems={setNavItems}
+          onRevert={handleRevert}
+        />
       }
     />
   );

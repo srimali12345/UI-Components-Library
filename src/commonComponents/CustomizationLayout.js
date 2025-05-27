@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ChevronLeft, Eye, EyeOff } from "lucide-react";
+import { ChevronLeft, Eye, EyeOff, CheckCircle } from "lucide-react";
 
 const CustomizationLayout = ({
   mainContent,
@@ -10,12 +10,43 @@ const CustomizationLayout = ({
   backRoute = "/dashboard",
   itemLabel = "Custom Item",
   activeTabOnBack = "buttons",
+  savingState = "idle",
+  hasPreviouslySaved = false,
 }) => {
   const navigate = useNavigate();
   const [isCodeVisible, setIsCodeVisible] = useState(false);
 
   const toggleCodeVisibility = () => {
     setIsCodeVisible(!isCodeVisible);
+  };
+
+  const renderSavingStatus = () => {
+    if (hasPreviouslySaved && savingState === "idle") {
+      return (
+        <div className="flex-wrap">
+          <CheckCircle size={16} className="mr-1" />
+          <span>Previously saved</span>
+        </div>
+      );
+    }
+
+    if (savingState === "saving") {
+      return (
+        <div className="flex-wrap">
+          <span>Saving...</span>
+        </div>
+      );
+    }
+
+    if (savingState === "saved") {
+      return (
+        <div className="flex-wrap">
+          <span>Saved</span>
+        </div>
+      );
+    }
+
+    return null;
   };
 
   return (
@@ -35,6 +66,7 @@ const CustomizationLayout = ({
               <span>{pageTitle}</span>
             </div>
             <div className="text-gray">{itemLabel}</div>
+            {renderSavingStatus()}
           </div>
           <div className="middle-section">{mainContent}</div>
         </div>
