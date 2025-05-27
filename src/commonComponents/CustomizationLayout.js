@@ -20,34 +20,29 @@ const CustomizationLayout = ({
     setIsCodeVisible(!isCodeVisible);
   };
 
-  const renderSavingStatus = () => {
-    if (hasPreviouslySaved && savingState === "idle") {
-      return (
-        <div className="flex-wrap">
-          <CheckCircle size={16} className="mr-1" />
-          <span>Previously saved</span>
-        </div>
-      );
-    }
+ const renderSavingStatus = () => {
+  if (savingState === "saving") {
+    return (
+      <div className="flex-wrap saving-status saving">
+        <span>Saving...</span>
+      </div>
+    );
+  }
 
-    if (savingState === "saving") {
-      return (
-        <div className="flex-wrap">
-          <span>Saving...</span>
-        </div>
-      );
-    }
+  if (savingState === "saved") {
+    return (
+      <div className="flex-wrap saving-status saved">
+        <CheckCircle size={16} className="mr-1" />
+        <span>Saved</span>
+      </div>
+    );
+  }
 
-    if (savingState === "saved") {
-      return (
-        <div className="flex-wrap">
-          <span>Saved</span>
-        </div>
-      );
-    }
+  
 
-    return null;
-  };
+  return null;
+};
+
 
   return (
     <div className="main-custom-wrap">

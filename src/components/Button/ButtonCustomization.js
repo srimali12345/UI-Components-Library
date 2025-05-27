@@ -59,10 +59,14 @@ const ButtonCustomization = () => {
 
   const [
     buttonStyles,
-    setButtonStyles,
-    buttonText,
-    setButtonText,
-    handleRevert,
+  setButtonStyles,
+  buttonText,
+  setButtonText,
+  , , 
+  , , 
+  handleRevert,
+  savingState,
+  hasPreviouslySaved
   ] = useComponentCustomization(
     "button",
     actualButtonType,
@@ -102,6 +106,8 @@ const ButtonCustomization = () => {
       <CustomizationLayout
         activeTabOnBack="buttons"
         itemLabel={`BTN1 - ${buttonType || "Primary"} Button`}
+        savingState={savingState}
+        hasPreviouslySaved={hasPreviouslySaved}
         mainContent={
           <ButtonPreview
             buttonStyles={buttonStyles}
