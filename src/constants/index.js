@@ -148,3 +148,9 @@ export const navbarDefaultStyles = {
   SearchBarBorderColor: "#e5e7eb",
   searchBorderRadius: "6px",
 };
+
+export const buttonTypes = [
+  { type: "Primary", label: "Primary Button" },
+  { type: "Outline", label: "Outline Button" },
+  { type: "Link", label: "Link Button" }
+];

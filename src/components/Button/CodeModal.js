@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { Copy } from "lucide-react";
-import { generateHTML, generateCSS, generateSCSS, generateBorderRadius} from "./CodeGenerator";
+import {
+  generateHTML,
+  generateCSS,
+  generateSCSS,
+  generateBorderRadius,
+} from "./CodeGenerator";
 
 const CodeModal = ({ buttonType, buttonStyles = {}, buttonText, onClose }) => {
   const [activeTab, setActiveTab] = useState("css");
@@ -24,38 +29,55 @@ const CodeModal = ({ buttonType, buttonStyles = {}, buttonText, onClose }) => {
     alert("Code copied!");
   };
 
+  // Apply ALL styles from buttonStyles without any type-specific overrides
   const previewButtonStyle = {
-    backgroundColor:
-      buttonType === "Primary"
-        ? buttonStyles.backgroundColor || "#6d45ff"
-        : buttonType === "Outline"
-        ? "transparent"
-        : "transparent",
-    color:
-      buttonStyles.color || (buttonType === "Primary" ? "#ffffff" : "#6d45ff"),
+    backgroundColor: buttonStyles.backgroundColor || "#6d45ff",
+    color: buttonStyles.color || "#ffffff",
     border:
-      buttonType === "Link"
+      buttonStyles.borderWidth && buttonStyles.borderWidth !== "0px"
+        ? `${buttonStyles.borderWidth} solid ${
+            buttonStyles.borderColor || "#6d45ff"
+          }`
+        : buttonStyles.borderWidth === "0px"
         ? "none"
-        : buttonType === "Primary"
-        ? "none"
-        : `${
-            buttonStyles.borderWidth ||
-            (buttonType === "Outline" ? "2px" : "0px")
-          } solid ${buttonStyles.borderColor || "#6d45ff"}`,
+        : "none",
     borderRadius: generateBorderRadius(buttonStyles),
     fontWeight: buttonStyles.fontWeight || "normal",
     fontSize: buttonStyles.fontSize || "16px",
+    fontFamily: buttonStyles.fontFamily || "Arial",
     height: buttonStyles.height || "40px",
     width: buttonStyles.width || "auto",
-    padding: "6px 16px",
-    fontFamily: buttonStyles.fontFamily || "Arial",
+    padding: buttonStyles.padding || "6px 16px",
+    textDecoration: buttonStyles.textDecoration || "none",
+    cursor: "pointer",
     display: "inline-flex",
     alignItems: "center",
     justifyContent: "center",
-    textDecoration:
-      buttonType === "Link" && buttonStyles.textDecoration === "underline"
-        ? "underline"
-        : "none",
+    transition: "all 0.2s ease-in-out",
+    outline: "none",
+    // Apply any additional custom properties
+    ...Object.keys(buttonStyles).reduce((acc, key) => {
+      // Include any other style properties that might be saved
+      if (
+        ![
+          "backgroundColor",
+          "color",
+          "borderWidth",
+          "borderColor",
+          "borderRadius",
+          "fontWeight",
+          "fontSize",
+          "fontFamily",
+          "height",
+          "width",
+          "padding",
+          "textDecoration",
+        ].includes(key)
+      ) {
+        acc[key] = buttonStyles[key];
+      }
+      return acc;
+    }, {}),
   };
 
   return (
@@ -74,7 +96,7 @@ const CodeModal = ({ buttonType, buttonStyles = {}, buttonText, onClose }) => {
               style={previewButtonStyle}
               className={`dashboard-btn ${buttonType}`}
             >
-              {buttonText || buttonType || "Click Me"} 
+              {buttonText || buttonType || "Click Me"}
             </button>
           </div>
         </div>

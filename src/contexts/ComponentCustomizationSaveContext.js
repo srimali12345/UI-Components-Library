@@ -29,6 +29,14 @@ export const useComponentCustomization = (
   const [content, setContent] = useState(defaultContent);
   const [navItems, setNavItems] = useState(defaultNavItems);
 
+  // Function to dispatch custom events for style updates
+  const dispatchStyleUpdate = useCallback((componentType, componentId) => {
+    const event = new CustomEvent('stylesUpdated', {
+      detail: { componentType, componentId }
+    });
+    window.dispatchEvent(event);
+  }, []);
+
   // Load saved data from localStorage on component mount
   useEffect(() => {
     try {
@@ -46,9 +54,10 @@ export const useComponentCustomization = (
         setSavingState("saved");
       }
 
-      // Only update states if there's saved data
+      // Only update states if there's saved data, and merge with defaults properly
       if (savedStyles) {
-        setStyles(JSON.parse(savedStyles));
+        const parsedStyles = JSON.parse(savedStyles);
+        setStyles({ ...defaultStyles, ...parsedStyles });
       }
       if (savedTitle) {
         setTitle(savedTitle);
@@ -65,7 +74,7 @@ export const useComponentCustomization = (
       console.error("Error loading saved data:", error);
       setIsInitialized(true);
     }
-  }, [stylesStorageKey, titleStorageKey, contentStorageKey, navItemsStorageKey]);
+  }, [stylesStorageKey, titleStorageKey, contentStorageKey, navItemsStorageKey, defaultStyles]);
 
   // Debounced save function with stable reference
   const debouncedSave = useCallback((key, value, delay = 1000) => {
@@ -86,6 +95,11 @@ export const useComponentCustomization = (
           localStorage.setItem(key, value);
         }
         setSavingState("saved");
+        
+        // Dispatch custom event for styles updates
+        if (key === stylesStorageKey) {
+          dispatchStyleUpdate(componentType, componentId);
+        }
       } catch (error) {
         console.error(`Error saving ${key} to localStorage:`, error);
         setSavingState("idle");
@@ -93,7 +107,7 @@ export const useComponentCustomization = (
     }, delay);
 
     return timeoutRefs.current[key];
-  }, []);
+  }, [stylesStorageKey, componentType, componentId, dispatchStyleUpdate]);
 
   // Save changes to localStorage whenever they update (only after initialization)
   useEffect(() => {
@@ -156,13 +170,16 @@ export const useComponentCustomization = (
       setHasStartedCustomizing(false);
       setSavingState("idle");
 
+      // Dispatch style update event for revert
+      dispatchStyleUpdate(componentType, componentId);
+
       console.log(
         `${componentType} ${componentId} has been reset to default settings`
       );
     } catch (error) {
       console.error("Error reverting to defaults:", error);
     }
-  }, [componentType, componentId, defaultStyles, defaultTitle, defaultContent, defaultNavItems, stylesStorageKey, titleStorageKey, contentStorageKey, navItemsStorageKey]);
+  }, [componentType, componentId, defaultStyles, defaultTitle, defaultContent, defaultNavItems, stylesStorageKey, titleStorageKey, contentStorageKey, navItemsStorageKey, dispatchStyleUpdate]);
 
   return [
     styles,
