@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
 import ToolBox from "./ToolBox";
 import CustomizationLayout from "../../commonComponents/CustomizationLayout";
@@ -9,7 +9,6 @@ import { buttonDefaults } from "../../constants";
 
 const ButtonCustomization = () => {
   const { buttonType } = useParams();
-  const [activeTab, setActiveTab] = useState("html");
   const actualButtonType = buttonType || "Primary";
   const defaultButtonText = `${actualButtonType} Button`;
 

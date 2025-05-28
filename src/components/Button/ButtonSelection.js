@@ -6,6 +6,7 @@ import { buttonTypes } from "./ButtonList";
 import CodeModal from "./CodeModal";
 import "../../styles/components/buttonsCustomization.scss";
 import FavouriteButton from "../../commonComponents/FavouriteButton";
+import { buttonDefaults } from "../../constants";
 
 const ButtonSelection = () => {
   const navigate = useNavigate();
@@ -16,31 +17,6 @@ const ButtonSelection = () => {
   const handleOpenModal = (type) => {
     setSelectedButtonType(type);
     setModalVisible(true);
-
-    const buttonDefaults = {
-      Primary: {
-        backgroundColor: "#6d45ff",
-        color: "#ffffff",
-        border: "1px solid #6d45ff",
-        hoverBackgroundColor: "#5a35e0",
-        hoverTextColor: "#ffffff",
-        hoverBorderColor: "#5a35e0",
-      },
-      Outline: {
-        backgroundColor: "transparent",
-        color: "#6d45ff",
-        border: "2px solid #6d45ff",
-        hoverBorderColor: "#5a35e0",
-        hoverTextColor: "#5a35e0",
-      },
-      Link: {
-        backgroundColor: "transparent",
-        color: "#6d45ff",
-        border: "none",
-        hoverTextColor: "#5a35e0",
-      },
-    };
-
     setSelectedButtonStyles(buttonDefaults[type] || {});
   };
 

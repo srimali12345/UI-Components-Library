@@ -5,7 +5,7 @@ import CardCodeModal from "./CardCodeModal";
 import copyIcon from "../../images/code.png";
 import toolIcon from "../../images/tool.png";
 import FavoriteButton from "../../commonComponents/FavouriteButton";
-
+import { cardDefaults } from "../../constants";
 
 const CardSelection = () => {
   const navigate = useNavigate();
@@ -18,46 +18,6 @@ const CardSelection = () => {
 
     setSelectedCardType(type);
     setModalVisible(true);
-
-    const cardDefaults = {
-      Basic: {
-        backgroundColor: "#ffffff",
-        titleColor: "#000000",
-        textColor: "#333333",
-        borderColor: "#e0e0e0",
-        boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
-      },
-      Image: {
-        backgroundColor: "#ffffff",
-        titleColor: "#000000",
-        textColor: "#333333",
-        borderColor: "#e0e0e0",
-        boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
-        imageHeight: "200px",
-      },
-
-      Action: {
-        backgroundColor: "#ffffff",
-        titleColor: "#000000",
-        textColor: "#333333",
-        borderColor: "#e0e0e0",
-        boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
-        buttonBackgroundColor: "#f1f1f1",
-        buttonTextColor: "#333333",
-      },
-      Pricing: {
-        backgroundColor: "#ffffff",
-        titleColor: "#000000",
-        textColor: "#333333",
-        borderColor: "#e0e0e0",
-        boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
-        buttonBackgroundColor: "#f1f1f1",
-        buttonTextColor: "#333333",
-        primaryButtonBackgroundColor: "#4a6cf7",
-        primaryButtonTextColor: "#ffffff",
-      },
-    };
-
     setSelectedCardStyles(cardDefaults[type] || {});
   };
 

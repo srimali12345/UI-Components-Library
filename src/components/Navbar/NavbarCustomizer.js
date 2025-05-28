@@ -1,12 +1,10 @@
 
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { Copy, EyeOff, Eye } from "lucide-react";
+import { useLocation} from "react-router-dom";
 import { generateHTML, generateCSS, generateSASS } from "./utils/CodeGenerator";
 import PreviewPane from "./PreviewPane";
 import CodeViewer from "./CodeViewer";
 import NavbarToolBox from "./NavbarToolBox";
-import { ChevronLeft, MoreHorizontal } from "lucide-react";
 import { templates } from "./NavbarList";
 import CustomizationLayout from "../../commonComponents/CustomizationLayout";
 import { useComponentCustomization } from "../../contexts/ComponentCustomizationSaveContext";
@@ -25,9 +23,9 @@ const NavbarCustomizer = () => {
     navbarStyle,
     setNavbarStyle,
     navbarTitle,
-    setNavbarTitle,
-    navbarContent,
-    setNavbarContent,
+    ,
+    ,
+    ,
     navItems,
     setNavItems,
     handleRevert,
