@@ -7,6 +7,7 @@ import toolIcon from "../../images/tool.png";
 import { Search } from "lucide-react";
 import "../../styles/components/inputCustomization.scss";
 import FavoriteButton from "../../commonComponents/FavouriteButton";
+import { inputDefaults } from "../../constants";
 
 const InputSelection = ({ inputType }) => {
   const navigate = useNavigate();
@@ -15,36 +16,10 @@ const InputSelection = ({ inputType }) => {
   const [selectedInputStyles, setSelectedInputStyles] = useState({});
 
   const handleOpenModal = (type, e) => {
-    // Prevent event bubbling to parent elements
     e.stopPropagation();
 
     setSelectedInputType(type);
     setModalVisible(true);
-
-    const inputDefaults = {
-      Text: {
-        backgroundColor: "#ffffff",
-        color: "#333333",
-        borderWidth: "1px",
-        borderColor: "#cccccc",
-        focusBorderColor: "#6d45ff",
-      },
-      Password: {
-        backgroundColor: "#ffffff",
-        color: "#333333",
-        borderWidth: "1px",
-        borderColor: "#cccccc",
-        focusBorderColor: "#6d45ff",
-      },
-      Search: {
-        backgroundColor: "#ffffff",
-        color: "#333333",
-        borderWidth: "1px",
-        borderColor: "#cccccc",
-        focusBorderColor: "#6d45ff",
-        borderRadius: "20px",
-      },
-    };
 
     setSelectedInputStyles(inputDefaults[type] || {});
   };

@@ -1,82 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
 import InputToolBox from "./InputToolBox";
 import CustomizationLayout from "../../commonComponents/CustomizationLayout";
 import InputPreview from "./InputPreview";
 import InputCodePanel from "./InputCodePanel";
 import { useComponentCustomization } from "../../contexts/ComponentCustomizationSaveContext";
-
+import { inputDefaults } from "../../constants";
 const InputCustomization = () => {
   const { inputType } = useParams();
   const actualInputType = inputType || "Text";
-
-  const inputDefaults = {
-    Text: {
-      backgroundColor: "#ffffff",
-      color: "#333333",
-      borderWidth: "1px",
-      borderStyle: "solid",
-      borderColor: "#cccccc",
-      focusBorderColor: "#6d45ff",
-      width: "200px",
-      height: "40px",
-      fontSize: "14px",
-      fontWeight: "normal",
-      fontFamily: "Arial",
-      borderRadius: "4px",
-      padding: "0px 12px",
-      display: "block",
-      placeholderColor: "#999999",
-      placeholderFontSize: "14px",
-      placeholderOpacity: "0.7",
-      placeholderFontStyle: "normal",
-    },
-    Password: {
-      backgroundColor: "#ffffff",
-      color: "#333333",
-      borderWidth: "1px",
-      borderStyle: "solid",
-      borderColor: "#cccccc",
-      focusBorderColor: "#6d45ff",
-      width: "200px",
-      height: "40px",
-      fontSize: "14px",
-      fontWeight: "normal",
-      fontFamily: "Arial",
-      borderRadius: "4px",
-      padding: "0px 12px",
-      display: "block",
-      placeholderColor: "#999999",
-      placeholderFontSize: "14px",
-      placeholderOpacity: "0.7",
-      placeholderFontStyle: "normal",
-    },
-    Search: {
-      backgroundColor: "#ffffff",
-      color: "#333333",
-      borderWidth: "1px",
-      borderStyle: "solid",
-      borderColor: "#cccccc",
-      focusBorderColor: "#6d45ff",
-      width: "200px",
-      height: "40px",
-      fontSize: "14px",
-      fontWeight: "normal",
-      fontFamily: "Arial",
-      borderRadius: "20px",
-      padding: "0px 12px",
-      display: "block",
-      placeholderColor: "#999999",
-      placeholderFontSize: "14px",
-      placeholderOpacity: "0.7",
-      placeholderFontStyle: "normal",
-      showSearchIcon: true,
-      iconPosition: "right",
-      iconSize: 18,
-      iconColor: "#8E9196",
-    },
-  };
-
   const defaultPlaceholderText = `Enter ${actualInputType}`;
 
   const [
@@ -84,7 +16,13 @@ const InputCustomization = () => {
     setInputStyles,
     placeholderText,
     setPlaceholderText,
+    ,
+    ,
+    ,
+    ,
     handleRevert,
+    savingState,
+    hasPreviouslySaved,
   ] = useComponentCustomization(
     "input",
     actualInputType,
@@ -116,6 +54,8 @@ const InputCustomization = () => {
     <CustomizationLayout
       activeTabOnBack="input"
       itemLabel={`Input - ${actualInputType}`}
+      savingState={savingState}
+      hasPreviouslySaved={hasPreviouslySaved}
       mainContent={
         <InputPreview
           inputStyles={inputStyles}

@@ -10,38 +10,11 @@ import { ChevronLeft, MoreHorizontal } from "lucide-react";
 import { templates } from "./NavbarList";
 import CustomizationLayout from "../../commonComponents/CustomizationLayout";
 import { useComponentCustomization } from "../../contexts/ComponentCustomizationSaveContext";
+import { navbarDefaultStyles } from "../../constants";
 
 const NavbarCustomizer = () => {
   const location = useLocation();
   const selectedTemplate = location.state?.template || templates[0];
-
-  const defaultStyles = {
-    backgroundColor: "#1A1F2C",
-    textColor: "#ffffff",
-    activeColor: "#9b87f5",
-    hoverColor: "#7E69AB",
-    logoUrl: "",
-    height: "60px",
-    padding: "0 20px",
-    borderRadius: "0px",
-    hasSearch: false,
-    navPosition: "left",
-    borderColor: "#e5e7eb",
-    borderWidth: "1px",
-    topLeftRadius: "6px",
-    topRightRadius: "6px",
-    bottomLeftRadius: "6px",
-    bottomRightRadius: "6px",
-    searchBarBackgroundColor: "rgba(255, 255, 255, 0.1)",
-    searchBorderTopLeftRadius: "6px",
-    searchBorderTopRightRadius: "6px",
-    searchBorderBottomLeftRadius: "6px",
-    searchBorderBottomRightRadius: "6px",
-    SearchBorderWidth: "1px",
-    SearchBarBorderColor: "#e5e7eb",
-    searchBorderRadius: "6px",
-  };
-
   const defaultNavItems = [
     { id: 1, text: "Home", active: true, url: "/" },
     { id: 2, text: "About", active: false, url: "/about" },
@@ -63,7 +36,7 @@ const NavbarCustomizer = () => {
   ] = useComponentCustomization(
     "navbar",
     selectedTemplate ? selectedTemplate.id : "custom",
-    selectedTemplate ? { ...defaultStyles, ...selectedTemplate.style } : defaultStyles,
+    selectedTemplate ? { ...navbarDefaultStyles, ...selectedTemplate.style } : navbarDefaultStyles,
     selectedTemplate ? selectedTemplate.name : "Custom Navbar",
     "",
     selectedTemplate ? selectedTemplate.navItems : defaultNavItems

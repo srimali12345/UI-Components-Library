@@ -5,68 +5,26 @@ import CustomizationLayout from "../../commonComponents/CustomizationLayout";
 import ButtonPreview from "./ButtonPreview";
 import CodePanel from "./CodePanels";
 import { useComponentCustomization } from "../../contexts/ComponentCustomizationSaveContext";
+import { buttonDefaults } from "../../constants";
 
 const ButtonCustomization = () => {
   const { buttonType } = useParams();
   const [activeTab, setActiveTab] = useState("html");
-  const buttonDefaults = {
-    Primary: {
-      backgroundColor: "#6d45ff",
-      color: "#ffffff",
-      borderWidth: "0px",
-      borderColor: "#6d45ff",
-      hoverBackgroundColor: "#5a35e0",
-      hoverTextColor: "#ffffff",
-      hoverBorderColor: "#5a35e0",
-      width: "150px",
-      height: "40px",
-      fontSize: "16px",
-      fontWeight: "normal",
-      fontFamily: "Arial",
-      borderRadius: "5px",
-    },
-    Outline: {
-      backgroundColor: "transparent",
-      color: "#6d45ff",
-      border: "2px solid #6d45ff",
-      borderWidth: "2px",
-      borderColor: "#6d45ff",
-      hoverBackgroundColor: "transparent",
-      hoverTextColor: "#5a35e0",
-      hoverBorderColor: "#5a35e0",
-      width: "150px",
-      height: "40px",
-      fontSize: "16px",
-      fontWeight: "normal",
-      fontFamily: "Arial",
-    },
-    Link: {
-      backgroundColor: "transparent",
-      color: "#6d45ff",
-      borderWidth: "0px",
-      borderColor: "transparent",
-      hoverBackgroundColor: "transparent",
-      hoverTextColor: "#5a35e0",
-      textDecoration: "none",
-      fontSize: "16px",
-      fontWeight: "normal",
-      fontFamily: "Arial",
-    },
-  };
-
   const actualButtonType = buttonType || "Primary";
   const defaultButtonText = `${actualButtonType} Button`;
 
   const [
     buttonStyles,
-  setButtonStyles,
-  buttonText,
-  setButtonText,
-  , , 
-  , , 
-  handleRevert,
-  savingState,
-  hasPreviouslySaved
+    setButtonStyles,
+    buttonText,
+    setButtonText,
+    ,
+    ,
+    ,
+    ,
+    handleRevert,
+    savingState,
+    hasPreviouslySaved,
   ] = useComponentCustomization(
     "button",
     actualButtonType,

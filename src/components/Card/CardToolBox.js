@@ -598,17 +598,16 @@ const CardToolBox = ({
               </div>
             </div>
           )}
-
-          <div className="revert-section">
-            <button
-              onClick={onRevert}
-              className="revert-button"
-              title="Revert to default styles"
-            >
-              <RotateCcw size={16} />
-              <span>Revert</span>
-            </button>
-          </div>
+        </div>
+        <div className="revert-section">
+          <button
+            onClick={onRevert}
+            className="revert-button"
+            title="Revert to default styles"
+          >
+            <RotateCcw size={16} />
+            <span>Revert</span>
+          </button>
         </div>
       </div>
     </div>
