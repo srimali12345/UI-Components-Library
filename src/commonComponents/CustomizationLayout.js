@@ -23,7 +23,7 @@ const CustomizationLayout = ({
  const renderSavingStatus = () => {
   if (savingState === "saving") {
     return (
-      <div className="flex-wrap saving-status saving">
+      <div className="flex-wrap">
         <span>Saving...</span>
       </div>
     );
@@ -31,8 +31,8 @@ const CustomizationLayout = ({
 
   if (savingState === "saved") {
     return (
-      <div className="flex-wrap saving-status saved">
-        <CheckCircle size={16} className="mr-1" />
+      <div className="flex-wrap">
+        <CheckCircle size={16} className="saved-icon" />
         <span>Saved</span>
       </div>
     );
