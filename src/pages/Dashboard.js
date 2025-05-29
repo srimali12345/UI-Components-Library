@@ -6,6 +6,7 @@ import "../styles/pages/dashboard.scss";
 import NavbarTemplates from "../components/Navbar/NavbarTemplates";
 import InputSelection from "../components/InputFeild/InputFeildSelection";
 import CardSelection from "../components/Card/CardSelection";
+import LoginSelection from "../themes/Login/LoginSelection";
 
 const Dashboard = () => {
   const location = useLocation();
@@ -87,7 +88,9 @@ const Dashboard = () => {
             </li>
          
             <li
-              className={`menu-text  disabled-menu`}
+              className={`menu-text ${ activeComponent === "login" ? "active" : ""}`
+              }
+               onClick={() => setActiveComponent("login")}
             >
               Login
             </li>
@@ -102,6 +105,7 @@ const Dashboard = () => {
         )}
         {activeComponent === "input" && <InputSelection />}
         {activeComponent === "card" && <CardSelection/>}
+         {activeComponent === "login" && <LoginSelection/>}
       </div>
     </div>
   );

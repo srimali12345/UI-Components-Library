@@ -148,3 +148,103 @@ export const navbarDefaultStyles = {
   SearchBarBorderColor: "#e5e7eb",
   searchBorderRadius: "6px",
 };
+
+export const loginDefaults = {
+  Classic: {
+    backgroundColor: "#ffffff",
+    borderColor: "#e1e5e9",
+    borderWidth: "1px",
+    borderRadius: "8px",
+    padding: "32px",
+    width: "400px",
+    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+    titleColor: "#1a1a1a",
+    titleFontSize: "24px",
+    titleFontWeight: "600",
+    labelColor: "#374151",
+    labelFontSize: "14px",
+    inputBackgroundColor: "#ffffff",
+    inputBorderColor: "#d1d5db",
+    inputBorderRadius: "6px",
+    inputPadding: "12px",
+    inputFontSize: "16px",
+    buttonBackgroundColor: "#3b82f6",
+    buttonColor: "#ffffff",
+    buttonBorderRadius: "6px",
+    buttonPadding: "12px 24px",
+    buttonFontWeight: "500",
+    rememberMeColor: "#374151"
+  },
+  Modern: {
+    backgroundColor: "#ffffff",
+    borderColor: "transparent",
+    borderWidth: "0px",
+    borderRadius: "16px",
+    padding: "40px",
+    width: "420px",
+    boxShadow: "0 8px 32px rgba(0, 0, 0, 0.08)",
+    titleColor: "#111827",
+    titleFontSize: "28px",
+    titleFontWeight: "700",
+    labelColor: "#6b7280",
+    labelFontSize: "14px",
+    inputBackgroundColor: "#f9fafb",
+    inputBorderColor: "transparent",
+    inputBorderRadius: "12px",
+    inputPadding: "16px",
+    inputFontSize: "16px",
+    buttonBackgroundColor: "#6366f1",
+    buttonColor: "#ffffff",
+    buttonBorderRadius: "12px",
+    buttonPadding: "16px 32px",
+    buttonFontWeight: "600",
+    rememberMeColor: "#6b7280"
+  },
+  Minimal: {
+    backgroundColor: "transparent",
+    borderColor: "#e5e7eb",
+    borderWidth: "1px",
+    borderRadius: "4px",
+    padding: "24px",
+    width: "360px",
+    boxShadow: "none",
+    titleColor: "#000000",
+    titleFontSize: "20px",
+    titleFontWeight: "400",
+    labelColor: "#000000",
+    labelFontSize: "13px",
+    inputBackgroundColor: "#ffffff",
+    inputBorderColor: "#000000",
+    inputBorderRadius: "0px",
+    inputPadding: "8px 0px",
+    inputFontSize: "14px",
+    buttonBackgroundColor: "#000000",
+    buttonColor: "#ffffff",
+    buttonBorderRadius: "0px",
+    buttonPadding: "12px 20px",
+    buttonFontWeight: "400",
+    rememberMeColor: "#000000"
+  }
+};
+
+
+export const buttonTypes = [
+  { type: "Primary", label: "Primary Button" },
+  { type: "Outline", label: "Outline Button" },
+  { type: "Link", label: "Link Button" }
+];
+
+export const loginTypes = [
+  {
+    type: "Classic",
+    label: "Classic Login"
+  },
+  {
+    type: "Modern", 
+    label: "Modern Login"
+  },
+  {
+    type: "Minimal",
+    label: "Minimal Login"
+  }
+];
