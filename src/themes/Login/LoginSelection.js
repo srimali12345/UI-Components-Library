@@ -7,7 +7,6 @@ import LoginCodeModal from "./LoginCodeModal";
 import "../../styles/themes/login.scss";
 import FavouriteButton from "../../commonComponents/FavouriteButton";
 import { loginDefaults } from "../../constants";
-import { useSavedStyles } from "../../contexts/useSavedStyles";
 
 const LoginSelection = () => {
   const navigate = useNavigate();
@@ -15,22 +14,14 @@ const LoginSelection = () => {
   const [selectedLoginType, setSelectedLoginType] = useState("");
   const [selectedLoginStyles, setSelectedLoginStyles] = useState({});
 
-  const CustomizedLoginPreview = ({ loginType, label, defaultStyles, onClick, className = "" }) => {
-    const { savedStyles, isLoading } = useSavedStyles("login", loginType, defaultStyles);
-
-    if (isLoading) {
-      return (
-        <div className="h-32 w-48 bg-gray-200 animate-pulse rounded-md"></div>
-      );
-    }
-
+  const CustomizedLoginPreview = ({ defaultStyles, onClick, className = "" }) => {
     const formStyles = {
-      backgroundColor: savedStyles.backgroundColor || defaultStyles.backgroundColor,
-      border: `${savedStyles.borderWidth || defaultStyles.borderWidth} solid ${savedStyles.borderColor || defaultStyles.borderColor}`,
-      borderRadius: savedStyles.borderRadius || defaultStyles.borderRadius,
-      padding: savedStyles.padding || defaultStyles.padding,
-      width: savedStyles.width || defaultStyles.width,
-      boxShadow: savedStyles.boxShadow || defaultStyles.boxShadow,
+      backgroundColor: defaultStyles.backgroundColor,
+      border: `${defaultStyles.borderWidth} solid ${defaultStyles.borderColor}`,
+      borderRadius: defaultStyles.borderRadius,
+      padding: defaultStyles.padding,
+      width: defaultStyles.width,
+      boxShadow: defaultStyles.boxShadow,
       maxWidth: "200px",
       transform: "scale(0.6)",
       transformOrigin: "top left",
@@ -38,17 +29,17 @@ const LoginSelection = () => {
     };
 
     const titleStyles = {
-      color: savedStyles.titleColor || defaultStyles.titleColor,
-      fontSize: `${parseInt(savedStyles.titleFontSize || defaultStyles.titleFontSize) * 0.7}px`,
-      fontWeight: savedStyles.titleFontWeight || defaultStyles.titleFontWeight,
+      color: defaultStyles.titleColor,
+      fontSize: `${parseInt(defaultStyles.titleFontSize) * 0.7}px`,
+      fontWeight: defaultStyles.titleFontWeight,
       margin: "0 0 12px 0",
       textAlign: "center"
     };
 
     const inputStyles = {
-      backgroundColor: savedStyles.inputBackgroundColor || defaultStyles.inputBackgroundColor,
-      border: `1px solid ${savedStyles.inputBorderColor || defaultStyles.inputBorderColor}`,
-      borderRadius: savedStyles.inputBorderRadius || defaultStyles.inputBorderRadius,
+      backgroundColor: defaultStyles.inputBackgroundColor,
+      border: `1px solid ${defaultStyles.inputBorderColor}`,
+      borderRadius: defaultStyles.inputBorderRadius,
       padding: "6px",
       width: "100%",
       fontSize: "10px",
@@ -56,14 +47,14 @@ const LoginSelection = () => {
     };
 
     const buttonStyles = {
-      backgroundColor: savedStyles.buttonBackgroundColor || defaultStyles.buttonBackgroundColor,
-      color: savedStyles.buttonColor || defaultStyles.buttonColor,
+      backgroundColor: defaultStyles.buttonBackgroundColor,
+      color: defaultStyles.buttonColor,
       border: "none",
-      borderRadius: savedStyles.buttonBorderRadius || defaultStyles.buttonBorderRadius,
+      borderRadius: defaultStyles.buttonBorderRadius,
       padding: "6px 12px",
       width: "100%",
       fontSize: "10px",
-      fontWeight: savedStyles.buttonFontWeight || defaultStyles.buttonFontWeight,
+      fontWeight: defaultStyles.buttonFontWeight,
       cursor: "pointer"
     };
 
@@ -71,14 +62,14 @@ const LoginSelection = () => {
       <div style={formStyles} onClick={onClick} className={className}>
         <h3 style={titleStyles}>Login Form</h3>
         <div style={{ marginBottom: "8px" }}>
-          <label style={{ fontSize: "8px", color: savedStyles.labelColor || defaultStyles.labelColor }}>Username:</label>
+          <label style={{ fontSize: "8px", color: defaultStyles.labelColor }}>Username:</label>
           <input style={inputStyles} placeholder="Enter username" readOnly />
         </div>
         <div style={{ marginBottom: "8px" }}>
-          <label style={{ fontSize: "8px", color: savedStyles.labelColor || defaultStyles.labelColor }}>Password:</label>
+          <label style={{ fontSize: "8px", color: defaultStyles.labelColor }}>Password:</label>
           <input style={inputStyles} type="password" placeholder="Enter password" readOnly />
         </div>
-        <div style={{ marginBottom: "8px", fontSize: "8px", color: savedStyles.rememberMeColor || defaultStyles.rememberMeColor }}>
+        <div style={{ marginBottom: "8px", fontSize: "8px", color: defaultStyles.rememberMeColor }}>
           <input type="checkbox" style={{ marginRight: "4px" }} readOnly />
           Remember me
         </div>
@@ -125,8 +116,6 @@ const LoginSelection = () => {
             <p className="login-wrap-title">{login.label}</p>
             <div className="login-wrap">
               <CustomizedLoginPreview
-                loginType={login.type}
-                label={login.label}
                 defaultStyles={loginDefaults[login.type] || {}}
                 onClick={() => navigate(`/customize/login/${login.type}`)}
               />
