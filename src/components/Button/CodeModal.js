@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { Copy } from "lucide-react";
-import { generateHTML, generateCSS, generateSCSS, generateBorderRadius} from "./CodeGenerator";
+import {
+  generateHTML,
+  generateCSS,
+  generateSCSS,
+  generateBorderRadius,
+} from "./CodeGenerator";
 
 const CodeModal = ({ buttonType, buttonStyles = {}, buttonText, onClose }) => {
   const [activeTab, setActiveTab] = useState("css");
@@ -74,7 +79,7 @@ const CodeModal = ({ buttonType, buttonStyles = {}, buttonText, onClose }) => {
               style={previewButtonStyle}
               className={`dashboard-btn ${buttonType}`}
             >
-              {buttonText || buttonType || "Click Me"} 
+              {buttonText || buttonType || "Click Me"}
             </button>
           </div>
         </div>

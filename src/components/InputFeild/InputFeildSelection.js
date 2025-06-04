@@ -49,15 +49,6 @@ const InputSelection = ({ inputType }) => {
                 onClick={(e) => handleInputClick(input.type, e)}
               />
               <div className="flex-wrap">
-                <FavoriteButton
-                  component={{
-                    id: input.type,
-                    type: "Input",
-                    subtype: input.type,
-                    label: input.label,
-                  }}
-                />
-
                 <button
                   className="input-tool-wrap"
                   title="View code"

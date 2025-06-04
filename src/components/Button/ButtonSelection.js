@@ -36,14 +36,6 @@ const ButtonSelection = () => {
               </button>
 
               <div className="flex-wrap">
-                <FavouriteButton
-                  component={{
-                    id: `button-${btn.type}`,
-                    type: "Button",
-                    subtype: btn.type,
-                    label: btn.label,
-                  }}
-                />
                 <button
                   className="btn-tool-wrap"
                   title="View code"

@@ -1,96 +1,70 @@
-import { createContext, useState, useContext, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 const FavoritesContext = createContext();
 
-export function useFavorites() {
-  return useContext(FavoritesContext);
-}
+export const useFavorites = () => {
+  const context = useContext(FavoritesContext);
+  if (!context) {
+    throw new Error("useFavorites must be used within a FavoritesProvider");
+  }
+  return context;
+};
 
-export function FavoritesProvider({ children }) {
+export const FavoritesProvider = ({ children }) => {
   const [favorites, setFavorites] = useState([]);
-  const [initialized, setInitialized] = useState(false);
-  const [wasCleared, setWasCleared] = useState(false); // New flag to track explicit clear
 
   // Load favorites from localStorage on component mount
   useEffect(() => {
-    const loadFavorites = () => {
+    const savedFavorites = localStorage.getItem("favorites");
+    if (savedFavorites) {
       try {
-        const storedFavorites = localStorage.getItem("componentFavorites");
-        if (storedFavorites) {
-          const parsedFavorites = JSON.parse(storedFavorites);
-          setFavorites(parsedFavorites);
-          console.log("Loaded favorites from localStorage:", parsedFavorites);
-        }
+        setFavorites(JSON.parse(savedFavorites));
       } catch (error) {
-        console.error("Error loading favorites from localStorage:", error);
-        localStorage.removeItem("componentFavorites"); // Remove corrupted data
-      } finally {
-        setInitialized(true);
+        console.error("Error parsing favorites from localStorage:", error);
+        setFavorites([]);
       }
-    };
-
-    loadFavorites();
+    }
   }, []);
 
-  // Save favorites to localStorage whenever they change
+  // Save favorites to localStorage whenever favorites change
   useEffect(() => {
-    if (!initialized) return;
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  }, [favorites]);
 
-    try {
-      if (favorites.length === 0 && wasCleared) {
-        localStorage.removeItem("componentFavorites");
-        console.log("Favorites removed from localStorage");
-        setWasCleared(false); // Reset flag
-      } else {
-        localStorage.setItem("componentFavorites", JSON.stringify(favorites));
-        console.log("Saved favorites to localStorage:", favorites);
-      }
-    } catch (error) {
-      console.error("Error saving favorites to localStorage:", error);
-    }
-  }, [favorites, initialized, wasCleared]);
-
-  // Add a component to favorites with proper metadata
   const addFavorite = (component) => {
-    if (!favorites.some((item) => item.id === component.id)) {
-      const enrichedComponent = {
-        ...component,
-        addedAt: new Date().toISOString(),
-      };
-      setFavorites((prevFavorites) => [...prevFavorites, enrichedComponent]);
-      console.log(`Added to favorites: ${component.id}`);
-    }
+    setFavorites((prev) => [...prev, component]);
   };
 
-  // Remove a component from favorites
-  const removeFavorite = (componentId) => {
-    setFavorites((prevFavorites) => {
-      const updatedFavorites = prevFavorites.filter(
-        (item) => item.id !== componentId
-      );
-      console.log(`Removed from favorites: ${componentId}`);
-      return updatedFavorites;
-    });
+  const updateFavorite = (favoriteId, updatedComponent) => {
+    setFavorites((prev) =>
+      prev.map((fav) => (fav.id === favoriteId ? updatedComponent : fav))
+    );
   };
 
-  // Check if component is a favorite
-  const isFavorite = (componentId) => {
-    return favorites.some((item) => item.id === componentId);
+  const removeFavorite = (favoriteId) => {
+    setFavorites((prev) => prev.filter((fav) => fav.id !== favoriteId));
   };
 
-  // Clear all favorites
   const clearAllFavorites = () => {
     setFavorites([]);
-    setWasCleared(true); // Mark that this was user-intended
-    console.log("All favorites cleared");
+  };
+
+  const isFavorite = (componentId) => {
+    return favorites.some((fav) => fav.id === componentId);
+  };
+
+  const getFavoriteById = (favoriteId) => {
+    return favorites.find((fav) => fav.id === favoriteId);
   };
 
   const value = {
     favorites,
     addFavorite,
+    updateFavorite,
     removeFavorite,
-    isFavorite,
     clearAllFavorites,
+    isFavorite,
+    getFavoriteById,
   };
 
   return (
@@ -98,4 +72,4 @@ export function FavoritesProvider({ children }) {
       {children}
     </FavoritesContext.Provider>
   );
-}
+};

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ChevronLeft, Eye, EyeOff, CheckCircle } from "lucide-react";
+import { ChevronLeft, Eye, EyeOff } from "lucide-react";
+import SaveAsFavorite from "../commonComponents/FavouriteButton";
 
 const CustomizationLayout = ({
   mainContent,
@@ -10,8 +11,12 @@ const CustomizationLayout = ({
   backRoute = "/dashboard",
   itemLabel = "Custom Item",
   activeTabOnBack = "buttons",
-  savingState = "idle",
-  hasPreviouslySaved = false,
+  componentType,
+  componentId,
+  currentStyles,
+  currentTitle,
+  currentContent,
+  customLabel,
 }) => {
   const navigate = useNavigate();
   const [isCodeVisible, setIsCodeVisible] = useState(false);
@@ -19,30 +24,6 @@ const CustomizationLayout = ({
   const toggleCodeVisibility = () => {
     setIsCodeVisible(!isCodeVisible);
   };
-
- const renderSavingStatus = () => {
-  if (savingState === "saving") {
-    return (
-      <div className="flex-wrap">
-        <span>Saving...</span>
-      </div>
-    );
-  }
-
-  if (savingState === "saved") {
-    return (
-      <div className="flex-wrap">
-        <CheckCircle size={16} className="saved-icon" />
-        <span>Saved</span>
-      </div>
-    );
-  }
-
-  
-
-  return null;
-};
-
 
   return (
     <div className="main-custom-wrap">
@@ -61,7 +42,16 @@ const CustomizationLayout = ({
               <span>{pageTitle}</span>
             </div>
             <div className="text-gray">{itemLabel}</div>
-            {renderSavingStatus()}
+            <div className="flex-wrap">
+              <SaveAsFavorite
+                componentType={componentType}
+                componentId={componentId}
+                currentStyles={currentStyles}
+                currentTitle={currentTitle}
+                currentContent={currentContent}
+                customLabel={customLabel}
+              />
+            </div>
           </div>
           <div className="middle-section">{mainContent}</div>
         </div>
@@ -113,7 +103,6 @@ const CustomizationLayout = ({
           )}
         </div>
       </div>
-
       {toolBox}
     </div>
   );

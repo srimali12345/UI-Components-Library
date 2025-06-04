@@ -1,10 +1,10 @@
-import React from "react";
-import { useParams } from "react-router-dom";
-import ToolBox from "./ToolBox";
+import React, { useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import CustomizationLayout from "../../commonComponents/CustomizationLayout";
-import ButtonPreview from "./ButtonPreview";
-import CodePanel from "./CodePanels";
 import { useComponentCustomization } from "../../contexts/ComponentCustomizationSaveContext";
+import ToolBox from "./ToolBox";
+import CodePanel from "../Button/CodePanels";
+import ButtonPreview from "./ButtonPreview";
 import { buttonDefaults } from "../../constants";
 
 const ButtonCustomization = () => {
@@ -63,8 +63,12 @@ const ButtonCustomization = () => {
       <CustomizationLayout
         activeTabOnBack="buttons"
         itemLabel={`BTN1 - ${buttonType || "Primary"} Button`}
-        savingState={savingState}
-        hasPreviouslySaved={hasPreviouslySaved}
+        componentType="button"
+        componentId={actualButtonType}
+        currentStyles={buttonStyles}
+        currentTitle={buttonText}
+        customLabel={`${actualButtonType} Button`}
+        hasUnsavedChanges={true}
         mainContent={
           <ButtonPreview
             buttonStyles={buttonStyles}

@@ -35,7 +35,9 @@ const CardSelection = () => {
             <div className="card-header">Header</div>
             <div className="card-body">
               <h3 className="card-title">Basic Card</h3>
-              <p className="card-text">This is a Basic card with sample content.</p>
+              <p className="card-text">
+                This is a Basic card with sample content.
+              </p>
             </div>
             <div className="card-footer">Footer</div>
           </div>
@@ -46,7 +48,9 @@ const CardSelection = () => {
             <div className="card-image"></div>
             <div className="card-body">
               <h3 className="card-title">Image Card</h3>
-              <p className="card-text">This is a Image card with sample content.</p>
+              <p className="card-text">
+                This is a Image card with sample content.
+              </p>
             </div>
           </div>
         );
@@ -67,7 +71,9 @@ const CardSelection = () => {
           <div className="card-preview pricing" onClick={onClick}>
             <div className="card-body">
               <h3 className="card-title">Pricing Card</h3>
-              <p className="card-text">Card with pricing information and CTA buttons.</p>
+              <p className="card-text">
+                Card with pricing information and CTA buttons.
+              </p>
               <div className="card-actions">
                 <button className="card-button">Learn More</button>
                 <button className="card-button primary">Get Started</button>
@@ -87,20 +93,9 @@ const CardSelection = () => {
         {cardTypes.map((card) => (
           <div key={card.type} className="card-list-wrap">
             <p className="card-wrap-title">{card.label}</p>
-            <div 
-              className="card-wrap" 
-             
-            >
-              {renderCardPreview(card,(e) => handleCardClick(card.type, e)) }
+            <div className="card-wrap">
+              {renderCardPreview(card, (e) => handleCardClick(card.type, e))}
               <div className="flex-wrap">
-
-                <FavoriteButton component={{
-                  id: card.type,
-                  type: 'Card',
-                  subtype: card.type,
-                  label:card.label
-
-                }}/>
                 <button
                   className="card-tool-wrap"
                   title="View code"
@@ -113,8 +108,8 @@ const CardSelection = () => {
                   title="Customize styles"
                   onClick={(e) => {
                     e.stopPropagation();
-                    navigate(`/customize-card/${card.type}`,{
-                      state:{card},
+                    navigate(`/customize-card/${card.type}`, {
+                      state: { card },
                     });
                   }}
                 >

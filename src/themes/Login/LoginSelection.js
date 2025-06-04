@@ -14,7 +14,11 @@ const LoginSelection = () => {
   const [selectedLoginType, setSelectedLoginType] = useState("");
   const [selectedLoginStyles, setSelectedLoginStyles] = useState({});
 
-  const CustomizedLoginPreview = ({ defaultStyles, onClick, className = "" }) => {
+  const CustomizedLoginPreview = ({
+    defaultStyles,
+    onClick,
+    className = "",
+  }) => {
     const formStyles = {
       backgroundColor: defaultStyles.backgroundColor,
       border: `${defaultStyles.borderWidth} solid ${defaultStyles.borderColor}`,
@@ -25,7 +29,7 @@ const LoginSelection = () => {
       maxWidth: "200px",
       transform: "scale(0.6)",
       transformOrigin: "top left",
-      cursor: "pointer"
+      cursor: "pointer",
     };
 
     const titleStyles = {
@@ -33,7 +37,7 @@ const LoginSelection = () => {
       fontSize: `${parseInt(defaultStyles.titleFontSize) * 0.7}px`,
       fontWeight: defaultStyles.titleFontWeight,
       margin: "0 0 12px 0",
-      textAlign: "center"
+      textAlign: "center",
     };
 
     const inputStyles = {
@@ -43,7 +47,7 @@ const LoginSelection = () => {
       padding: "6px",
       width: "100%",
       fontSize: "10px",
-      marginBottom: "8px"
+      marginBottom: "8px",
     };
 
     const buttonStyles = {
@@ -55,21 +59,36 @@ const LoginSelection = () => {
       width: "100%",
       fontSize: "10px",
       fontWeight: defaultStyles.buttonFontWeight,
-      cursor: "pointer"
+      cursor: "pointer",
     };
 
     return (
       <div style={formStyles} onClick={onClick} className={className}>
         <h3 style={titleStyles}>Login Form</h3>
         <div style={{ marginBottom: "8px" }}>
-          <label style={{ fontSize: "8px", color: defaultStyles.labelColor }}>Username:</label>
+          <label style={{ fontSize: "8px", color: defaultStyles.labelColor }}>
+            Username:
+          </label>
           <input style={inputStyles} placeholder="Enter username" readOnly />
         </div>
         <div style={{ marginBottom: "8px" }}>
-          <label style={{ fontSize: "8px", color: defaultStyles.labelColor }}>Password:</label>
-          <input style={inputStyles} type="password" placeholder="Enter password" readOnly />
+          <label style={{ fontSize: "8px", color: defaultStyles.labelColor }}>
+            Password:
+          </label>
+          <input
+            style={inputStyles}
+            type="password"
+            placeholder="Enter password"
+            readOnly
+          />
         </div>
-        <div style={{ marginBottom: "8px", fontSize: "8px", color: defaultStyles.rememberMeColor }}>
+        <div
+          style={{
+            marginBottom: "8px",
+            fontSize: "8px",
+            color: defaultStyles.rememberMeColor,
+          }}
+        >
           <input type="checkbox" style={{ marginRight: "4px" }} readOnly />
           Remember me
         </div>
@@ -102,14 +121,14 @@ const LoginSelection = () => {
     <div className="login-dashboard">
       <div className="dashboard-header">
         <h2 className="component-title">Login Forms</h2>
-        <button 
+        <button
           className="create-custom-btn"
-          onClick={() => navigate('/customize/login/custom')}
+          onClick={() => navigate("/customize/login/custom")}
         >
           Create Your Own Login
         </button>
       </div>
-      
+
       <div className="login-list">
         {loginTypes.map((login) => (
           <div key={login.type} className="login-list-wrap">
@@ -121,14 +140,6 @@ const LoginSelection = () => {
               />
 
               <div className="flex-wrap">
-                <FavouriteButton
-                  component={{
-                    id: `login-${login.type}`,
-                    type: "Login",
-                    subtype: login.type,
-                    label: login.label,
-                  }}
-                />
                 <button
                   className="btn-tool-wrap"
                   title="View code"

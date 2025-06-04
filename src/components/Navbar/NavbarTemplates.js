@@ -204,14 +204,6 @@ const NavbarTemplates = ({ onSelect }) => {
                 </div>
               </div>
               <div className="flex-wrap">
-                <FavoriteButton
-                  component={{
-                    id: `navbar-${template.id}`,
-                    type: "Navbar",
-                    subtype: template.name,
-                    label: template.name,
-                  }}
-                />
                 <button
                   className="btn-tool-wrap"
                   title="View code"
