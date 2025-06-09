@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 
-const FavoritesContext = createContext();
+const FavoritesContext = createContext(null);
 
 export const useFavorites = () => {
   const context = useContext(FavoritesContext);
@@ -12,24 +12,29 @@ export const useFavorites = () => {
 
 export const FavoritesProvider = ({ children }) => {
   const [favorites, setFavorites] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   // Load favorites from localStorage on component mount
   useEffect(() => {
     const savedFavorites = localStorage.getItem("favorites");
     if (savedFavorites) {
       try {
-        setFavorites(JSON.parse(savedFavorites));
+        const parsedFavorites = JSON.parse(savedFavorites);
+        setFavorites(parsedFavorites);
       } catch (error) {
         console.error("Error parsing favorites from localStorage:", error);
         setFavorites([]);
       }
     }
+    setIsLoaded(true);
   }, []);
 
-  // Save favorites to localStorage whenever favorites change
+  // Save favorites to localStorage whenever favorites change (but only after initial load)
   useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-  }, [favorites]);
+    if (isLoaded) {
+      localStorage.setItem("favorites", JSON.stringify(favorites));
+    }
+  }, [favorites, isLoaded]);
 
   const addFavorite = (component) => {
     setFavorites((prev) => [...prev, component]);
