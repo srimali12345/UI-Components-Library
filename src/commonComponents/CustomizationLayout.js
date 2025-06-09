@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { ChevronLeft, Eye, EyeOff } from "lucide-react";
 import SaveAsFavorite from "../commonComponents/FavouriteButton";
 
@@ -19,7 +19,14 @@ const CustomizationLayout = ({
   customLabel,
 }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [isCodeVisible, setIsCodeVisible] = useState(false);
+
+  // Check if we came from favorites
+  const fromFavorite = location.state?.fromFavorite;
+  
+  // Update page title based on source
+  const displayTitle = fromFavorite ? "Favourites Customization" : pageTitle;
 
   const toggleCodeVisibility = () => {
     setIsCodeVisible(!isCodeVisible);
@@ -39,7 +46,7 @@ const CustomizationLayout = ({
               >
                 <ChevronLeft size={20} />
               </button>
-              <span>{pageTitle}</span>
+              <span>{displayTitle}</span>
             </div>
             <div className="text-gray">{itemLabel}</div>
             <div className="flex-wrap">

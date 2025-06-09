@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import CustomizationLayout from "../../commonComponents/CustomizationLayout";
 import { useComponentCustomization } from "../../contexts/ComponentCustomizationSaveContext";
 import ToolBox from "./ToolBox";
@@ -9,8 +9,21 @@ import { buttonDefaults } from "../../constants";
 
 const ButtonCustomization = () => {
   const { buttonType } = useParams();
+  const location = useLocation();
   const actualButtonType = buttonType || "Primary";
   const defaultButtonText = `${actualButtonType} Button`;
+
+  // Get data from navigation state (when coming from favorites)
+  const navigationState = location.state || {};
+  const fromFavorite = navigationState.fromFavorite || false;
+  const existingStyles = navigationState.existingStyles || {};
+  const existingTitle = navigationState.existingTitle || defaultButtonText;
+
+  console.log("ButtonCustomization - Navigation state:", {
+    fromFavorite,
+    existingStyles,
+    existingTitle
+  });
 
   const [
     buttonStyles,
@@ -24,11 +37,18 @@ const ButtonCustomization = () => {
     handleRevert,
     savingState,
     hasPreviouslySaved,
+    hasUnsavedChanges,
+    isInitialized,
   ] = useComponentCustomization(
     "button",
     actualButtonType,
     buttonDefaults[actualButtonType],
-    defaultButtonText
+    defaultButtonText,
+    "", // defaultContent
+    [], // defaultNavItems
+    fromFavorite, // isFromFavorites
+    existingStyles, // existingStyles from favorites
+    existingTitle // existingTitle from favorites
   );
 
   const getToolBoxProps = () => {
@@ -58,6 +78,15 @@ const ButtonCustomization = () => {
 
   const toolBoxProps = getToolBoxProps();
 
+  // Show loading state until initialized
+  if (!isInitialized) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-lg">Loading customization...</div>
+      </div>
+    );
+  }
+
   return (
     <>
       <CustomizationLayout
@@ -68,7 +97,8 @@ const ButtonCustomization = () => {
         currentStyles={buttonStyles}
         currentTitle={buttonText}
         customLabel={`${actualButtonType} Button`}
-        hasUnsavedChanges={true}
+        hasUnsavedChanges={hasUnsavedChanges()}
+        savingState={savingState}
         mainContent={
           <ButtonPreview
             buttonStyles={buttonStyles}
@@ -91,6 +121,8 @@ const ButtonCustomization = () => {
             setButtonText={setButtonText}
             buttonType={actualButtonType}
             onRevert={handleRevert}
+            savingState={savingState}
+            hasPreviouslySaved={hasPreviouslySaved}
             {...toolBoxProps}
           />
         }
