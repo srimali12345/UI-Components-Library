@@ -28,8 +28,8 @@ const CustomizationLayout = ({
 
   // Check if we came from favorites
   const fromFavorite = location.state?.fromFavorite;
-  
-  // Update page title based on source - but always show default styles
+
+  // Update page title based on source
   const displayTitle = fromFavorite ? "Favourites Customization" : pageTitle;
 
   const toggleCodeVisibility = () => {
@@ -38,26 +38,38 @@ const CustomizationLayout = ({
 
   const handleBackClick = () => {
     // Check if there are unsaved changes - CALL the function to get boolean result
-    if (hasUnsavedChanges && hasUnsavedChanges()) {
+    const hasChanges =
+      hasUnsavedChanges && typeof hasUnsavedChanges === "function"
+        ? hasUnsavedChanges()
+        : false;
+
+    console.log("Back clicked, checking for unsaved changes:", hasChanges);
+
+    if (hasChanges) {
+      console.log("Showing confirmation dialog due to unsaved changes");
       setShowConfirmDialog(true);
     } else {
+      console.log("No unsaved changes, navigating back immediately");
       // No unsaved changes, navigate back immediately
       navigate(backRoute, { state: { active: activeTabOnBack } });
     }
   };
 
   const handleDiscardConfirm = () => {
+    console.log("User confirmed discard changes");
+
     // Call the discard changes function if provided
-    if (onDiscardChanges) {
+    if (onDiscardChanges && typeof onDiscardChanges === "function") {
       onDiscardChanges();
     }
-    
+
     // Close dialog and navigate back
     setShowConfirmDialog(false);
     navigate(backRoute, { state: { active: activeTabOnBack } });
   };
 
   const handleDiscardCancel = () => {
+    console.log("User cancelled discard");
     setShowConfirmDialog(false);
   };
 
@@ -67,10 +79,7 @@ const CustomizationLayout = ({
         <div className="preview-main">
           <div className="customization-container-preview">
             <div className="flex-wrap">
-              <button
-                className="btn-icon-wrap"
-                onClick={handleBackClick}
-              >
+              <button className="btn-icon-wrap" onClick={handleBackClick}>
                 <ChevronLeft size={20} />
               </button>
               <span>{displayTitle}</span>
