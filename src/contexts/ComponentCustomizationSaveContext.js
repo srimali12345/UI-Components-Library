@@ -24,11 +24,14 @@ export const useComponentCustomization = (
   const [isInitialized, setIsInitialized] = useState(false);
   const [hasStartedCustomizing, setHasStartedCustomizing] = useState(false);
 
-  // Store original/saved values for comparison
-  const [originalStyles, setOriginalStyles] = useState(defaultStyles);
-  const [originalTitle, setOriginalTitle] = useState(defaultTitle);
-  const [originalContent, setOriginalContent] = useState(defaultContent);
-  const [originalNavItems, setOriginalNavItems] = useState(defaultNavItems);
+  // Store baseline values for comparison (these represent the initially loaded state)
+  const [baselineStyles, setBaselineStyles] = useState(null);
+  const [baselineTitle, setBaselineTitle] = useState(null);
+  const [baselineContent, setBaselineContent] = useState(null);
+  const [baselineNavItems, setBaselineNavItems] = useState(null);
+
+  // Track if user has made any actual changes
+  const [userHasModified, setUserHasModified] = useState(false);
 
   // Use refs to store timeout IDs
   const timeoutRefs = useRef({});
@@ -56,7 +59,10 @@ export const useComponentCustomization = (
 
       if (isFromFavorites) {
         // When from favorites, use the existing data passed from favorites page
-        initialStyles = Object.keys(existingStyles).length > 0 ? existingStyles : defaultStyles;
+        initialStyles =
+          Object.keys(existingStyles).length > 0
+            ? existingStyles
+            : defaultStyles;
         initialTitle = existingTitle || defaultTitle;
         initialContent = existingContent || defaultContent;
         initialNavItems = defaultNavItems;
@@ -66,20 +72,21 @@ export const useComponentCustomization = (
           initialTitle,
           initialContent,
           existingStyles,
-          existingTitle
+          existingTitle,
         });
 
         // Mark as previously saved if we have favorite data
-        const hasDataFromFavorites = Object.keys(existingStyles).length > 0 || 
-                                     (existingTitle && existingTitle !== defaultTitle) || 
-                                     (existingContent && existingContent !== defaultContent);
-        
+        const hasDataFromFavorites =
+          Object.keys(existingStyles).length > 0 ||
+          (existingTitle && existingTitle !== defaultTitle) ||
+          (existingContent && existingContent !== defaultContent);
+
         if (hasDataFromFavorites) {
           setHasPreviouslySaved(true);
           setSavingState("saved");
         }
       } else {
-        // When NOT from favorites, ALWAYS start with defaults (no localStorage loading)
+        // When NOT from favorites, ALWAYS use defaults (ignore localStorage)
         initialStyles = defaultStyles;
         initialTitle = defaultTitle;
         initialContent = defaultContent;
@@ -88,7 +95,7 @@ export const useComponentCustomization = (
         console.log("Starting with defaults for normal customization:", {
           initialStyles,
           initialTitle,
-          initialContent
+          initialContent,
         });
 
         // Reset saving state for fresh start
@@ -101,10 +108,15 @@ export const useComponentCustomization = (
       setTitle(initialTitle);
       setContent(initialContent);
       setNavItems(initialNavItems);
-      setOriginalStyles(initialStyles);
-      setOriginalTitle(initialTitle);
-      setOriginalContent(initialContent);
-      setOriginalNavItems(initialNavItems);
+
+      // Set baseline values (these represent the initially loaded state for comparison)
+      setBaselineStyles(JSON.parse(JSON.stringify(initialStyles))); // Deep copy
+      setBaselineTitle(initialTitle);
+      setBaselineContent(initialContent);
+      setBaselineNavItems(JSON.parse(JSON.stringify(initialNavItems))); // Deep copy
+
+      // Reset user modification tracking
+      setUserHasModified(false);
 
       setIsInitialized(true);
     } catch (error) {
@@ -114,10 +126,11 @@ export const useComponentCustomization = (
       setTitle(defaultTitle);
       setContent(defaultContent);
       setNavItems(defaultNavItems);
-      setOriginalStyles(defaultStyles);
-      setOriginalTitle(defaultTitle);
-      setOriginalContent(defaultContent);
-      setOriginalNavItems(defaultNavItems);
+      setBaselineStyles(JSON.parse(JSON.stringify(defaultStyles)));
+      setBaselineTitle(defaultTitle);
+      setBaselineContent(defaultContent);
+      setBaselineNavItems(JSON.parse(JSON.stringify(defaultNavItems)));
+      setUserHasModified(false);
       setIsInitialized(true);
     }
   }, [
@@ -139,34 +152,45 @@ export const useComponentCustomization = (
 
   // Function to check if there are unsaved changes
   const hasUnsavedChanges = useCallback(() => {
-    if (!isInitialized) return false;
+    if (!isInitialized || !userHasModified || baselineStyles === null) {
+      return false;
+    }
 
-    // Deep compare objects and arrays
-    const stylesChanged = JSON.stringify(styles) !== JSON.stringify(originalStyles);
-    const titleChanged = title !== originalTitle;
-    const contentChanged = content !== originalContent;
-    const navItemsChanged = JSON.stringify(navItems) !== JSON.stringify(originalNavItems);
+    // Compare current values with baseline (initially loaded) values
+    const stylesChanged =
+      JSON.stringify(styles) !== JSON.stringify(baselineStyles);
+    const titleChanged = title !== baselineTitle;
+    const contentChanged = content !== baselineContent;
+    const navItemsChanged =
+      JSON.stringify(navItems) !== JSON.stringify(baselineNavItems);
 
-    const hasChanges = stylesChanged || titleChanged || contentChanged || navItemsChanged;
+    const hasChanges =
+      stylesChanged || titleChanged || contentChanged || navItemsChanged;
     console.log("Checking for unsaved changes:", {
+      userHasModified,
       stylesChanged,
       titleChanged,
       contentChanged,
       navItemsChanged,
-      hasChanges
+      hasChanges,
+      currentStyles: styles,
+      baselineStyles,
+      currentTitle: title,
+      baselineTitle,
     });
 
     return hasChanges;
   }, [
     isInitialized,
+    userHasModified,
     styles,
-    originalStyles,
+    baselineStyles,
     title,
-    originalTitle,
+    baselineTitle,
     content,
-    originalContent,
+    baselineContent,
     navItems,
-    originalNavItems,
+    baselineNavItems,
   ]);
 
   // Debounced save function with stable reference
@@ -190,17 +214,6 @@ export const useComponentCustomization = (
           }
 
           console.log(`Saved ${key}:`, value);
-
-          // Update original values after successful save
-          if (key === stylesStorageKey) {
-            setOriginalStyles(JSON.parse(JSON.stringify(value))); // Deep copy
-          } else if (key === titleStorageKey) {
-            setOriginalTitle(value);
-          } else if (key === contentStorageKey) {
-            setOriginalContent(value);
-          } else if (key === navItemsStorageKey) {
-            setOriginalNavItems(JSON.parse(JSON.stringify(value))); // Deep copy
-          }
 
           setSavingState("saved");
           setHasPreviouslySaved(true);
@@ -257,7 +270,7 @@ export const useComponentCustomization = (
     };
   }, [navItems, navItemsStorageKey, debouncedSave, isInitialized]);
 
-  // Revert function to restore default settings
+  // Revert function to restore to initially loaded state
   const handleRevert = useCallback(() => {
     try {
       // Clear all timeouts
@@ -266,47 +279,36 @@ export const useComponentCustomization = (
       });
       timeoutRefs.current = {};
 
-      // Clear saved data from localStorage
-      localStorage.removeItem(stylesStorageKey);
-      localStorage.removeItem(titleStorageKey);
-      localStorage.removeItem(contentStorageKey);
-      localStorage.removeItem(navItemsStorageKey);
+      // Reset to baseline (initially loaded) values
+      setStyles(JSON.parse(JSON.stringify(baselineStyles))); // Deep copy
+      setTitle(baselineTitle);
+      setContent(baselineContent);
+      setNavItems(JSON.parse(JSON.stringify(baselineNavItems))); // Deep copy
 
-      // Reset to defaults
-      setStyles(JSON.parse(JSON.stringify(defaultStyles))); // Deep copy
-      setTitle(defaultTitle);
-      setContent(defaultContent);
-      setNavItems(JSON.parse(JSON.stringify(defaultNavItems))); // Deep copy
-      setOriginalStyles(JSON.parse(JSON.stringify(defaultStyles))); // Deep copy
-      setOriginalTitle(defaultTitle);
-      setOriginalContent(defaultContent);
-      setOriginalNavItems(JSON.parse(JSON.stringify(defaultNavItems))); // Deep copy
-      setHasPreviouslySaved(false);
-      setHasStartedCustomizing(false);
-      setSavingState("idle");
+      // Reset user modification tracking
+      setUserHasModified(false);
 
-      console.log(`${componentType} ${componentId} has been reset to default settings`);
+      console.log(
+        `${componentType} ${componentId} has been reset to initial state`
+      );
     } catch (error) {
-      console.error("Error reverting to defaults:", error);
+      console.error("Error reverting to initial state:", error);
     }
   }, [
     componentType,
     componentId,
-    defaultStyles,
-    defaultTitle,
-    defaultContent,
-    defaultNavItems,
-    stylesStorageKey,
-    titleStorageKey,
-    contentStorageKey,
-    navItemsStorageKey,
+    baselineStyles,
+    baselineTitle,
+    baselineContent,
+    baselineNavItems,
   ]);
 
-  // Custom setters that trigger immediate UI updates
+  // Custom setters that trigger immediate UI updates and mark as modified
   const setStylesWithUpdate = useCallback((newStyles) => {
     console.log("Setting new styles:", newStyles);
-    if (typeof newStyles === 'function') {
-      setStyles(prevStyles => {
+    setUserHasModified(true); // Mark as user modified
+    if (typeof newStyles === "function") {
+      setStyles((prevStyles) => {
         const updatedStyles = newStyles(prevStyles);
         console.log("Updated styles (function):", updatedStyles);
         return updatedStyles;
@@ -318,18 +320,21 @@ export const useComponentCustomization = (
 
   const setTitleWithUpdate = useCallback((newTitle) => {
     console.log("Setting new title:", newTitle);
+    setUserHasModified(true); // Mark as user modified
     setTitle(newTitle);
   }, []);
 
   const setContentWithUpdate = useCallback((newContent) => {
     console.log("Setting new content:", newContent);
+    setUserHasModified(true); // Mark as user modified
     setContent(newContent);
   }, []);
 
   const setNavItemsWithUpdate = useCallback((newNavItems) => {
     console.log("Setting new navItems:", newNavItems);
-    if (typeof newNavItems === 'function') {
-      setNavItems(prevNavItems => {
+    setUserHasModified(true); // Mark as user modified
+    if (typeof newNavItems === "function") {
+      setNavItems((prevNavItems) => {
         const updatedNavItems = newNavItems(prevNavItems);
         console.log("Updated navItems (function):", updatedNavItems);
         return updatedNavItems;

@@ -22,7 +22,7 @@ const ButtonCustomization = () => {
   console.log("ButtonCustomization - Navigation state:", {
     fromFavorite,
     existingStyles,
-    existingTitle
+    existingTitle,
   });
 
   const [
@@ -97,7 +97,8 @@ const ButtonCustomization = () => {
         currentStyles={buttonStyles}
         currentTitle={buttonText}
         customLabel={`${actualButtonType} Button`}
-        hasUnsavedChanges={hasUnsavedChanges()}
+        hasUnsavedChanges={hasUnsavedChanges}
+        onDiscardChanges={handleRevert}
         savingState={savingState}
         mainContent={
           <ButtonPreview
