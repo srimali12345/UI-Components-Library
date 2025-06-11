@@ -28,9 +28,12 @@ const CustomizationLayout = ({
 
   // Check if we came from favorites
   const fromFavorite = location.state?.fromFavorite;
-
+  
   // Update page title based on source
   const displayTitle = fromFavorite ? "Favourites Customization" : pageTitle;
+  
+  // Determine the correct back route based on where we came from
+  const actualBackRoute = fromFavorite ? "/favourites" : backRoute;
 
   const toggleCodeVisibility = () => {
     setIsCodeVisible(!isCodeVisible);
@@ -38,34 +41,41 @@ const CustomizationLayout = ({
 
   const handleBackClick = () => {
     // Check if there are unsaved changes - CALL the function to get boolean result
-    const hasChanges =
-      hasUnsavedChanges && typeof hasUnsavedChanges === "function"
-        ? hasUnsavedChanges()
-        : false;
-
+    const hasChanges = hasUnsavedChanges && typeof hasUnsavedChanges === 'function' ? hasUnsavedChanges() : false;
+    
     console.log("Back clicked, checking for unsaved changes:", hasChanges);
-
+    
     if (hasChanges) {
       console.log("Showing confirmation dialog due to unsaved changes");
       setShowConfirmDialog(true);
     } else {
       console.log("No unsaved changes, navigating back immediately");
       // No unsaved changes, navigate back immediately
-      navigate(backRoute, { state: { active: activeTabOnBack } });
+      if (fromFavorite) {
+        navigate("/favourites");
+      } else {
+        navigate(backRoute, { state: { active: activeTabOnBack } });
+      }
     }
   };
 
   const handleDiscardConfirm = () => {
     console.log("User confirmed discard changes");
-
+    
     // Call the discard changes function if provided
-    if (onDiscardChanges && typeof onDiscardChanges === "function") {
+    if (onDiscardChanges && typeof onDiscardChanges === 'function') {
       onDiscardChanges();
     }
-
+    
     // Close dialog and navigate back
     setShowConfirmDialog(false);
-    navigate(backRoute, { state: { active: activeTabOnBack } });
+    
+    // Navigate to the correct route based on where we came from
+    if (fromFavorite) {
+      navigate("/favourites");
+    } else {
+      navigate(backRoute, { state: { active: activeTabOnBack } });
+    }
   };
 
   const handleDiscardCancel = () => {
@@ -79,7 +89,10 @@ const CustomizationLayout = ({
         <div className="preview-main">
           <div className="customization-container-preview">
             <div className="flex-wrap">
-              <button className="btn-icon-wrap" onClick={handleBackClick}>
+              <button
+                className="btn-icon-wrap"
+                onClick={handleBackClick}
+              >
                 <ChevronLeft size={20} />
               </button>
               <span>{displayTitle}</span>
