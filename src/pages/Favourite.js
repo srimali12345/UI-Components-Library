@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFavorites } from "../contexts/FavouriteContext";
 import { Heart, Trash2 } from "lucide-react";
+import { generateFavoriteCode } from "../contexts/FavouriteCodeGenerator";
 import "../styles/pages/favourite.scss";
 
 const Favorites = () => {
@@ -518,7 +519,7 @@ const Favorites = () => {
         </div>
       </div>
 
-      {/* Code Modal */}
+      {/* Updated Code Modal */}
       {showCodeModal && selectedComponent && (
         <div
           className="code-modal-overlay"
@@ -568,26 +569,13 @@ const Favorites = () => {
                 <div className="code-container">
                   <pre>
                     <code>
-                      {activeCodeTab === "html" &&
-                        (selectedComponent.savedCode?.html ||
-                          "No HTML code available")}
-                      {activeCodeTab === "css" &&
-                        (selectedComponent.savedCode?.css ||
-                          "No CSS code available")}
-                      {activeCodeTab === "scss" &&
-                        (selectedComponent.savedCode?.scss ||
-                          "No SCSS code available")}
+                      {generateFavoriteCode(selectedComponent, activeCodeTab)}
                     </code>
                   </pre>
                   <button
                     className="copy-code-btn"
                     onClick={() => {
-                      const code =
-                        activeCodeTab === "html"
-                          ? selectedComponent.savedCode?.html || ""
-                          : activeCodeTab === "css"
-                          ? selectedComponent.savedCode?.css || ""
-                          : selectedComponent.savedCode?.scss || "";
+                      const code = generateFavoriteCode(selectedComponent, activeCodeTab);
                       navigator.clipboard.writeText(code);
                       alert("Code copied to clipboard!");
                     }}
@@ -601,7 +589,7 @@ const Favorites = () => {
                       strokeWidth="2"
                     >
                       <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-                      <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+                      <path d="M4 16c-1.1 0-2-.9-2 2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
                     </svg>
                     Copy
                   </button>
