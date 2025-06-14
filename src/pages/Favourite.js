@@ -117,89 +117,303 @@ const Favorites = () => {
   };
 
   const renderComponentPreview = (component) => {
-    const baseStyles = component.savedStyles || {};
+    const savedStyles = component.savedStyles || {};
 
     switch (component.componentType) {
       case "BUTTON":
+        // Use the EXACT same logic as ButtonPreview component
+        const buttonTypeClass = component.buttonType || "Primary";
+        
+        // EXACT border radius logic from ButtonPreview
+        const borderRadius = 
+          savedStyles.topLeftRadius ||
+          savedStyles.topRightRadius ||
+          savedStyles.bottomRightRadius ||
+          savedStyles.bottomLeftRadius
+            ? `${savedStyles.topLeftRadius || 0} 
+               ${savedStyles.topRightRadius || 0} 
+               ${savedStyles.bottomRightRadius || 0} 
+               ${savedStyles.bottomLeftRadius || 0}`
+            : savedStyles.borderRadius || "5px";
+
+        // EXACT border logic from ButtonPreview
+        const border = 
+          component.buttonType === "Primary" && !savedStyles.borderWidth
+            ? "none"
+            : `${
+                savedStyles.borderWidth ||
+                (component.buttonType === "Outline" ? "2px" : "0px")
+              } solid ${savedStyles.borderColor || "#6d45ff"}`;
+
         const buttonStyles = {
-          backgroundColor: baseStyles.backgroundColor || "#6d45ff",
-          color: baseStyles.color || "#ffffff",
-          border: baseStyles.border || "none",
-          borderRadius: baseStyles.borderRadius || "4px",
-          fontSize: baseStyles.fontSize || "14px",
-          fontWeight: baseStyles.fontWeight || "500",
-          height: baseStyles.height || "40px",
-          width: baseStyles.width || "150px",
-          padding: "8px 16px",
-          display: "inline-flex",
+          ...savedStyles,
+          borderRadius: borderRadius,
+          display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          border: border,
+          backgroundColor: savedStyles.backgroundColor || "#6d45ff",
+          color: savedStyles.color || "#ffffff",
+          fontSize: savedStyles.fontSize || "14px",
+          fontWeight: savedStyles.fontWeight || "500",
+          fontFamily: savedStyles.fontFamily || "inherit",
+          height: savedStyles.height || "40px",
+          width: savedStyles.width || "150px",
+          padding: savedStyles.padding || "8px 16px",
           cursor: "pointer",
           transition: "all 0.2s ease",
-          borderColor: baseStyles.borderColor,
-          borderWidth: baseStyles.borderWidth,
-          textDecoration: baseStyles.textDecoration || "none",
-          textTransform: baseStyles.textTransform || "none",
-          letterSpacing: baseStyles.letterSpacing || "normal",
-          boxShadow: baseStyles.boxShadow,
+          textDecoration: savedStyles.textDecoration || "none",
           outline: "none",
         };
 
+        const icon = savedStyles.icon || null;
+        const iconPosition = savedStyles.iconPosition || "right";
+
         return (
           <div className="component-display">
-            <div className="preview-button">
-              <button style={buttonStyles}>
-                {component.buttonText || component.label || "Button"}
+            <div className="button-preview-container">
+              <button 
+                className={`dashboard-btn ${buttonTypeClass} preview-button-element`}
+                style={buttonStyles}
+              >
+                {icon && iconPosition === "left" && (
+                  <img
+                    src={icon}
+                    alt="icon"
+                    style={{
+                      height: "12px",
+                      marginRight: "5px",
+                    }}
+                  />
+                )}
+
+                {component.buttonText || component.label || (component.buttonType ? `${component.buttonType} Button` : "Default Button")}
+
+                {icon && iconPosition === "right" && (
+                  <img
+                    src={icon}
+                    alt="icon"
+                    style={{ height: "12px", marginLeft: "5px" }}
+                  />
+                )}
               </button>
             </div>
           </div>
         );
 
       case "CARD":
+        // Use CardPreview styling logic
+        const cardStyles = {
+          backgroundColor: savedStyles.backgroundColor || '#ffffff',
+          border: savedStyles.borderWidth && savedStyles.borderColor 
+            ? `${savedStyles.borderWidth} solid ${savedStyles.borderColor}` 
+            : savedStyles.border || '1px solid #e0e0e0',
+          borderRadius: savedStyles.borderRadius || '8px',
+          padding: savedStyles.padding || '16px',
+          boxShadow: savedStyles.boxShadow || '0 2px 8px rgba(0, 0, 0, 0.1)',
+          color: savedStyles.textColor || savedStyles.color || '#333333',
+          fontFamily: savedStyles.fontFamily || 'Arial, sans-serif',
+          fontSize: savedStyles.fontSize || '14px',
+          fontWeight: savedStyles.fontWeight || 'normal',
+          maxWidth: '200px',
+          textAlign: savedStyles.textAlign || 'center',
+          width: savedStyles.width || 'auto',
+          height: savedStyles.height || 'auto',
+        };
+
+        const titleStyles = {
+          fontSize: savedStyles.titleFontSize || '16px',
+          fontWeight: savedStyles.titleFontWeight || '600',
+          color: savedStyles.titleColor || savedStyles.color || '#000000',
+          fontFamily: savedStyles.titleFontFamily || savedStyles.fontFamily || 'inherit',
+          margin: '0 0 8px 0',
+        };
+
+        const contentStyles = {
+          fontSize: savedStyles.contentFontSize || '12px',
+          fontWeight: savedStyles.contentFontWeight || 'normal',
+          color: savedStyles.contentColor || savedStyles.textColor || savedStyles.color || '#666666',
+          fontFamily: savedStyles.contentFontFamily || savedStyles.fontFamily || 'inherit',
+          margin: '0',
+        };
+
         return (
           <div className="component-display">
-            <div
-              className="preview-component"
-              style={{
-                backgroundColor: baseStyles.backgroundColor || "#ffffff",
-                border: `${baseStyles.borderWidth || "1px"} solid ${
-                  baseStyles.borderColor || "#e0e0e0"
-                }`,
-                borderRadius: baseStyles.borderRadius || "8px",
-                padding: baseStyles.padding || "16px",
-                boxShadow:
-                  baseStyles.boxShadow || "0 2px 8px rgba(0, 0, 0, 0.1)",
-                color: baseStyles.textColor || "#333333",
-                fontFamily: baseStyles.fontFamily || "Arial, sans-serif",
-                maxWidth: "200px",
-                textAlign: "center",
-              }}
-            >
-              <h4
-                style={{
-                  fontSize: baseStyles.titleFontSize || "16px",
-                  color: baseStyles.titleColor || "#000000",
-                  margin: "0 0 8px 0",
-                }}
-              >
-                {component.cardTitle || "Card Title"}
-              </h4>
-              <p
-                style={{
-                  fontSize: baseStyles.contentFontSize || "12px",
-                  margin: "0",
-                }}
-              >
-                {component.cardContent || "Card content..."}
-              </p>
+            <div className="card-preview-container">
+              <div className="preview-card-element" style={cardStyles}>
+                <h4 style={titleStyles}>
+                  {component.cardTitle || "Card Title"}
+                </h4>
+                <p style={contentStyles}>
+                  {component.cardContent || "Card content..."}
+                </p>
+              </div>
             </div>
+          </div>
+        );
+
+      case "INPUT":
+        // Use InputPreview styling logic
+        const inputContainerStyles = {
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '8px',
+          maxWidth: '250px',
+        };
+
+        const inputStyles = {
+          padding: savedStyles.padding || '10px 12px',
+          fontSize: savedStyles.fontSize || '14px',
+          fontFamily: savedStyles.fontFamily || 'inherit',
+          fontWeight: savedStyles.fontWeight || 'normal',
+          color: savedStyles.color || '#333333',
+          backgroundColor: savedStyles.backgroundColor || '#ffffff',
+          border: savedStyles.borderWidth && savedStyles.borderColor 
+            ? `${savedStyles.borderWidth} solid ${savedStyles.borderColor}`
+            : savedStyles.border || '1px solid #ccc',
+          borderRadius: savedStyles.borderRadius || '4px',
+          outline: 'none',
+          width: savedStyles.width || '100%',
+          height: savedStyles.height || 'auto',
+          boxShadow: savedStyles.boxShadow || 'none',
+        };
+
+        return (
+          <div className="component-display">
+            <div style={inputContainerStyles}>
+              <input
+                type={component.inputType === "Password" ? "password" : "text"}
+                placeholder={component.placeholderText || `Enter ${component.inputType || 'text'}`}
+                style={inputStyles}
+                readOnly
+              />
+            </div>
+          </div>
+        );
+
+      case "LOGIN":
+        // Use LoginPreview styling logic
+        const loginContainerStyles = {
+          backgroundColor: savedStyles.backgroundColor || '#ffffff',
+          border: savedStyles.border || '1px solid #e0e0e0',
+          borderRadius: savedStyles.borderRadius || '8px',
+          padding: savedStyles.padding || '24px',
+          boxShadow: savedStyles.boxShadow || '0 4px 12px rgba(0, 0, 0, 0.1)',
+          fontFamily: savedStyles.fontFamily || 'Arial, sans-serif',
+          maxWidth: '300px',
+          width: '100%',
+        };
+
+        const loginTitleStyles = {
+          fontSize: savedStyles.titleFontSize || '24px',
+          fontWeight: savedStyles.titleFontWeight || '600',
+          color: savedStyles.titleColor || savedStyles.color || '#333333',
+          textAlign: 'center',
+          marginBottom: '20px',
+        };
+
+        const loginInputStyles = {
+          width: '100%',
+          padding: '10px 12px',
+          marginBottom: '12px',
+          border: '1px solid #ddd',
+          borderRadius: '4px',
+          fontSize: '14px',
+        };
+
+        const loginButtonStyles = {
+          width: '100%',
+          padding: '12px',
+          backgroundColor: savedStyles.buttonColor || '#6d45ff',
+          color: '#ffffff',
+          border: 'none',
+          borderRadius: '4px',
+          fontSize: '16px',
+          fontWeight: '500',
+          cursor: 'pointer',
+        };
+
+        return (
+          <div className="component-display">
+            <div style={loginContainerStyles}>
+              <h3 style={loginTitleStyles}>
+                {component.loginTitle || "Login"}
+              </h3>
+              <input
+                type="email"
+                placeholder="Email"
+                style={loginInputStyles}
+                readOnly
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                style={loginInputStyles}
+                readOnly
+              />
+              <button style={loginButtonStyles}>
+                Login
+              </button>
+            </div>
+          </div>
+        );
+
+      case "NAV":
+      case "NAVBAR":
+        // Use NavbarPreview styling logic
+        const navbarStyles = {
+          backgroundColor: savedStyles.backgroundColor || '#ffffff',
+          borderBottom: savedStyles.borderBottom || '1px solid #e0e0e0',
+          padding: savedStyles.padding || '12px 20px',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          fontFamily: savedStyles.fontFamily || 'Arial, sans-serif',
+          fontSize: savedStyles.fontSize || '14px',
+          maxWidth: '300px',
+          width: '100%',
+        };
+
+        const navTitleStyles = {
+          fontSize: savedStyles.titleFontSize || '18px',
+          fontWeight: savedStyles.titleFontWeight || 'bold',
+          color: savedStyles.titleColor || savedStyles.color || '#333333',
+          margin: 0,
+        };
+
+        const navItemsStyles = {
+          display: 'flex',
+          gap: '16px',
+          listStyle: 'none',
+          margin: 0,
+          padding: 0,
+        };
+
+        const navItemStyle = {
+          color: savedStyles.linkColor || savedStyles.color || '#666666',
+          textDecoration: 'none',
+          fontSize: '14px',
+        };
+
+        return (
+          <div className="component-display">
+            <nav style={navbarStyles}>
+              <h4 style={navTitleStyles}>
+                {component.navbarTitle || "Brand"}
+              </h4>
+              <ul style={navItemsStyles}>
+                <li><a href="#" style={navItemStyle}>Home</a></li>
+                <li><a href="#" style={navItemStyle}>About</a></li>
+                <li><a href="#" style={navItemStyle}>Contact</a></li>
+              </ul>
+            </nav>
           </div>
         );
 
       default:
         return (
           <div className="component-display">
-            <div className="preview-component" style={baseStyles}>
+            <div className="preview-component" style={savedStyles}>
               {component.buttonText || component.label || "Component"}
             </div>
           </div>
