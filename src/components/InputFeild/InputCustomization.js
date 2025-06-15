@@ -24,6 +24,7 @@ const InputCustomization = () => {
     fromFavorite,
     existingStyles,
     existingTitle,
+    actualInputType
   });
 
   const [
@@ -43,7 +44,7 @@ const InputCustomization = () => {
   ] = useComponentCustomization(
     "input",
     actualInputType,
-    inputDefaults[actualInputType],
+    inputDefaults[actualInputType] || inputDefaults["Text"],
     defaultPlaceholderText,
     "", // defaultContent
     [], // defaultNavItems

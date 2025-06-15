@@ -61,6 +61,7 @@ const Favorites = () => {
   });
 
   const handleShowCode = (component) => {
+    console.log("Showing code for component:", component);
     setSelectedComponent(component);
     setShowCodeModal(true);
     setActiveCodeTab("html");
@@ -80,17 +81,32 @@ const Favorites = () => {
         },
       });
     }
+    
     if (component.componentType === "INPUT" && component.inputType) {
-       navigate(`/customize-input/${component.inputType}`, {
+      console.log("Navigating to input customization:", {
+        inputType: component.inputType,
+        savedStyles: component.savedStyles,
+        placeholderText: component.placeholderText
+      });
+      
+      navigate(`/customize-input/${component.inputType}`, {
         state: {
           fromFavorite: true,
           favoriteId: component.id,
           existingStyles: component.savedStyles || {},
-          existingTitle: component.placeholderText || "Enter text",
+          existingTitle: component.placeholderText || component.label || `Enter ${component.inputType}`,
         },
       });
     }
+    
     if (component.componentType === "CARD" && component.cardType) {
+      console.log("Navigating to card customization:", {
+        cardType: component.cardType,
+        savedStyles: component.savedStyles,
+        cardTitle: component.cardTitle,
+        cardContent: component.cardContent
+      });
+      
       navigate(`/customize-card/${component.cardType}`, {
         state: {
           fromFavorite: true,
@@ -111,8 +127,9 @@ const Favorites = () => {
         },
       });
     }
+    
     if (component.componentType === "NAV" && component.navbarType) {
-      navigate(`/customize/navbar`, {
+      navigate(`/customize-navbar`, {
         state: {
           fromFavorite: true,
           favoriteId: component.id,
@@ -223,64 +240,160 @@ const Favorites = () => {
         );
 
       case "CARD":
-        // Use CardPreview styling logic
-        const cardStyles = {
-          backgroundColor: savedStyles.backgroundColor || '#ffffff',
-          border: savedStyles.borderWidth && savedStyles.borderColor 
-            ? `${savedStyles.borderWidth} solid ${savedStyles.borderColor}` 
-            : savedStyles.border || '1px solid #e0e0e0',
-          borderRadius: savedStyles.borderRadius || '8px',
-          padding: savedStyles.padding || '16px',
-          boxShadow: savedStyles.boxShadow || '0 2px 8px rgba(0, 0, 0, 0.1)',
-          color: savedStyles.textColor || savedStyles.color || '#333333',
-          fontFamily: savedStyles.fontFamily || 'Arial, sans-serif',
-          fontSize: savedStyles.fontSize || '14px',
-          fontWeight: savedStyles.fontWeight || 'normal',
-          maxWidth: '200px',
-          textAlign: savedStyles.textAlign || 'center',
-          width: savedStyles.width || 'auto',
-          height: savedStyles.height || 'auto',
+        // Use the EXACT same logic as CardPreview component
+        const isImageCard = component.cardType === "Image";
+        const isActionCard = component.cardType === "Action";
+        const isPricingCard = component.cardType === "Pricing";
+        const isBasicCard = component.cardType === "Basic";
+
+        const cardStyle = {
+          width: savedStyles.width || "200px", // Smaller for favorites preview
+          minHeight: savedStyles.minHeight || "150px", // Smaller for favorites preview
+          backgroundColor: savedStyles.backgroundColor || "#ffffff",
+          color: savedStyles.textColor || "#333333",
+          borderWidth: savedStyles.borderWidth || "1px",
+          borderStyle: savedStyles.borderStyle || "solid",
+          borderColor: savedStyles.borderColor || "#e0e0e0",
+          borderRadius:
+            savedStyles.topLeftRadius ||
+            savedStyles.topRightRadius ||
+            savedStyles.bottomRightRadius ||
+            savedStyles.bottomLeftRadius
+              ? `${savedStyles.topLeftRadius || "8px"} 
+                 ${savedStyles.topRightRadius || "8px"} 
+                 ${savedStyles.bottomRightRadius || "8px"} 
+                 ${savedStyles.bottomLeftRadius || "8px"}`
+              : savedStyles.borderRadius || "8px",
+          boxShadow: savedStyles.boxShadow || "0 2px 8px rgba(0, 0, 0, 0.1)",
+          overflow: "hidden",
+          transition: "all 0.3s ease",
+          position: "relative",
+          margin: "0 auto",
+          display: isBasicCard ? "flex" : "block",
+          flexDirection: isBasicCard ? "column" : "initial",
         };
 
-        const titleStyles = {
-          fontSize: savedStyles.titleFontSize || '16px',
-          fontWeight: savedStyles.titleFontWeight || '600',
-          color: savedStyles.titleColor || savedStyles.color || '#000000',
-          fontFamily: savedStyles.titleFontFamily || savedStyles.fontFamily || 'inherit',
-          margin: '0 0 8px 0',
+        const headerStyle = isBasicCard ? {
+          padding: "12px", // Smaller padding for favorites
+          borderBottom: `1px solid ${savedStyles.borderColor || "#e0e0e0"}`,
+          fontWeight: "bold",
+          fontSize: "12px" // Smaller font for favorites
+        } : {};
+        
+        const footerStyle = isBasicCard ? {
+          padding: "12px", // Smaller padding for favorites
+          borderTop: `1px solid ${savedStyles.borderColor || "#e0e0e0"}`,
+          fontSize: "10px", // Smaller font for favorites
+          color: "#8E9196"
+        } : {};
+
+        const imageStyle = isImageCard ? {
+          height: savedStyles.imageHeight || "100px", // Smaller for favorites
+          width: "100%",
+          backgroundColor: "#e9e9e9",
+          backgroundImage: "url('https://source.unsplash.com/random/300x200/?nature')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        } : {};
+
+        const bodyStyle = {
+          padding: savedStyles.padding || "12px", // Smaller padding for favorites
+          position: "relative",
+          color: savedStyles.textColor || "#333333",
+          flex: isBasicCard ? "1" : "initial",
         };
 
-        const contentStyles = {
-          fontSize: savedStyles.contentFontSize || '12px',
-          fontWeight: savedStyles.contentFontWeight || 'normal',
-          color: savedStyles.contentColor || savedStyles.textColor || savedStyles.color || '#666666',
-          fontFamily: savedStyles.contentFontFamily || savedStyles.fontFamily || 'inherit',
-          margin: '0',
+        const titleStyle = {
+          fontSize: savedStyles.titleFontSize || "14px", // Smaller for favorites
+          fontWeight: savedStyles.titleFontWeight || "bold",
+          color: savedStyles.titleColor || "#000000",
+          marginTop: 0,
+          marginBottom: "8px", // Smaller margin for favorites
+          fontFamily: savedStyles.fontFamily || "Arial, sans-serif"
+        };
+
+        const contentStyle = {
+          fontSize: savedStyles.contentFontSize || "12px", // Smaller for favorites
+          lineHeight: savedStyles.contentLineHeight || "1.5",
+          marginBottom: (isActionCard || isPricingCard) ? "10px" : "0", // Smaller margin for favorites
+          fontFamily: savedStyles.fontFamily || "Arial, sans-serif"
+        };
+
+        const actionsStyle = {
+          marginTop: "10px", // Smaller margin for favorites
+          display: "flex",
+          gap: "6px", // Smaller gap for favorites
+        };
+
+        const buttonStyle = {
+          padding: "6px 12px", // Smaller padding for favorites
+          border: "none",
+          borderRadius: "4px",
+          backgroundColor: savedStyles.buttonBackgroundColor || "#f1f1f1",
+          color: savedStyles.buttonTextColor || "#333333",
+          cursor: "pointer",
+          transition: "opacity 0.2s ease",
+          fontSize: "10px" // Smaller font for favorites
+        };
+
+        const primaryButtonStyle = {
+          ...buttonStyle,
+          backgroundColor: savedStyles.primaryButtonBackgroundColor || "#4a6cf7",
+          color: savedStyles.primaryButtonTextColor || "#ffffff",
         };
 
         return (
           <div className="component-display">
             <div className="card-preview-container">
-              <div className="preview-card-element" style={cardStyles}>
-                <h4 style={titleStyles}>
-                  {component.cardTitle || "Card Title"}
-                </h4>
-                <p style={contentStyles}>
-                  {component.cardContent || "Card content..."}
-                </p>
+              <div className="preview-card-element" style={cardStyle}>
+                {isBasicCard && <div style={headerStyle}>{savedStyles.headerText || "Header"}</div>}
+                
+                {isImageCard && <div style={imageStyle}></div>}
+                
+                <div style={bodyStyle}>
+                  <h3 style={titleStyle}>{component.cardTitle || `${component.cardType} Card`}</h3>
+                  <p style={contentStyle}>{component.cardContent || `This is a ${component.cardType} card with sample content.`}</p>
+                  {(isActionCard || isPricingCard) && (
+                    <div style={actionsStyle}>
+                      <button style={buttonStyle}>Learn More</button>
+                      {isPricingCard && (
+                        <button style={primaryButtonStyle}>Get Started</button>
+                      )}
+                    </div>
+                  )}
+                </div>
+                
+                {isBasicCard && <div style={footerStyle}>{savedStyles.footerText || "Footer"}</div>}
               </div>
             </div>
           </div>
         );
 
       case "INPUT":
-        // Use InputPreview styling logic
+        // Use InputPreview styling logic with proper border radius handling
         const inputContainerStyles = {
           display: 'flex',
           flexDirection: 'column',
           gap: '8px',
           maxWidth: '250px',
         };
+
+        // Handle border radius the same way as in InputPreview
+        const inputBorderRadius = 
+          savedStyles.topLeftRadius ||
+          savedStyles.topRightRadius ||
+          savedStyles.bottomRightRadius ||
+          savedStyles.bottomLeftRadius
+            ? `${savedStyles.topLeftRadius || 0} 
+               ${savedStyles.topRightRadius || 0} 
+               ${savedStyles.bottomRightRadius || 0} 
+               ${savedStyles.bottomLeftRadius || 0}`
+            : savedStyles.borderRadius || "4px";
+
+        // Handle border properly
+        const inputBorder = savedStyles.borderWidth && savedStyles.borderColor 
+          ? `${savedStyles.borderWidth} solid ${savedStyles.borderColor}`
+          : savedStyles.border || '1px solid #ccc';
 
         const inputStyles = {
           padding: savedStyles.padding || '10px 12px',
@@ -289,22 +402,25 @@ const Favorites = () => {
           fontWeight: savedStyles.fontWeight || 'normal',
           color: savedStyles.color || '#333333',
           backgroundColor: savedStyles.backgroundColor || '#ffffff',
-          border: savedStyles.borderWidth && savedStyles.borderColor 
-            ? `${savedStyles.borderWidth} solid ${savedStyles.borderColor}`
-            : savedStyles.border || '1px solid #ccc',
-          borderRadius: savedStyles.borderRadius || '4px',
+          border: inputBorder,
+          borderRadius: inputBorderRadius,
           outline: 'none',
           width: savedStyles.width || '100%',
           height: savedStyles.height || 'auto',
           boxShadow: savedStyles.boxShadow || 'none',
         };
 
+        console.log("Rendering INPUT preview with styles:", inputStyles);
+        console.log("Component data:", component);
+
         return (
           <div className="component-display">
             <div style={inputContainerStyles}>
               <input
-                type={component.inputType === "Password" ? "password" : "text"}
-                placeholder={component.placeholderText || `Enter ${component.inputType || 'text'}`}
+                type={component.inputType === "Password" ? "password" : 
+                     component.inputType === "Email" ? "email" : 
+                     component.inputType === "Number" ? "number" : "text"}
+                placeholder={component.placeholderText || component.label || `Enter ${component.inputType || 'text'}`}
                 style={inputStyles}
                 readOnly
               />

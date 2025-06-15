@@ -49,9 +49,11 @@ export const generateFavoriteCode = (component, codeType) => {
       case "INPUT":
         const inputProps = {
           inputStyles: savedStyles,
-          placeholderText: placeholderText || "Enter text...",
-          inputType: component.inputType
+          placeholderText: placeholderText || component.label || `Enter ${component.inputType || 'text'}`,
+          inputType: component.inputType || "text"
         };
+        
+        console.log("Generating INPUT code with props:", inputProps);
         
         switch (codeType) {
           case "html":
