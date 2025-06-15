@@ -34,7 +34,7 @@ const Favorites = () => {
   const categories = [
     "Buttons",
     "Cards",
-    "Forms",
+    "Input",
     "Themes",
     "Login",
     "Navigation",
@@ -47,8 +47,8 @@ const Favorites = () => {
       );
     if (activeCategory === "Cards")
       return component.type === "Card" || component.componentType === "CARD";
-    if (activeCategory === "Forms")
-      return component.type === "Forms" || component.componentType === "FORM";
+    if (activeCategory === "Input")
+      return component.type === "Input" || component.componentType === "INPUT";
     if (activeCategory === "Navigation")
       return (
         component.type === "Navigation" || component.componentType === "NAV"
@@ -80,6 +80,16 @@ const Favorites = () => {
         },
       });
     }
+    if (component.componentType === "INPUT" && component.inputType) {
+       navigate(`/customize-input/${component.inputType}`, {
+        state: {
+          fromFavorite: true,
+          favoriteId: component.id,
+          existingStyles: component.savedStyles || {},
+          existingTitle: component.placeholderText || "Enter text",
+        },
+      });
+    }
     if (component.componentType === "CARD" && component.cardType) {
       navigate(`/customize-card/${component.cardType}`, {
         state: {
@@ -91,8 +101,18 @@ const Favorites = () => {
         },
       });
     }
-    if (component.componentType === "FORM" && component.formType) {
-      navigate(`/customize/form/${component.formType}`, {
+    
+    if (component.componentType === "LOGIN" && component.loginType) {
+      navigate(`/customize/login/${component.loginType}`, {
+        state: {
+          fromFavorite: true,
+          favoriteId: component.id,
+          existingStyles: component.savedStyles || {},
+        },
+      });
+    }
+    if (component.componentType === "NAV" && component.navbarType) {
+      navigate(`/customize/navbar`, {
         state: {
           fromFavorite: true,
           favoriteId: component.id,
@@ -589,7 +609,7 @@ const Favorites = () => {
                       strokeWidth="2"
                     >
                       <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-                      <path d="M4 16c-1.1 0-2-.9-2 2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+                      <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
                     </svg>
                     Copy
                   </button>
