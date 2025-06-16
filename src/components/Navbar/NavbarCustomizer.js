@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useLocation} from "react-router-dom";
 import { generateHTML, generateCSS, generateSASS } from "./utils/CodeGenerator";
@@ -19,6 +18,20 @@ const NavbarCustomizer = () => {
     { id: 3, text: "Services", active: false, url: "/services" },
   ];
 
+  // Get data from navigation state (when coming from favorites)
+  const navigationState = location.state || {};
+  const fromFavorite = navigationState.fromFavorite || false;
+  const existingStyles = navigationState.existingStyles || {};
+  const existingTitle = navigationState.existingTitle || (selectedTemplate ? selectedTemplate.name : "Custom Navbar");
+  const existingNavItems = navigationState.existingNavItems || (selectedTemplate ? selectedTemplate.navItems : defaultNavItems);
+
+  console.log("NavbarCustomizer - Navigation state:", {
+    fromFavorite,
+    existingStyles,
+    existingTitle,
+    existingNavItems,
+  });
+
   const [
     navbarStyle,
     setNavbarStyle,
@@ -30,14 +43,21 @@ const NavbarCustomizer = () => {
     setNavItems,
     handleRevert,
     savingState,
-    hasPreviouslySaved
+    hasPreviouslySaved,
+    hasUnsavedChanges,
+    isInitialized,
   ] = useComponentCustomization(
     "navbar",
     selectedTemplate ? selectedTemplate.id : "custom",
-    selectedTemplate ? { ...navbarDefaultStyles, ...selectedTemplate.style } : navbarDefaultStyles,
-    selectedTemplate ? selectedTemplate.name : "Custom Navbar",
+    selectedTemplate ? { ...navbarDefaultStyles, ...selectedTemplate.style, ...existingStyles } : { ...navbarDefaultStyles, ...existingStyles },
+    existingTitle, // Use existing title from favorites
     "",
-    selectedTemplate ? selectedTemplate.navItems : defaultNavItems
+    existingNavItems, // Use existing nav items from favorites
+    fromFavorite, // isFromFavorites
+    existingStyles, // existingStyles from favorites
+    existingTitle, // existingTitle from favorites
+    "", // existingContent (not used for navbar)
+    existingNavItems // existingNavItems from favorites
   );
 
   useEffect(() => {
@@ -72,10 +92,27 @@ const NavbarCustomizer = () => {
     );
   };
 
+  // Show loading state until initialized
+  if (!isInitialized) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-lg">Loading customization...</div>
+      </div>
+    );
+  }
+
   return (
     <CustomizationLayout
       itemLabel={navbarTitle}
       activeTabOnBack="navbar"
+      componentType="navbar"
+      componentId={selectedTemplate ? selectedTemplate.id : "custom"}
+      currentStyles={navbarStyle}
+      currentTitle={navbarTitle}
+      currentNavItems={navItems}
+      customLabel={`${navbarTitle} Navbar`}
+      hasUnsavedChanges={hasUnsavedChanges}
+      onDiscardChanges={handleRevert}
       savingState={savingState}
       hasPreviouslySaved={hasPreviouslySaved}
       mainContent={
@@ -104,6 +141,8 @@ const NavbarCustomizer = () => {
           onSetActiveItem={handleSetActiveItem}
           setNavItems={setNavItems}
           onRevert={handleRevert}
+          savingState={savingState}
+          hasPreviouslySaved={hasPreviouslySaved}
         />
       }
     />

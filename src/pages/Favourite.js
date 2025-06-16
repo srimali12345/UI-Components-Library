@@ -35,9 +35,8 @@ const Favorites = () => {
     "Buttons",
     "Cards",
     "Input",
-    "Themes",
     "Login",
-    "Navigation",
+    "Navbar",
   ];
 
   const filteredFavorites = favorites.filter((component) => {
@@ -49,14 +48,15 @@ const Favorites = () => {
       return component.type === "Card" || component.componentType === "CARD";
     if (activeCategory === "Input")
       return component.type === "Input" || component.componentType === "INPUT";
-    if (activeCategory === "Navigation")
+    if (activeCategory === "Navbar")
       return (
-        component.type === "Navigation" || component.componentType === "NAV"
+        component.type === "Navbar" || 
+        component.type === "Navigation" || 
+        component.componentType === "NAV" ||
+        component.componentType === "NAVBAR"
       );
     if (activeCategory === "Login")
       return component.type === "Login" || component.componentType === "LOGIN";
-    if (activeCategory === "Themes")
-      return component.type === "Themes" || component.componentType === "THEME";
     return component.type === activeCategory;
   });
 
@@ -69,6 +69,7 @@ const Favorites = () => {
 
   const handleCustomizeComponent = (component) => {
     console.log("Customizing component:", component);
+    console.log("Component full data:", JSON.stringify(component, null, 2));
 
     // Pass the complete favorite data when navigating to customize
     if (component.componentType === "BUTTON" && component.buttonType) {
@@ -82,21 +83,67 @@ const Favorites = () => {
       });
     }
     
-    if (component.componentType === "INPUT" && component.inputType) {
-      console.log("Navigating to input customization:", {
-        inputType: component.inputType,
-        savedStyles: component.savedStyles,
-        placeholderText: component.placeholderText
-      });
+    if (component.componentType === "INPUT") {
+   
       
-      navigate(`/customize-input/${component.inputType}`, {
+      // Get the input type, with multiple fallback checks
+      let inputTypeForRoute = component.inputType || 
+                             component.type || 
+                             component.label || 
+                             "Text";
+      
+      // Handle various input type formats and ensure proper mapping
+      if (typeof inputTypeForRoute === 'string') {
+        const lowerType = inputTypeForRoute.toLowerCase().trim();
+        
+        console.log("Lower case type:", lowerType);
+        
+        // Map to exact input type names used in the InputCustomization component
+        switch (lowerType) {
+          case 'text':
+          case 'default':
+          case 'basic':
+            inputTypeForRoute = 'Text';
+            break;
+          case 'password':
+            inputTypeForRoute = 'Password';
+            break;
+          case 'email':
+            inputTypeForRoute = 'Email';
+            break;
+          case 'number':
+            inputTypeForRoute = 'Number';
+            break;
+          case 'search':
+            inputTypeForRoute = 'Search';
+            break;
+          default:
+            // If it's already in proper case, keep it, otherwise default to Text
+            if (['Text', 'Password', 'Email', 'Number', 'Search'].includes(inputTypeForRoute)) {
+              // Keep as is
+            } else {
+              console.log("Unknown input type, defaulting to Text");
+              inputTypeForRoute = 'Text';
+            }
+        }
+      } else {
+        console.log("Non-string input type, defaulting to Text");
+        inputTypeForRoute = 'Text';
+      }
+      
+      console.log("Final inputTypeForRoute:", inputTypeForRoute);
+      console.log("Attempting to navigate to:", `/customize-input/${inputTypeForRoute}`);
+      
+      navigate(`/customize-input/${inputTypeForRoute}`, {
         state: {
           fromFavorite: true,
           favoriteId: component.id,
           existingStyles: component.savedStyles || {},
-          existingTitle: component.placeholderText || component.label || `Enter ${component.inputType}`,
+          existingTitle: component.placeholderText || component.label || `Enter ${inputTypeForRoute}`,
         },
       });
+      
+      console.log("Navigation call completed");
     }
     
     if (component.componentType === "CARD" && component.cardType) {
@@ -128,12 +175,67 @@ const Favorites = () => {
       });
     }
     
-    if (component.componentType === "NAV" && component.navbarType) {
-      navigate(`/customize-navbar`, {
+    if ((component.componentType === "NAV" || component.componentType === "NAVBAR")) {
+      // Map numeric navbarType to actual template names
+      let navbarTypeForRoute = 'basic'; // default fallback
+      
+      if (component.navbarType) {
+        const navbarType = component.navbarType.toString();
+        
+        // Map the navbarType based on the template structure
+        switch (navbarType) {
+          case '1':
+            navbarTypeForRoute = 'Basic Navbar';
+            break;
+          case '2':
+            navbarTypeForRoute = 'Modern Navbar';
+            break;
+          case '3':
+            navbarTypeForRoute = 'Professional Navbar';
+            break;
+          case '4':
+            navbarTypeForRoute = 'Minimal Navbar';
+            break;
+          case '5':
+            navbarTypeForRoute = 'Dark Navbar with Search';
+            break;
+          case '6':
+            navbarTypeForRoute = 'Gradient Navbar';
+            break;
+          case '7':
+            navbarTypeForRoute = 'Corporate Navbar';
+            break;
+          case '8':
+            navbarTypeForRoute = 'Clean Navbar';
+            break;
+          case '9':
+            navbarTypeForRoute = 'Tech Navbar';
+            break;
+          default:
+            // If it's already a string template name, use it
+            if (typeof component.navbarType === 'string' && component.navbarType.includes('Navbar')) {
+              navbarTypeForRoute = component.navbarType;
+            } else {
+              navbarTypeForRoute = 'Basic Navbar';
+            }
+        }
+      } else if (component.type === "Navbar" || component.type === "Navigation") {
+        navbarTypeForRoute = 'Basic Navbar';
+      }
+      
+      console.log("Final navbarTypeForRoute:", navbarTypeForRoute);
+      
+      navigate(`/customize-navbar/${encodeURIComponent(navbarTypeForRoute)}`, {
         state: {
           fromFavorite: true,
           favoriteId: component.id,
           existingStyles: component.savedStyles || {},
+          existingTitle: component.navbarTitle || "Brand",
+          existingNavItems: component.navItems || [
+            { id: 1, text: "Home", active: true, url: "/" },
+            { id: 2, text: "About", active: false, url: "/about" },
+            { id: 3, text: "Contact", active: false, url: "/contact" }
+          ],
         },
       });
     }
@@ -240,15 +342,15 @@ const Favorites = () => {
         );
 
       case "CARD":
-        // Use the EXACT same logic as CardPreview component
+        // ... keep existing code (card preview logic)
         const isImageCard = component.cardType === "Image";
         const isActionCard = component.cardType === "Action";
         const isPricingCard = component.cardType === "Pricing";
         const isBasicCard = component.cardType === "Basic";
 
         const cardStyle = {
-          width: savedStyles.width || "200px", // Smaller for favorites preview
-          minHeight: savedStyles.minHeight || "150px", // Smaller for favorites preview
+          width: savedStyles.width || "200px",
+          minHeight: savedStyles.minHeight || "150px",
           backgroundColor: savedStyles.backgroundColor || "#ffffff",
           color: savedStyles.textColor || "#333333",
           borderWidth: savedStyles.borderWidth || "1px",
@@ -274,21 +376,21 @@ const Favorites = () => {
         };
 
         const headerStyle = isBasicCard ? {
-          padding: "12px", // Smaller padding for favorites
+          padding: "12px",
           borderBottom: `1px solid ${savedStyles.borderColor || "#e0e0e0"}`,
           fontWeight: "bold",
-          fontSize: "12px" // Smaller font for favorites
+          fontSize: "12px"
         } : {};
         
         const footerStyle = isBasicCard ? {
-          padding: "12px", // Smaller padding for favorites
+          padding: "12px",
           borderTop: `1px solid ${savedStyles.borderColor || "#e0e0e0"}`,
-          fontSize: "10px", // Smaller font for favorites
+          fontSize: "10px",
           color: "#8E9196"
         } : {};
 
         const imageStyle = isImageCard ? {
-          height: savedStyles.imageHeight || "100px", // Smaller for favorites
+          height: savedStyles.imageHeight || "100px",
           width: "100%",
           backgroundColor: "#e9e9e9",
           backgroundImage: "url('https://source.unsplash.com/random/300x200/?nature')",
@@ -297,43 +399,43 @@ const Favorites = () => {
         } : {};
 
         const bodyStyle = {
-          padding: savedStyles.padding || "12px", // Smaller padding for favorites
+          padding: savedStyles.padding || "12px",
           position: "relative",
           color: savedStyles.textColor || "#333333",
           flex: isBasicCard ? "1" : "initial",
         };
 
         const titleStyle = {
-          fontSize: savedStyles.titleFontSize || "14px", // Smaller for favorites
+          fontSize: savedStyles.titleFontSize || "14px",
           fontWeight: savedStyles.titleFontWeight || "bold",
           color: savedStyles.titleColor || "#000000",
           marginTop: 0,
-          marginBottom: "8px", // Smaller margin for favorites
+          marginBottom: "8px",
           fontFamily: savedStyles.fontFamily || "Arial, sans-serif"
         };
 
         const contentStyle = {
-          fontSize: savedStyles.contentFontSize || "12px", // Smaller for favorites
+          fontSize: savedStyles.contentFontSize || "12px",
           lineHeight: savedStyles.contentLineHeight || "1.5",
-          marginBottom: (isActionCard || isPricingCard) ? "10px" : "0", // Smaller margin for favorites
+          marginBottom: (isActionCard || isPricingCard) ? "10px" : "0",
           fontFamily: savedStyles.fontFamily || "Arial, sans-serif"
         };
 
         const actionsStyle = {
-          marginTop: "10px", // Smaller margin for favorites
+          marginTop: "10px",
           display: "flex",
-          gap: "6px", // Smaller gap for favorites
+          gap: "6px",
         };
 
         const buttonStyle = {
-          padding: "6px 12px", // Smaller padding for favorites
+          padding: "6px 12px",
           border: "none",
           borderRadius: "4px",
           backgroundColor: savedStyles.buttonBackgroundColor || "#f1f1f1",
           color: savedStyles.buttonTextColor || "#333333",
           cursor: "pointer",
           transition: "opacity 0.2s ease",
-          fontSize: "10px" // Smaller font for favorites
+          fontSize: "10px"
         };
 
         const primaryButtonStyle = {
@@ -370,7 +472,6 @@ const Favorites = () => {
         );
 
       case "INPUT":
-        // Use InputPreview styling logic with proper border radius handling
         const inputContainerStyles = {
           display: 'flex',
           flexDirection: 'column',
@@ -378,7 +479,6 @@ const Favorites = () => {
           maxWidth: '250px',
         };
 
-        // Handle border radius the same way as in InputPreview
         const inputBorderRadius = 
           savedStyles.topLeftRadius ||
           savedStyles.topRightRadius ||
@@ -390,7 +490,6 @@ const Favorites = () => {
                ${savedStyles.bottomLeftRadius || 0}`
             : savedStyles.borderRadius || "4px";
 
-        // Handle border properly
         const inputBorder = savedStyles.borderWidth && savedStyles.borderColor 
           ? `${savedStyles.borderWidth} solid ${savedStyles.borderColor}`
           : savedStyles.border || '1px solid #ccc';
@@ -409,9 +508,7 @@ const Favorites = () => {
           height: savedStyles.height || 'auto',
           boxShadow: savedStyles.boxShadow || 'none',
         };
-
-        console.log("Rendering INPUT preview with styles:", inputStyles);
-        console.log("Component data:", component);
+        
 
         return (
           <div className="component-display">
@@ -429,7 +526,7 @@ const Favorites = () => {
         );
 
       case "LOGIN":
-        // Use LoginPreview styling logic
+        // ... keep existing code (login preview logic)
         const loginContainerStyles = {
           backgroundColor: savedStyles.backgroundColor || '#ffffff',
           border: savedStyles.border || '1px solid #e0e0e0',
@@ -497,53 +594,167 @@ const Favorites = () => {
 
       case "NAV":
       case "NAVBAR":
-        // Use NavbarPreview styling logic
+        // ... keep existing code (navbar preview logic)
+        const DEFAULT_LOGO_URL = "https://www.pngkey.com/png/full/233-2332677_image-500580-placeholder-transparent.png";
+        
         const navbarStyles = {
           backgroundColor: savedStyles.backgroundColor || '#ffffff',
-          borderBottom: savedStyles.borderBottom || '1px solid #e0e0e0',
-          padding: savedStyles.padding || '12px 20px',
+          color: savedStyles.textColor || '#333333',
+          height: savedStyles.height || '60px',
+          padding: savedStyles.padding || '0 20px',
           display: 'flex',
-          justifyContent: 'space-between',
           alignItems: 'center',
-          fontFamily: savedStyles.fontFamily || 'Arial, sans-serif',
-          fontSize: savedStyles.fontSize || '14px',
-          maxWidth: '300px',
+          justifyContent: 'space-between',
+          border: savedStyles.borderWidth
+            ? `${savedStyles.borderWidth} solid ${savedStyles.borderColor || "#e5e7eb"}`
+            : "none",
+          borderRadius:
+            savedStyles.topLeftRadius ||
+            savedStyles.topRightRadius ||
+            savedStyles.bottomRightRadius ||
+            savedStyles.bottomLeftRadius
+              ? `${savedStyles.topLeftRadius || "6px"} 
+                 ${savedStyles.topRightRadius || "6px"} 
+                 ${savedStyles.bottomRightRadius || "6px"} 
+                 ${savedStyles.bottomLeftRadius || "6px"}`
+              : savedStyles.borderRadius || "6px",
           width: '100%',
-        };
-
-        const navTitleStyles = {
-          fontSize: savedStyles.titleFontSize || '18px',
-          fontWeight: savedStyles.titleFontWeight || 'bold',
-          color: savedStyles.titleColor || savedStyles.color || '#333333',
-          margin: 0,
-        };
-
-        const navItemsStyles = {
-          display: 'flex',
-          gap: '16px',
-          listStyle: 'none',
-          margin: 0,
-          padding: 0,
-        };
-
-        const navItemStyle = {
-          color: savedStyles.linkColor || savedStyles.color || '#666666',
-          textDecoration: 'none',
+          maxWidth: '300px',
           fontSize: '14px',
+          fontFamily: savedStyles.fontFamily || 'Arial, sans-serif',
+          boxSizing: 'border-box',
         };
+
+        const logoUrl = savedStyles.logoUrl || DEFAULT_LOGO_URL;
+        const navItems = component.navItems || [
+          { id: 1, text: "Home", active: true, url: "/" },
+          { id: 2, text: "About", active: false, url: "/about" },
+          { id: 3, text: "Contact", active: false, url: "/contact" }
+        ];
+
+        const activeItemStyles = {
+          color: savedStyles.activeColor || savedStyles.textColor || '#333333',
+          borderBottom: `2px solid ${savedStyles.activeColor || savedStyles.textColor || '#333333'}`,
+        };
+
+        const searchContainerStyles = savedStyles.hasSearch ? {
+          backgroundColor: savedStyles.searchBarBackgroundColor || "rgba(255, 255, 255, 0.1)",
+          borderRadius: savedStyles.searchBorderRadius || "6px",
+          border: `${savedStyles.SearchBorderWidth || "1px"} solid ${savedStyles.SearchBarBorderColor || "rgba(255, 255, 255, 0.2)"}`,
+          color: savedStyles.textColor || '#333333',
+          display: "flex",
+          alignItems: "center",
+          padding: "4px 8px",
+          fontSize: "12px",
+        } : null;
 
         return (
           <div className="component-display">
-            <nav style={navbarStyles}>
-              <h4 style={navTitleStyles}>
-                {component.navbarTitle || "Brand"}
-              </h4>
-              <ul style={navItemsStyles}>
-                <li><a href="#" style={navItemStyle}>Home</a></li>
-                <li><a href="#" style={navItemStyle}>About</a></li>
-                <li><a href="#" style={navItemStyle}>Contact</a></li>
-              </ul>
-            </nav>
+            <div style={navbarStyles}>
+              <div className="navbar-left" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <div className="navbar-logo">
+                  <img 
+                    src={logoUrl} 
+                    alt="Logo" 
+                    style={{ 
+                      height: '24px', 
+                      width: 'auto',
+                      objectFit: 'contain'
+                    }} 
+                  />
+                </div>
+
+                {(!savedStyles.navPosition || savedStyles.navPosition === "left") && (
+                  <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                    {navItems.slice(0, 3).map((item) => (
+                      <a
+                        key={item.id}
+                        href="#"
+                        style={{
+                          color: savedStyles.textColor || '#333333',
+                          textDecoration: 'none',
+                          fontSize: '12px',
+                          padding: '4px 0',
+                          ...(item.active ? activeItemStyles : {}),
+                        }}
+                      >
+                        {item.text}
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="navbar-right" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                {(!savedStyles.navPosition || savedStyles.navPosition === "left") && savedStyles.hasSearch && searchContainerStyles && (
+                  <div style={searchContainerStyles}>
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      style={{ marginRight: '4px' }}
+                    >
+                      <circle cx="11" cy="11" r="8" />
+                      <path d="m21 21-4.3-4.3" />
+                    </svg>
+                    <span style={{ fontSize: '10px' }}>Search</span>
+                  </div>
+                )}
+
+                {savedStyles.navPosition === "right" && (
+                  <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                    {navItems.slice(0, 3).map((item) => (
+                      <a
+                        key={item.id}
+                        href="#"
+                        style={{
+                          color: savedStyles.textColor || '#333333',
+                          textDecoration: 'none',
+                          fontSize: '12px',
+                          padding: '4px 0',
+                          ...(item.active ? activeItemStyles : {}),
+                        }}
+                      >
+                        {item.text}
+                      </a>
+                    ))}
+                  </div>
+                )}
+
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  {(savedStyles.icons?.notification?.show !== false) && (
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke={savedStyles.icons?.notification?.color || savedStyles.textColor || '#333333'}
+                      strokeWidth="2"
+                    >
+                      <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+                      <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+                    </svg>
+                  )}
+
+                  {(savedStyles.icons?.profile?.show !== false) && (
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke={savedStyles.icons?.profile?.color || savedStyles.textColor || '#333333'}
+                      strokeWidth="2"
+                    >
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                      <circle cx="12" cy="7" r="4" />
+                    </svg>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
         );
 

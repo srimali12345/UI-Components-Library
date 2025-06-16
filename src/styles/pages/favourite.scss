@@ -227,6 +227,9 @@
 
       .code-modal-body {
         .code-section {
+          min-height: 100px;
+          max-height: 500px;
+          overflow-y: auto;
           .code-container {
             position: relative;
 
@@ -286,6 +289,8 @@
 
   svg {
     transition: fill 0.2s ease-in-out;
+    stroke: red;
+    fill: red;
   }
 }
 
