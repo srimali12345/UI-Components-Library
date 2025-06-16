@@ -84,8 +84,6 @@ const Favorites = () => {
     }
     
     if (component.componentType === "INPUT") {
-   
-      
       // Get the input type, with multiple fallback checks
       let inputTypeForRoute = component.inputType || 
                              component.type || 
@@ -166,11 +164,13 @@ const Favorites = () => {
     }
     
     if (component.componentType === "LOGIN" && component.loginType) {
+      // Fixed navigation path for login customization
       navigate(`/customize/login/${component.loginType}`, {
         state: {
           fromFavorite: true,
           favoriteId: component.id,
           existingStyles: component.savedStyles || {},
+          existingTitle: component.loginTitle || "Login Form",
         },
       });
     }
@@ -261,10 +261,8 @@ const Favorites = () => {
 
     switch (component.componentType) {
       case "BUTTON":
-        // Use the EXACT same logic as ButtonPreview component
         const buttonTypeClass = component.buttonType || "Primary";
         
-        // EXACT border radius logic from ButtonPreview
         const borderRadius = 
           savedStyles.topLeftRadius ||
           savedStyles.topRightRadius ||
@@ -276,7 +274,6 @@ const Favorites = () => {
                ${savedStyles.bottomLeftRadius || 0}`
             : savedStyles.borderRadius || "5px";
 
-        // EXACT border logic from ButtonPreview
         const border = 
           component.buttonType === "Primary" && !savedStyles.borderWidth
             ? "none"
@@ -342,7 +339,6 @@ const Favorites = () => {
         );
 
       case "CARD":
-        // ... keep existing code (card preview logic)
         const isImageCard = component.cardType === "Image";
         const isActionCard = component.cardType === "Action";
         const isPricingCard = component.cardType === "Pricing";
@@ -526,65 +522,98 @@ const Favorites = () => {
         );
 
       case "LOGIN":
-        // ... keep existing code (login preview logic)
         const loginContainerStyles = {
           backgroundColor: savedStyles.backgroundColor || '#ffffff',
-          border: savedStyles.border || '1px solid #e0e0e0',
+          border: `${savedStyles.borderWidth || "1px"} solid ${savedStyles.borderColor || "#e1e5e9"}`,
           borderRadius: savedStyles.borderRadius || '8px',
           padding: savedStyles.padding || '24px',
           boxShadow: savedStyles.boxShadow || '0 4px 12px rgba(0, 0, 0, 0.1)',
-          fontFamily: savedStyles.fontFamily || 'Arial, sans-serif',
-          maxWidth: '300px',
+          fontFamily: "Arial, sans-serif",
+          maxWidth: '280px',
           width: '100%',
+          transform: 'scale(0.8)',
+          transformOrigin: 'center',
         };
 
         const loginTitleStyles = {
-          fontSize: savedStyles.titleFontSize || '24px',
+          color: savedStyles.titleColor || "#1a1a1a",
+          fontSize: savedStyles.titleFontSize || '18px',
           fontWeight: savedStyles.titleFontWeight || '600',
-          color: savedStyles.titleColor || savedStyles.color || '#333333',
-          textAlign: 'center',
-          marginBottom: '20px',
+          margin: '0 0 16px 0',
+          textAlign: 'center'
+        };
+
+        const loginLabelStyles = {
+          color: savedStyles.labelColor || '#374151',
+          fontSize: savedStyles.labelFontSize || '12px',
+          fontWeight: '500',
+          display: 'block',
+          marginBottom: '4px'
         };
 
         const loginInputStyles = {
+          backgroundColor: savedStyles.inputBackgroundColor || '#ffffff',
+          border: `1px solid ${savedStyles.inputBorderColor || '#d1d5db'}`,
+          borderRadius: savedStyles.inputBorderRadius || '6px',
+          padding: savedStyles.inputPadding || '8px',
           width: '100%',
-          padding: '10px 12px',
-          marginBottom: '12px',
-          border: '1px solid #ddd',
-          borderRadius: '4px',
-          fontSize: '14px',
+          fontSize: savedStyles.inputFontSize || '12px',
+          outline: 'none',
+          transition: 'border-color 0.2s',
+          boxSizing: 'border-box',
+          marginBottom: '10px'
         };
 
         const loginButtonStyles = {
-          width: '100%',
-          padding: '12px',
-          backgroundColor: savedStyles.buttonColor || '#6d45ff',
-          color: '#ffffff',
+          backgroundColor: savedStyles.buttonBackgroundColor || '#3b82f6',
+          color: savedStyles.buttonColor || '#ffffff',
           border: 'none',
-          borderRadius: '4px',
-          fontSize: '16px',
-          fontWeight: '500',
+          borderRadius: savedStyles.buttonBorderRadius || '6px',
+          padding: savedStyles.buttonPadding || '8px 16px',
+          width: '100%',
+          fontSize: '12px',
+          fontWeight: savedStyles.buttonFontWeight || '500',
           cursor: 'pointer',
+          transition: 'opacity 0.2s'
+        };
+
+        const rememberMeStyles = {
+          color: savedStyles.rememberMeColor || '#374151',
+          fontSize: '10px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '6px',
+          margin: '8px 0'
         };
 
         return (
           <div className="component-display">
             <div style={loginContainerStyles}>
-              <h3 style={loginTitleStyles}>
-                {component.loginTitle || "Login"}
-              </h3>
-              <input
-                type="email"
-                placeholder="Email"
-                style={loginInputStyles}
-                readOnly
-              />
-              <input
-                type="password"
-                placeholder="Password"
-                style={loginInputStyles}
-                readOnly
-              />
+              <h2 style={loginTitleStyles}>
+                {component.loginTitle || "Login Form"}
+              </h2>
+              <div style={{ marginBottom: "10px" }}>
+                <label style={loginLabelStyles}>Username:</label>
+                <input
+                  type="text"
+                  placeholder="Enter your username"
+                  style={loginInputStyles}
+                  readOnly
+                />
+              </div>
+              <div style={{ marginBottom: "10px" }}>
+                <label style={loginLabelStyles}>Password:</label>
+                <input
+                  type="password"
+                  placeholder="Enter your password"
+                  style={loginInputStyles}
+                  readOnly
+                />
+              </div>
+              <div style={rememberMeStyles}>
+                <input type="checkbox" id="remember" style={{ margin: 0 }} />
+                <label htmlFor="remember">Remember me</label>
+              </div>
               <button style={loginButtonStyles}>
                 Login
               </button>
@@ -594,7 +623,6 @@ const Favorites = () => {
 
       case "NAV":
       case "NAVBAR":
-        // ... keep existing code (navbar preview logic)
         const DEFAULT_LOGO_URL = "https://www.pngkey.com/png/full/233-2332677_image-500580-placeholder-transparent.png";
         
         const navbarStyles = {
