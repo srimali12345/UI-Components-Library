@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Heart, Save } from "lucide-react";
 import { useFavorites } from "../contexts/FavouriteContext";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const SaveAsFavorite = ({
   componentType,
@@ -12,7 +12,9 @@ const SaveAsFavorite = ({
   customLabel,
 }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const [saveOption, setSaveOption] = useState(""); // 'save' or 'saveAsNew'
   const [favoriteName, setFavoriteName] = useState(customLabel || "");
   const { addFavorite, updateFavorite, isFavorite, getFavoriteById } =
@@ -51,9 +53,15 @@ const SaveAsFavorite = ({
     if (fromFavorite && existingFavorite) {
       setShowModal(true);
     } else {
-      setSaveOption("saveAsNew");
-      setShowModal(true);
+      // Show confirmation dialog first
+      setShowConfirmation(true);
     }
+  };
+
+  const handleConfirmSave = () => {
+    setShowConfirmation(false);
+    setSaveOption("saveAsNew");
+    setShowModal(true);
   };
 
   const handleSave = () => {
@@ -80,6 +88,7 @@ const SaveAsFavorite = ({
       updateFavorite(favoriteId, updatedFavorite);
       setShowModal(false);
       alert("Favorite updated successfully!");
+      navigate("/favourites");
     } else {
       // Save as new favorite
       if (!favoriteName.trim()) return;
@@ -110,6 +119,7 @@ const SaveAsFavorite = ({
       setShowModal(false);
       setFavoriteName("");
       alert("Component saved to favorites!");
+      navigate("/favourites");
     }
   };
 
@@ -125,7 +135,11 @@ const SaveAsFavorite = ({
       >
         {fromFavorite ? (
           <>
-            <Save size={16} />
+   <Heart
+              size={16}
+              fill={isAlreadyFavorite ? "#ff4757" : "none"}
+              color="#64748b"
+            />
             <span>Save</span>
           </>
         ) : (
@@ -139,6 +153,39 @@ const SaveAsFavorite = ({
           </>
         )}
       </button>
+
+      {showConfirmation && (
+        <div className="modal-overlay-favourite">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h3>Add to Favorites</h3>
+              <button
+                className="modal-close"
+                onClick={() => setShowConfirmation(false)}
+              >
+                ×
+              </button>
+            </div>
+            <div className="modal-body">
+              <p>Are you sure to add this as favourite?</p>
+            </div>
+            <div className="modal-footer">
+              <button
+                className="btn-cancel"
+                onClick={() => setShowConfirmation(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="btn-save"
+                onClick={handleConfirmSave}
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {showModal && (
         <div className="modal-overlay-favourite">
