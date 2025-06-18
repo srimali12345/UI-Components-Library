@@ -27,7 +27,7 @@
   }
 
   .content {
-    background: url("../../images/bg-art.png") center/cover no-repeat;
+  background: var(--bg-image) center/cover no-repeat;
     width: 100%;
     display: flex;
     justify-content: center;

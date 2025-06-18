@@ -8,13 +8,14 @@ import htmlIcon from "../images/html.png";
 import cssIcon from "../images/css.png";
 import sasslIcon from "../images/sass.png";
 import faqIcon from "../images/faq.png";
+import bgImage from '../images/bg-art.png';
 
 const Home = () => {
   const navigate = useNavigate();
 
   return (
     <div className="home">
-      <div className="content">
+      <div className="content" style={{ '--bg-image': `url(${bgImage})` }}>
         <h1 className="title">Component Library v0.1</h1>
         <span className="sub-title">
           Speed up with our intuitive and engaging UI components!

@@ -1,0 +1,19 @@
+@use './components/buttonsCustomization.scss' as *;
+@use './components/cardCustomization.scss' as *;
+@use './components/inputCustomization.scss' as *;
+@use './components/nav.scss' as *;
+@use './components/navbarCustomization.scss' as *;
+@use './components/navCustomization.scss' as *;
+@use './pages/dashboard.scss' as *;
+@use './pages/docs.scss' as *;
+@use './pages/faq.scss' as *;
+@use './pages/favourite.scss' as *;
+@use './pages/home.scss' as *;
+@use './themes/login.scss' as *;
+
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
