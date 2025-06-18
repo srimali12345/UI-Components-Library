@@ -135,21 +135,19 @@ const SaveAsFavorite = ({
       >
         {fromFavorite ? (
           <>
-   <Heart
+   <Save
               size={16}
               fill={isAlreadyFavorite ? "#ff4757" : "none"}
               color="#64748b"
             />
-            <span>Save</span>
           </>
         ) : (
           <>
-            <Heart
+            <Save
               size={16}
               fill={isAlreadyFavorite ? "#ff4757" : "none"}
               color="#64748b"
             />
-            <span>Save as Favorite</span>
           </>
         )}
       </button>
