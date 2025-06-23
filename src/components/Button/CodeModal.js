@@ -40,7 +40,7 @@ const CodeModal = ({ buttonType, buttonStyles = {}, buttonText, onClose }) => {
     buttonType === "Link"
       ? "none"
       : `${buttonStyles.borderWidth || "0px"} ${buttonStyles.borderStyle || "solid"} ${buttonStyles.borderColor || "#6d45ff"}`,
-  borderRadius: generateBorderRadius(buttonStyles),
+ borderRadius: `${buttonStyles.topLeftRadius} ${buttonStyles.topRightRadius} ${buttonStyles.bottomRightRadius} ${buttonStyles.bottomLeftRadius}`,
   fontWeight: buttonStyles.fontWeight || "normal",
   fontSize: buttonStyles.fontSize || "16px",
   height: buttonStyles.height || "40px",
