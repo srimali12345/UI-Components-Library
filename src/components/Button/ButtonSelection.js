@@ -28,7 +28,6 @@ const ButtonSelection = () => {
     setShowFavorites(!showFavorites);
   };
 
-  // Filter favorites for buttons only
   const buttonFavorites = favorites.filter(
     (component) =>
       component.type === "Button" || component.componentType === "BUTTON"
@@ -169,27 +168,20 @@ const ButtonSelection = () => {
           )}
         </h2>
 
-        <button
-          onClick={handleToggleFavorites}
-          title={showFavorites ? "View all buttons" : "View Button favorites"}
-          className="fav-button"
-        >
-          <Heart size={16} />
-          <span>Favourites ({buttonFavorites.length})</span>
-        </button>
+        {!showFavorites && (
+          <button
+            onClick={handleToggleFavorites}
+            title="View Button favorites"
+            className="fav-button"
+          >
+            <Heart size={16} />
+            <span>Favourites ({buttonFavorites.length})</span>
+          </button>
+        )}
       </div>
 
       {showFavorites ? (
-        <div className="favorites-section" >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginBottom: "5px",
-            }}
-          ></div>
-
+        <div className="favorites-section">
           {buttonFavorites.length > 0 ? (
             <div className="button-list">
               {buttonFavorites.map((component) => (
