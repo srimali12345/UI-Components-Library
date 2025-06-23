@@ -473,7 +473,7 @@
   }
 }
 
-.fav-button{
+.fav-button {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -491,7 +491,9 @@
   }
 
   &:not(.active) {
-    background: #6D45FF;
+    background: #6d45ff;
   }
-
+}
+.component-title {
+  margin: 0px !important;
 }

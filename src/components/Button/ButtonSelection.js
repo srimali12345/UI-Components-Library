@@ -152,7 +152,7 @@ const ButtonSelection = () => {
             }}
             onClick={() => setShowFavorites(false)}
           >
-            Buttons Components
+            Buttons
           </strong>
           {showFavorites && (
             <span
