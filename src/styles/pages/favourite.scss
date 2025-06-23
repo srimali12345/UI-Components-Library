@@ -472,3 +472,26 @@
     }
   }
 }
+
+.fav-button{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &.active {
+    background: #5a38d9;
+  }
+
+  &:not(.active) {
+    background: #6D45FF;
+  }
+
+}

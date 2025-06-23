@@ -1,13 +1,10 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import "../../src/styles/components/nav.scss";
 import faqIcon from "../images/faq.png";
-import { Heart } from "lucide-react";
-import { useFavorites } from "../contexts/FavouriteContext";
 
 const Navbar = () => {
-  const { favorites } = useFavorites();
-  const hasFavorites = favorites.length > 0;
   return (
     <nav>
       <div className="container nav-wrap">
@@ -19,15 +16,6 @@ const Navbar = () => {
           />
         </Link>
         <ul className="nav-menu">
-          <li>
-            <Link to="/favourites">
-              <Heart size={16} className="nav-heart-icon" />
-              Favourites{" "}
-              {hasFavorites && (
-                <span className="favorites-count">{favorites.length}</span>
-              )}
-            </Link>
-          </li>
           <li>
             <Link to="/dashboard">Customize</Link>
           </li>
