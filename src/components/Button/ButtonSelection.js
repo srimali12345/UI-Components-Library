@@ -186,7 +186,7 @@ const ButtonSelection = () => {
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-  
+              marginBottom: "5px",
             }}
           ></div>
 

@@ -6,17 +6,27 @@ export const generateBorderRadius = (styles = {}) => {
     bottomLeftRadius = "5px",
   } = styles;
 
-  const tl = parseInt(topLeftRadius) || 5;
-  const tr = parseInt(topRightRadius) || 5;
-  const br = parseInt(bottomRightRadius) || 5;
-  const bl = parseInt(bottomLeftRadius) || 5;
+  const formatRadius = (value) =>
+    typeof value === "number"
+      ? `${value}px`
+      : value.toString().includes("px")
+      ? value
+      : `${value}px`;
+
+  const tl = formatRadius(topLeftRadius);
+  const tr = formatRadius(topRightRadius);
+  const bl = formatRadius(bottomLeftRadius);
+  const br = formatRadius(bottomRightRadius);
+
 
   if (tl === tr && tr === br && br === bl) {
-    return `${tl}px`;
+    return tl;
   }
 
-  return `${topLeftRadius} ${topRightRadius} ${bottomLeftRadius} ${bottomRightRadius} `;
+  return `${tl} ${tr} ${bl} ${br} `;
 };
+
+
 
 export const generateHTML = ({ buttonType, buttonText, buttonStyles = {} }) => {
   const { icon = null, iconPosition = "right" } = buttonStyles;
