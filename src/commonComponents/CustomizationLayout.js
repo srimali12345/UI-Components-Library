@@ -33,7 +33,7 @@ const CustomizationLayout = ({
   const displayTitle = fromFavorite ? "Favourites Customization" : pageTitle;
   
   // Determine the correct back route based on where we came from
-  const actualBackRoute = fromFavorite ? "/favourites" : backRoute;
+  const actualBackRoute = backRoute;
 
   const toggleCodeVisibility = () => {
     setIsCodeVisible(!isCodeVisible);
@@ -51,11 +51,7 @@ const CustomizationLayout = ({
     } else {
       console.log("No unsaved changes, navigating back immediately");
       // No unsaved changes, navigate back immediately
-      if (fromFavorite) {
-        navigate("/favourites");
-      } else {
-        navigate(backRoute, { state: { active: activeTabOnBack } });
-      }
+       navigate(backRoute, { state: { active: activeTabOnBack } });
     }
   };
 
@@ -71,11 +67,7 @@ const CustomizationLayout = ({
     setShowConfirmDialog(false);
     
     // Navigate to the correct route based on where we came from
-    if (fromFavorite) {
-      navigate("/favourites");
-    } else {
-      navigate(backRoute, { state: { active: activeTabOnBack } });
-    }
+    navigate(backRoute, { state: { active: activeTabOnBack } });
   };
 
   const handleDiscardCancel = () => {

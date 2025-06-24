@@ -15,7 +15,6 @@ import InputSelection from "./components/InputFeild/InputFeildSelection";
 import CardSelection from "./components/Card/CardSelection";
 import CardCustomization from "./components/Card/CardCustomizer";
 import { FavoritesProvider } from "./contexts/FavouriteContext";
-import Favourite from "./pages/Favourite";
 import LoginCustomization from "./themes/Login/LoginCustomization";
 
 const App = () => {
@@ -39,7 +38,6 @@ const App = () => {
           <Route path="/customize-input/:inputType"  element={<InputCustomization/>} />
           <Route path="/dashbord" element={<CardSelection/>} />
           <Route path="/customize-card/:cardType"  element={<CardCustomization/>} />
-          <Route path="/favourites" element={<Favourite/>} />
             <Route path="/customize/login/:loginType" element={<LoginCustomization/>} />
         </Route>
       </Routes>

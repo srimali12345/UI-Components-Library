@@ -88,7 +88,7 @@ const SaveAsFavorite = ({
       updateFavorite(favoriteId, updatedFavorite);
       setShowModal(false);
       alert("Favorite updated successfully!");
-      navigate("/favourites");
+      navigate("/dashboard");
     } else {
       // Save as new favorite
       if (!favoriteName.trim()) return;
@@ -119,7 +119,7 @@ const SaveAsFavorite = ({
       setShowModal(false);
       setFavoriteName("");
       alert("Component saved to favorites!");
-      navigate("/favourites");
+       navigate(`/dashboard/`);
     }
   };
 
