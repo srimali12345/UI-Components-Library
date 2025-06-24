@@ -24,7 +24,6 @@ const NavbarTemplates = () => {
   };
 
   const handleCopyClick = (template) => {
-    // Ensure template has all required properties
     const completeTemplate = {
       ...template,
       navItems: template.navItems || [
@@ -96,6 +95,18 @@ const NavbarTemplates = () => {
       { id: 3, text: "Contact", active: false, url: "/contact" }
     ];
 
+    // Calculate border radius similar to PreviewPane
+    const borderRadiusVal = 
+      savedStyles.topLeftRadius ||
+      savedStyles.topRightRadius ||
+      savedStyles.bottomRightRadius ||
+      savedStyles.bottomLeftRadius
+        ? `${savedStyles.topLeftRadius || "6px"} 
+           ${savedStyles.topRightRadius || "6px"} 
+           ${savedStyles.bottomRightRadius || "6px"} 
+           ${savedStyles.bottomLeftRadius || "6px"}`
+        : savedStyles.borderRadius || "6px";
+
     const activeItemStyles = {
       color: savedStyles.activeColor || savedStyles.textColor || '#333333',
       borderBottom: `2px solid ${savedStyles.activeColor || savedStyles.textColor || '#333333'}`,
@@ -109,13 +120,16 @@ const NavbarTemplates = () => {
             style={{
               backgroundColor: savedStyles.backgroundColor,
               color: savedStyles.textColor,
-              borderRadius: savedStyles.borderRadius,
+              borderRadius: borderRadiusVal,
               height: savedStyles.height || "64px",
               padding: savedStyles.padding || "0 1rem",
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
               width: "100%",
+              border: savedStyles.borderWidth
+                ? `${savedStyles.borderWidth} solid ${savedStyles.borderColor || "#e5e7eb"}`
+                : "none",
             }}
           >
             <div
