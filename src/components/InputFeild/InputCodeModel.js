@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Copy, Search } from "lucide-react";
+import { Copy } from "lucide-react";
 import { generateHTML, generateCSS, generateSCSS } from "./InputCodeGenerator";
+import InputPreview from "./InputPreview";
 import "../../styles/components/inputCustomization.scss";
 
 const InputCodeModal = ({
@@ -11,27 +12,17 @@ const InputCodeModal = ({
 }) => {
   const [activeTab, setActiveTab] = useState("css");
 
-  const searchInputStyles = inputType.toLowerCase() === "search" 
-    ? {
-        ...inputStyles,
-        showSearchIcon: true,
-        iconPosition: "right",
-        iconSize: 18,
-        iconColor: "#8E9196"
-      }
-    : inputStyles;
-
   const getCode = () => {
     switch (activeTab) {
       case "css":
-        return generateCSS({ inputType, inputStyles: searchInputStyles });
+        return generateCSS({ inputType, inputStyles });
       case "scss":
-        return generateSCSS({ inputType, inputStyles: searchInputStyles });
+        return generateSCSS({ inputType, inputStyles });
       case "html":
-        return generateHTML({ 
-          inputType, 
-          placeholderText, 
-          inputStyles: searchInputStyles 
+        return generateHTML({
+          inputType,
+          placeholderText,
+          inputStyles,
         });
       default:
         return "";
@@ -54,32 +45,11 @@ const InputCodeModal = ({
         </div>
 
         <div className="input-preview-container">
-          <div style={{ position: "relative", display: "inline-block" }}>
-            {inputType.toLowerCase() === "search" && (
-              <Search 
-                size={18} 
-                className="svg-icon-search-modal" 
-                
-              
-              />
-            )}
-            <input
-              type={inputType.toLowerCase()}
-              className={`custom-input ${inputType}`}
-              placeholder={placeholderText}
-              style={{
-                backgroundColor: inputStyles.backgroundColor || "#ffffff",
-                color: inputStyles.color || "#333333",
-                border: `${inputStyles.borderWidth || "1px"} ${
-                  inputStyles.borderStyle || "solid"
-                } ${inputStyles.borderColor || "#cccccc"}`,
-                borderRadius: inputStyles.borderRadius || "4px",
-                padding: inputType === "Search" ? "0px 40px 0px 12px" : "0px 12px",
-                width: "200px",
-                height: "40px",
-              }}
-            />
-          </div>
+          <InputPreview
+            inputStyles={inputStyles}
+            placeholderText={placeholderText}
+            inputType={inputType}
+          />
         </div>
 
         <div className="tabs-copy-container">
