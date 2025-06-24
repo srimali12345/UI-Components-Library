@@ -9,46 +9,32 @@ const InputPreview = ({ inputStyles = {}, placeholderText, inputType }) => {
         border-color: ${inputStyles.focusBorderColor || "#6d45ff"} !important;
         outline: none;
       }
-      
       .custom-input-${inputType}::placeholder {
         color: ${inputStyles.placeholderColor || "#999"};
-        font-size: ${
-          inputStyles.placeholderFontSize || inputStyles.fontSize || "14px"
-        };
+        font-size: ${inputStyles.placeholderFontSize || inputStyles.fontSize || "14px"};
         opacity: ${inputStyles.placeholderOpacity || "0.7"};
         font-style: ${inputStyles.placeholderFontStyle || "normal"};
       }
     `;
 
-    if (!document.getElementById("input-hover-styles")) {
-      customStyle.id = "input-hover-styles";
-      document.head.appendChild(customStyle);
-    } else {
-      document.getElementById("input-hover-styles").innerHTML =
-        customStyle.innerHTML;
-    }
+    customStyle.id = "input-hover-styles";
+    document.head.appendChild(customStyle);
 
     return () => {
       const styleElement = document.getElementById("input-hover-styles");
-      if (styleElement) {
-        styleElement.remove();
-      }
+      if (styleElement) styleElement.remove();
     };
   }, [inputStyles, inputType]);
 
   const computePadding = () => {
-    if (inputType !== "Search" || !inputStyles.showSearchIcon) {
-      return inputStyles.padding || "0px 20px";
-    }
+    if (inputType !== "Search" || !inputStyles.showSearchIcon) return inputStyles.padding || "0px 20px";
 
     const iconSize = inputStyles.iconSize || 20;
     const iconPadding = iconSize + 10;
 
-    if (inputStyles.iconPosition === "left") {
-      return `0px 12px 0px ${iconPadding}px`;
-    } else {
-      return `0px ${iconPadding}px 0px 12px`;
-    }
+    return inputStyles.iconPosition === "left"
+      ? `0px 12px 0px ${iconPadding}px`
+      : `0px ${iconPadding}px 0px 12px`;
   };
 
   const borderRadius =
@@ -56,10 +42,7 @@ const InputPreview = ({ inputStyles = {}, placeholderText, inputType }) => {
     inputStyles.topRightRadius ||
     inputStyles.bottomRightRadius ||
     inputStyles.bottomLeftRadius
-      ? `${inputStyles.topLeftRadius || "4px"} 
-         ${inputStyles.topRightRadius || "4px"} 
-         ${inputStyles.bottomRightRadius || "4px"} 
-         ${inputStyles.bottomLeftRadius || "4px"}`
+      ? `${inputStyles.topLeftRadius || "4px"} ${inputStyles.topRightRadius || "4px"} ${inputStyles.bottomRightRadius || "4px"} ${inputStyles.bottomLeftRadius || "4px"}`
       : inputStyles.borderRadius || "4px";
 
   const styles = {
@@ -83,27 +66,18 @@ const InputPreview = ({ inputStyles = {}, placeholderText, inputType }) => {
     position: "absolute",
     top: "50%",
     transform: "translateY(-50%)",
-    ...(inputStyles.iconPosition === "left"
-      ? { left: "20px" }
-      : { right: "20px" }),
+    ...(inputStyles.iconPosition === "left" ? { left: "20px" } : { right: "20px" }),
     color: inputStyles.iconColor || "#8E9196",
     pointerEvents: "none",
   };
 
   return (
-    <div
-      className="input-container"
-      style={{ position: "relative", display: "inline-block" }}
-    >
+    <div className="input-container" style={{ position: "relative", display: "inline-block" }}>
       {inputType === "Search" && inputStyles.showSearchIcon && (
         <Search size={inputStyles.iconSize || 18} style={iconStyles} />
       )}
       <input
-        type={
-          inputType.toLowerCase() === "search"
-            ? "text"
-            : inputType.toLowerCase()
-        }
+        type={inputType.toLowerCase() === "search" ? "text" : inputType.toLowerCase()}
         placeholder={placeholderText || `Enter ${inputType}`}
         style={styles}
         className={`custom-input-${inputType}`}
