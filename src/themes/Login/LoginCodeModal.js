@@ -44,7 +44,6 @@ const LoginCodeModal = ({ loginType, loginStyles = {}, onClose }) => {
     fontSize: "16px",
     fontWeight: loginStyles.titleFontWeight || "600",
     margin: "0 0 12px 0",
-    textAlign: "center"
   };
 
   const previewInputStyle = {
@@ -71,7 +70,7 @@ const LoginCodeModal = ({ loginType, loginStyles = {}, onClose }) => {
   };
 
   return (
-    <div className="modal-overlay">
+    <div className="modal-overlay-login">
       <div className="modal">
         <div className="modal-header">
           <h3>LOGIN1 - {loginType} Form</h3>

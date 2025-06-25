@@ -81,11 +81,11 @@
   align-items: center;
   min-height: 400px;
   padding: 20px;
-  background: #f8f9fa;
+  margin-top:100px !important
 }
 
 // Modal styles
-.modal-overlay {
+.modal-overlay-login {
   position: fixed;
   top: 0;
   left: 0;
@@ -106,6 +106,7 @@
   max-height: 90vh;
   overflow-y: auto;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  text-align: left !important;
 
   .modal-header {
     display: flex;

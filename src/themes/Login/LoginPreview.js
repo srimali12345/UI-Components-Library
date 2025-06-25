@@ -90,7 +90,7 @@ const LoginPreview = ({ loginStyles = {}, loginTitle, loginType }) => {
   }, [loginStyles]);
 
   return (
-    <div className="login-container" style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "400px" }}>
+    <div className="login-container" >
       <form style={styles} className="login-form">
         <h2 style={titleStyles}>{loginTitle || "Login Form"}</h2>
         
