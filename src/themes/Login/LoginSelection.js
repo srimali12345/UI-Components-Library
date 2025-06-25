@@ -117,17 +117,20 @@ const LoginSelection = () => {
   );
 
   const handleCustomizeFavorite = (component) => {
-    if (component.componentType === "LOGIN" && component.loginType) {
-      navigate(`/customize/login/${component.loginType}`, {
-        state: {
-          fromFavorite: true,
-          favoriteId: component.id,
-          existingStyles: component.savedStyles || {},
-          existingTitle: component.loginTitle || component.label || "Login Form",
-        },
-      });
-    }
-  };
+  const loginType = component.loginType || component.type;
+
+  if ((component.componentType === "LOGIN") && loginType) {
+    navigate(`/customize/login/${loginType}`, {
+      state: {
+        fromFavorite: true,
+        favoriteId: component.id,
+        existingStyles: component.savedStyles || {},
+        existingTitle: component.loginTitle || component.label || "Login Form",
+      },
+    });
+  }
+};
+
 
   const handleRemoveFavorite = (componentId) => {
     if (window.confirm("Are you sure you want to remove this favorite?")) {
