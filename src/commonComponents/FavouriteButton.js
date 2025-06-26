@@ -10,6 +10,8 @@ const SaveAsFavorite = ({
   currentTitle,
   currentContent,
   customLabel,
+  backRoute = "/dashboard",
+  activeTabOnBack = "buttons",
 }) => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -23,6 +25,7 @@ const SaveAsFavorite = ({
   const fromFavorite = location.state?.fromFavorite;
   const favoriteId = location.state?.favoriteId;
   const existingFavorite = favoriteId ? getFavoriteById(favoriteId) : null;
+  const sourceActiveTab = location.state?.active || activeTabOnBack;
 
   const generateCodeForComponent = () => {
     switch (componentType) {
@@ -88,7 +91,7 @@ const SaveAsFavorite = ({
       updateFavorite(favoriteId, updatedFavorite);
       setShowModal(false);
       alert("Favorite updated successfully!");
-      navigate("/dashboard");
+      navigate(backRoute, { state: { active: sourceActiveTab } });
     } else {
       // Save as new favorite
       if (!favoriteName.trim()) return;
@@ -119,7 +122,7 @@ const SaveAsFavorite = ({
       setShowModal(false);
       setFavoriteName("");
       alert("Component saved to favorites!");
-       navigate(`/dashboard/`);
+      navigate(backRoute, { state: { active: sourceActiveTab } });
     }
   };
 
@@ -135,7 +138,7 @@ const SaveAsFavorite = ({
       >
         {fromFavorite ? (
           <>
-   <Save
+            <Save
               size={16}
               fill={isAlreadyFavorite ? "#ff4757" : "none"}
               color="#64748b"
@@ -174,10 +177,7 @@ const SaveAsFavorite = ({
               >
                 Cancel
               </button>
-              <button
-                className="btn-save"
-                onClick={handleConfirmSave}
-              >
+              <button className="btn-save" onClick={handleConfirmSave}>
                 OK
               </button>
             </div>

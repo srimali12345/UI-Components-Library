@@ -26,52 +26,37 @@ const CustomizationLayout = ({
   const [isCodeVisible, setIsCodeVisible] = useState(false);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
 
-  // Check if we came from favorites
   const fromFavorite = location.state?.fromFavorite;
-  
-  // Update page title based on source
+  const sourceActiveTab = location.state?.active || activeTabOnBack;
   const displayTitle = fromFavorite ? "Favourites Customization" : pageTitle;
-  
-  // Determine the correct back route based on where we came from
-  const actualBackRoute = backRoute;
 
   const toggleCodeVisibility = () => {
     setIsCodeVisible(!isCodeVisible);
   };
 
   const handleBackClick = () => {
-    // Check if there are unsaved changes - CALL the function to get boolean result
-    const hasChanges = hasUnsavedChanges && typeof hasUnsavedChanges === 'function' ? hasUnsavedChanges() : false;
-    
-    console.log("Back clicked, checking for unsaved changes:", hasChanges);
-    
+    const hasChanges =
+      hasUnsavedChanges && typeof hasUnsavedChanges === "function"
+        ? hasUnsavedChanges()
+        : false;
+
     if (hasChanges) {
-      console.log("Showing confirmation dialog due to unsaved changes");
       setShowConfirmDialog(true);
     } else {
-      console.log("No unsaved changes, navigating back immediately");
-      // No unsaved changes, navigate back immediately
-       navigate(backRoute, { state: { active: activeTabOnBack } });
+      navigate(backRoute, { state: { active: sourceActiveTab } });
     }
   };
 
   const handleDiscardConfirm = () => {
-    console.log("User confirmed discard changes");
-    
-    // Call the discard changes function if provided
-    if (onDiscardChanges && typeof onDiscardChanges === 'function') {
+    if (onDiscardChanges && typeof onDiscardChanges === "function") {
       onDiscardChanges();
     }
-    
-    // Close dialog and navigate back
+
     setShowConfirmDialog(false);
-    
-    // Navigate to the correct route based on where we came from
-    navigate(backRoute, { state: { active: activeTabOnBack } });
+    navigate(backRoute, { state: { active: sourceActiveTab } });
   };
 
   const handleDiscardCancel = () => {
-    console.log("User cancelled discard");
     setShowConfirmDialog(false);
   };
 
@@ -81,10 +66,7 @@ const CustomizationLayout = ({
         <div className="preview-main">
           <div className="customization-container-preview">
             <div className="flex-wrap">
-              <button
-                className="btn-icon-wrap"
-                onClick={handleBackClick}
-              >
+              <button className="btn-icon-wrap" onClick={handleBackClick}>
                 <ChevronLeft size={20} />
               </button>
               <span>{displayTitle}</span>
@@ -98,6 +80,8 @@ const CustomizationLayout = ({
                 currentTitle={currentTitle}
                 currentContent={currentContent}
                 customLabel={customLabel}
+                backRoute={backRoute}
+                activeTabOnBack={sourceActiveTab}
               />
             </div>
           </div>
@@ -151,6 +135,7 @@ const CustomizationLayout = ({
           )}
         </div>
       </div>
+
       {toolBox}
 
       <ConfirmationDialog
