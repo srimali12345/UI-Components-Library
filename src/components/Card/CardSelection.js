@@ -13,6 +13,8 @@ const CardSelection = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedCardType, setSelectedCardType] = useState("");
   const [selectedCardStyles, setSelectedCardStyles] = useState({});
+  const [selectedCardTitle, setSelectedCardTitle] = useState("");
+  const [selectedCardContent, setSelectedCardContent] = useState("");
   const [showFavorites, setShowFavorites] = useState(false);
 
   const { favorites, removeFavorite } = useFavorites();
@@ -27,6 +29,8 @@ const CardSelection = () => {
   const handleShowFavoriteCode = (component) => {
     setSelectedCardType(component.cardType || "Basic");
     setSelectedCardStyles(component.savedStyles || {});
+    setSelectedCardTitle(component.cardTitle || component.label || `${component.cardType} Card`);
+    setSelectedCardContent(component.cardContent || `This is a ${component.cardType} card with sample content.`);
     setModalVisible(true);
   };
 
@@ -50,8 +54,10 @@ const CardSelection = () => {
   const handleOpenModal = (type, e) => {
     e.stopPropagation();
     setSelectedCardType(type);
-    setModalVisible(true);
     setSelectedCardStyles(cardDefaults[type] || {});
+    setSelectedCardTitle(`${type} Card`);
+    setSelectedCardContent(`This is a ${type} card with sample content.`);
+    setModalVisible(true);
   };
 
   const renderFavoritePreview = (component) => {
@@ -338,8 +344,8 @@ const CardSelection = () => {
         <CardCodeModal
           cardType={selectedCardType}
           cardStyles={selectedCardStyles}
-          cardTitle={`${selectedCardType} Card`}
-          cardContent={`This is a ${selectedCardType} card with sample content.`}
+          cardTitle={selectedCardTitle}
+          cardContent={selectedCardContent}
           onClose={() => setModalVisible(false)}
         />
       )}
