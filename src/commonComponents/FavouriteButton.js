@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Heart, Save } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Save } from "lucide-react";
 import { useFavorites } from "../contexts/FavouriteContext";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -12,6 +12,8 @@ const SaveAsFavorite = ({
   customLabel,
   backRoute = "/dashboard",
   activeTabOnBack = "buttons",
+  triggerOpen = false,
+  onSaveComplete,
 }) => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -19,6 +21,7 @@ const SaveAsFavorite = ({
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [saveOption, setSaveOption] = useState(""); // 'save' or 'saveAsNew'
   const [favoriteName, setFavoriteName] = useState(customLabel || "");
+
   const { addFavorite, updateFavorite, isFavorite, getFavoriteById } =
     useFavorites();
 
@@ -26,6 +29,16 @@ const SaveAsFavorite = ({
   const favoriteId = location.state?.favoriteId;
   const existingFavorite = favoriteId ? getFavoriteById(favoriteId) : null;
   const sourceActiveTab = location.state?.active || activeTabOnBack;
+
+  const componentUniqueId = `${componentType}-${componentId}`;
+  const isAlreadyFavorite = isFavorite(componentUniqueId);
+
+  useEffect(() => {
+    if (triggerOpen) {
+      setShowModal(true);
+      setSaveOption(fromFavorite && existingFavorite ? "save" : "saveAsNew");
+    }
+  }, [triggerOpen]);
 
   const generateCodeForComponent = () => {
     switch (componentType) {
@@ -56,7 +69,6 @@ const SaveAsFavorite = ({
     if (fromFavorite && existingFavorite) {
       setShowModal(true);
     } else {
-      // Show confirmation dialog first
       setShowConfirmation(true);
     }
   };
@@ -91,9 +103,8 @@ const SaveAsFavorite = ({
       updateFavorite(favoriteId, updatedFavorite);
       setShowModal(false);
       alert("Favorite updated successfully!");
-      navigate(backRoute, { state: { active: sourceActiveTab } });
+      onSaveComplete?.();
     } else {
-      // Save as new favorite
       if (!favoriteName.trim()) return;
 
       const favoriteComponent = {
@@ -122,12 +133,9 @@ const SaveAsFavorite = ({
       setShowModal(false);
       setFavoriteName("");
       alert("Component saved to favorites!");
-      navigate(backRoute, { state: { active: sourceActiveTab } });
+      onSaveComplete?.();
     }
   };
-
-  const componentUniqueId = `${componentType}-${componentId}`;
-  const isAlreadyFavorite = isFavorite(componentUniqueId);
 
   return (
     <>
@@ -136,23 +144,11 @@ const SaveAsFavorite = ({
         onClick={handleSaveClick}
         title={fromFavorite ? "Save changes" : "Save as favorite"}
       >
-        {fromFavorite ? (
-          <>
-            <Save
-              size={16}
-              fill={isAlreadyFavorite ? "#ff4757" : "none"}
-              color="#64748b"
-            />
-          </>
-        ) : (
-          <>
-            <Save
-              size={16}
-              fill={isAlreadyFavorite ? "#ff4757" : "none"}
-              color="#64748b"
-            />
-          </>
-        )}
+        <Save
+          size={16}
+          fill={isAlreadyFavorite ? "#ff4757" : "none"}
+          color="#64748b"
+        />
       </button>
 
       {showConfirmation && (

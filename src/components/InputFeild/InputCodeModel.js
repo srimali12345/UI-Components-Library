@@ -44,7 +44,10 @@ const InputCodeModal = ({
           </button>
         </div>
 
-        <div className="input-preview-container">
+        <div
+          className="input-preview-container"
+          style={{ textAlign: "center" }}
+        >
           <InputPreview
             inputStyles={inputStyles}
             placeholderText={placeholderText}

@@ -25,6 +25,7 @@ const CustomizationLayout = ({
   const location = useLocation();
   const [isCodeVisible, setIsCodeVisible] = useState(false);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [triggerFavoriteSave, setTriggerFavoriteSave] = useState(false);
 
   const fromFavorite = location.state?.fromFavorite;
   const sourceActiveTab = location.state?.active || activeTabOnBack;
@@ -48,16 +49,20 @@ const CustomizationLayout = ({
   };
 
   const handleDiscardConfirm = () => {
-    if (onDiscardChanges && typeof onDiscardChanges === "function") {
-      onDiscardChanges();
-    }
-
     setShowConfirmDialog(false);
-    navigate(backRoute, { state: { active: sourceActiveTab } });
+    setTriggerFavoriteSave(true); // trigger SaveAsFavorite popup
   };
 
   const handleDiscardCancel = () => {
     setShowConfirmDialog(false);
+    onDiscardChanges?.();
+    navigate(backRoute, { state: { active: sourceActiveTab } });
+  };
+
+  const handleFavoriteSaveComplete = () => {
+    setTriggerFavoriteSave(false);
+    onDiscardChanges?.();
+    navigate(backRoute, { state: { active: sourceActiveTab } });
   };
 
   return (
@@ -82,6 +87,8 @@ const CustomizationLayout = ({
                 customLabel={customLabel}
                 backRoute={backRoute}
                 activeTabOnBack={sourceActiveTab}
+                triggerOpen={triggerFavoriteSave}
+                onSaveComplete={handleFavoriteSaveComplete}
               />
             </div>
           </div>
@@ -91,27 +98,9 @@ const CustomizationLayout = ({
         <div className="code-panel">
           <div className="code-panel-header">
             <div className="code-icon">
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M16 18L22 12L16 6"
-                  stroke="#3E41FF"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M8 6L2 12L8 18"
-                  stroke="#3E41FF"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M16 18L22 12L16 6" stroke="#3E41FF" strokeWidth="2" />
+                <path d="M8 6L2 12L8 18" stroke="#3E41FF" strokeWidth="2" />
               </svg>
             </div>
             <h3>Generated Code</h3>
@@ -142,10 +131,10 @@ const CustomizationLayout = ({
         isOpen={showConfirmDialog}
         onClose={handleDiscardCancel}
         onConfirm={handleDiscardConfirm}
-        title="Discard Changes?"
-        message="You have unsaved changes. Are you sure you want to discard them and go back?"
-        confirmText="Discard"
-        cancelText="Cancel"
+        title="Unsaved Changes?"
+        message="You have unsaved changes. Do you want to save them before going back?"
+        confirmText="Save Changes"
+        cancelText="Go Back"
       />
     </div>
   );
