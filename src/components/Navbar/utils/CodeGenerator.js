@@ -302,6 +302,10 @@ export const generateCSS = (navbarStyle, navItems = []) => {
     font-size: 0.875rem;
     margin-left: 5px;
   }
+    .search-container input::placeholder {
+  color: ${navbarStyle.searchPlaceholderColor || "#999999"};
+  opacity: 1;
+}
 `
     : "";
 

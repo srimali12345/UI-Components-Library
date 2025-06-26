@@ -479,144 +479,150 @@ const NavbarToolBox = ({
         </div>
 
         {/* Search field section */}
-        <div className="collapsible-section">
-          <div className="section-header" onClick={() => toggle("searchField")}>
-            <span>Search Field </span>
-            {expandedSections.searchField ? (
-              <ChevronDown size={16} />
-            ) : (
-              <ChevronRight size={16} />
-            )}
+<div className="collapsible-section">
+  <div className="section-header" onClick={() => toggle("searchField")}>
+    <span>Search Field </span>
+    {expandedSections.searchField ? (
+      <ChevronDown size={16} />
+    ) : (
+      <ChevronRight size={16} />
+    )}
+  </div>
+  {expandedSections.searchField && (
+    <div className="section-content">
+      {/* Toggle Search Bar */}
+      <div className="checkbox-container">
+        <input
+          type="checkbox"
+          id="hasSearch"
+          checked={navbarStyle.hasSearch}
+          onChange={handleToggleSearch}
+        />
+        <label htmlFor="hasSearch">Include Search Bar</label>
+      </div>
+
+      {/* Only show styles if search is enabled */}
+      {navbarStyle.hasSearch && (
+        <>
+          <div className="input-group">
+            <label> SearchBar Background Color:</label>
+            <input
+              type="color"
+              value={
+                navbarStyle.searchBarBackgroundColor ||
+                "rgba(255, 255, 255, 0.1)"
+              }
+              onChange={(e) =>
+                setNavbarStyle((prev) => ({
+                  ...prev,
+                  searchBarBackgroundColor: e.target.value,
+                }))
+              }
+            />
           </div>
-          {expandedSections.searchField && (
-            <div className="section-content">
-              {/* Toggle Search Bar */}
-              <div className="checkbox-container">
-                <input
-                  type="checkbox"
-                  id="hasSearch"
-                  checked={navbarStyle.hasSearch}
-                  onChange={handleToggleSearch}
-                />
-                <label htmlFor="hasSearch">Include Search Bar</label>
-              </div>
+          <div className="input-group">
+            <label>SearchBar Border Color:</label>
+            <input
+              type="color"
+              value={navbarStyle.SearchBarBorderColor || "#cccccc"}
+              onChange={(e) =>
+                setNavbarStyle((prev) => ({
+                  ...prev,
+                  SearchBarBorderColor: e.target.value,
+                }))
+              }
+            />
+          </div>
 
-              {/* Only show styles if search is enabled */}
-              {navbarStyle.hasSearch && (
-                <>
-                  <div className="input-group">
-                    <label> SearchBar Background Color:</label>
-                    <input
-                      type="color"
-                      value={
-                        navbarStyle.searchBarBackgroundColor ||
-                        "rgba(255, 255, 255, 0.1)"
-                      }
-                      onChange={(e) =>
-                        setNavbarStyle((prev) => ({
-                          ...prev,
-                          searchBarBackgroundColor: e.target.value,
-                        }))
-                      }
-                    />
-                  </div>
-                  <div className="input-group">
-                    <label>SearchBar Border Color:</label>
-                    <input
-                      type="color"
-                      value={navbarStyle.SearchBarBorderColor || "#cccccc"}
-                      onChange={(e) =>
-                        setNavbarStyle((prev) => ({
-                          ...prev,
-                          SearchBarBorderColor: e.target.value,
-                        }))
-                      }
-                    />
-                  </div>
-
-                  <div className="input-group">
-                    <label>SearchBar Border Width:</label>
-                    <input
-                      type="number"
-                      min="0"
-                      value={parseInt(navbarStyle.SearchBorderWidth) || 1}
-                      onChange={(e) =>
-                        setNavbarStyle((prev) => ({
-                          ...prev,
-                          SearchBorderWidth: `${e.target.value}px`,
-                        }))
-                      }
-                    />
-                  </div>
-                  <div className="input-group">
-                    <label>SearchBar Border Radius:</label>
-                    <div className="border-radius-inputs">
-                      <input
-                        type="number"
-                        min="0"
-                        value={
-                          parseInt(navbarStyle.searchBorderTopLeftRadius) || 6
-                        }
-                        onChange={(e) =>
-                          setNavbarStyle((prev) => ({
-                            ...prev,
-                            searchBorderTopLeftRadius: `${e.target.value}px`,
-                          }))
-                        }
-                        placeholder="TL"
-                      />
-                      <input
-                        type="number"
-                        min="0"
-                        value={
-                          parseInt(navbarStyle.searchBorderTopRightRadius) || 6
-                        }
-                        onChange={(e) =>
-                          setNavbarStyle((prev) => ({
-                            ...prev,
-                            searchBorderTopRightRadius: `${e.target.value}px`,
-                          }))
-                        }
-                        placeholder="TR"
-                      />
-                      <input
-                        type="number"
-                        min="0"
-                        value={
-                          parseInt(navbarStyle.searchBorderBottomLeftRadius) ||
-                          6
-                        }
-                        onChange={(e) =>
-                          setNavbarStyle((prev) => ({
-                            ...prev,
-                            searchBorderBottomLeftRadius: `${e.target.value}px`,
-                          }))
-                        }
-                        placeholder="BL"
-                      />
-                      <input
-                        type="number"
-                        min="0"
-                        value={
-                          parseInt(navbarStyle.searchBorderBottomRightRadius) ||
-                          6
-                        }
-                        onChange={(e) =>
-                          setNavbarStyle((prev) => ({
-                            ...prev,
-                            searchBorderBottomRightRadius: `${e.target.value}px`,
-                          }))
-                        }
-                        placeholder="BR"
-                      />
-                      <span>px</span>
-                    </div>
-                  </div>
-                </>
-              )}
+          <div className="input-group">
+            <label>SearchBar Border Width:</label>
+            <input
+              type="number"
+              min="0"
+              value={parseInt(navbarStyle.SearchBorderWidth) || 1}
+              onChange={(e) =>
+                setNavbarStyle((prev) => ({
+                  ...prev,
+                  SearchBorderWidth: `${e.target.value}px`,
+                }))
+              }
+            />
+          </div>
+          <div className="input-group">
+            <label>SearchBar Border Radius:</label>
+            <div className="border-radius-inputs">
+              <input
+                type="number"
+                min="0"
+                value={parseInt(navbarStyle.searchBorderTopLeftRadius) || 6}
+                onChange={(e) =>
+                  setNavbarStyle((prev) => ({
+                    ...prev,
+                    searchBorderTopLeftRadius: `${e.target.value}px`,
+                  }))
+                }
+                placeholder="TL"
+              />
+              <input
+                type="number"
+                min="0"
+                value={parseInt(navbarStyle.searchBorderTopRightRadius) || 6}
+                onChange={(e) =>
+                  setNavbarStyle((prev) => ({
+                    ...prev,
+                    searchBorderTopRightRadius: `${e.target.value}px`,
+                  }))
+                }
+                placeholder="TR"
+              />
+              <input
+                type="number"
+                min="0"
+                value={parseInt(navbarStyle.searchBorderBottomLeftRadius) || 6}
+                onChange={(e) =>
+                  setNavbarStyle((prev) => ({
+                    ...prev,
+                    searchBorderBottomLeftRadius: `${e.target.value}px`,
+                  }))
+                }
+                placeholder="BL"
+              />
+              <input
+                type="number"
+                min="0"
+                value={parseInt(navbarStyle.searchBorderBottomRightRadius) || 6}
+                onChange={(e) =>
+                  setNavbarStyle((prev) => ({
+                    ...prev,
+                    searchBorderBottomRightRadius: `${e.target.value}px`,
+                  }))
+                }
+                placeholder="BR"
+              />
+              <span>px</span>
             </div>
-          )}
-        </div>
+          </div>
+
+          {/* Added Placeholder Text Color input */}
+          <div className="input-group">
+            <label>Placeholder Text Color:</label>
+            <input
+              type="color"
+              value={navbarStyle.searchPlaceholderColor || "#999999"}
+              onChange={(e) =>
+                setNavbarStyle((prev) => ({
+                  ...prev,
+                  searchPlaceholderColor: e.target.value,
+                }))
+              }
+            />
+          </div>
+        </>
+      )}
+    </div>
+  )}
+</div>
+
 
         {/* Navigation Section */}
         <div className="collapsible-section">

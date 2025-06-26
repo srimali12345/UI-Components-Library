@@ -57,7 +57,12 @@ const PreviewPane = ({ navbarStyle, navItems, templateId }) => {
 
   useEffect(() => {
     setHoverColor();
-  }, [navbarStyle.hoverColor]);
+    // Set placeholder color CSS variable
+    document.documentElement.style.setProperty(
+      "--nav-search-placeholder-color",
+      navbarStyle.searchPlaceholderColor || "#999999"
+    );
+  }, [navbarStyle.hoverColor, navbarStyle.searchPlaceholderColor]);
 
   const searchContainerStyles = {
     backgroundColor:
@@ -333,6 +338,14 @@ const PreviewPane = ({ navbarStyle, navItems, templateId }) => {
           </div>
         </div>
       </div>
+
+      {/* Add style for placeholder color */}
+      <style>{`
+        .search-input::placeholder {
+          color: var(--nav-search-placeholder-color);
+          opacity: 1; /* Ensure full opacity */
+        }
+      `}</style>
     </div>
   );
 };
