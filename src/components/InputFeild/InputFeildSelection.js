@@ -8,6 +8,7 @@ import { Search, Heart, Trash2 } from "lucide-react";
 import "../../styles/components/inputCustomization.scss";
 import { inputDefaults } from "../../constants";
 import { useFavorites } from "../../contexts/FavouriteContext";
+import Breadcrumb from "../../commonComponents/Breadcrumb";
 
 const InputSelection = ({ inputType }) => {
   const navigate = useNavigate();
@@ -235,28 +236,22 @@ const InputSelection = ({ inputType }) => {
           marginBottom: "1.5rem",
         }}
       >
-        <h2 className="component-title">
-          <strong
-            style={{
-              cursor: "pointer",
-            }}
-            onClick={() => setShowFavorites(false)}
-          >
-            Input Fields
-          </strong>
-          {showFavorites && (
-            <span
-              className="favourite-link"
-              style={{
-                marginLeft: "5px",
-                fontWeight: "normal",
-                cursor: "pointer",
-              }}
-            >
-              /Favourites
-            </span>
-          )}
-        </h2>
+        <Breadcrumb
+          items={[
+            {
+              label: "Input Fields",
+              path: "/dashboard", // or current route
+              onClick: () => setShowFavorites(false),
+            },
+            ...(showFavorites
+              ? [
+                  {
+                    label: "Favourites",
+                  },
+                ]
+              : []),
+          ]}
+        />
 
         {!showFavorites && (
           <button

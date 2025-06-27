@@ -7,6 +7,7 @@ import CardCodeModal from "./CardCodeModal";
 import { cardDefaults } from "../../constants";
 import { useFavorites } from "../../contexts/FavouriteContext";
 import { Heart, Trash2 } from "lucide-react";
+import Breadcrumb from "../../commonComponents/Breadcrumb";
 
 const CardSelection = () => {
   const navigate = useNavigate();
@@ -29,8 +30,13 @@ const CardSelection = () => {
   const handleShowFavoriteCode = (component) => {
     setSelectedCardType(component.cardType || "Basic");
     setSelectedCardStyles(component.savedStyles || {});
-    setSelectedCardTitle(component.cardTitle || component.label || `${component.cardType} Card`);
-    setSelectedCardContent(component.cardContent || `This is a ${component.cardType} card with sample content.`);
+    setSelectedCardTitle(
+      component.cardTitle || component.label || `${component.cardType} Card`
+    );
+    setSelectedCardContent(
+      component.cardContent ||
+        `This is a ${component.cardType} card with sample content.`
+    );
     setModalVisible(true);
   };
 
@@ -200,26 +206,22 @@ const CardSelection = () => {
           alignItems: "center",
         }}
       >
-        <h2 className="component-title">
-          <strong
-            style={{ cursor: "pointer" }}
-            onClick={() => setShowFavorites(false)}
-          >
-            Card Components
-          </strong>
-          {showFavorites && (
-            <span
-              className="favourite-link"
-              style={{
-                marginLeft: "5px",
-                fontWeight: "normal",
-                cursor: "pointer",
-              }}
-            >
-              /Favourites
-            </span>
-          )}
-        </h2>
+        <Breadcrumb
+          items={[
+            {
+              label: "Card Components",
+              path: "/dashboard",
+              onClick: () => setShowFavorites(false),
+            },
+            ...(showFavorites
+              ? [
+                  {
+                    label: "Favourites",
+                  },
+                ]
+              : []),
+          ]}
+        />
 
         {!showFavorites && (
           <button

@@ -1,19 +1,52 @@
-@use './components/buttonsCustomization.scss' as *;
-@use './components/cardCustomization.scss' as *;
-@use './components/inputCustomization.scss' as *;
-@use './components/nav.scss' as *;
-@use './components/navbarCustomization.scss' as *;
-@use './components/navCustomization.scss' as *;
-@use './pages/dashboard.scss' as *;
-@use './pages/docs.scss' as *;
-@use './pages/faq.scss' as *;
-@use './pages/favourite.scss' as *;
-@use './pages/home.scss' as *;
-@use './themes/login.scss' as *;
+@use "./components/buttonsCustomization.scss" as *;
+@use "./components/cardCustomization.scss" as *;
+@use "./components/inputCustomization.scss" as *;
+@use "./components/nav.scss" as *;
+@use "./components/navbarCustomization.scss" as *;
+@use "./components/navCustomization.scss" as *;
+@use "./pages/dashboard.scss" as *;
+@use "./pages/docs.scss" as *;
+@use "./pages/faq.scss" as *;
+@use "./pages/favourite.scss" as *;
+@use "./pages/home.scss" as *;
+@use "./themes/login.scss" as *;
 
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
+}
+
+.breadcrumb-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #4b5563;
+  font-size: 14px;
+}
+
+.breadcrumb-home {
+  cursor: pointer;
+  color: #4b5563;
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb-separator {
+  margin: 0 10px;
+  height: 20px;
+}
+
+.breadcrumb-link {
+  cursor: pointer;
+  color: #4b5563;
+  transition: color 0.2s;
+}
+
+.breadcrumb-link:hover {
+  color: #1f2937;
+}
+
+.breadcrumb-text {
+  color: #4b5563;
 }

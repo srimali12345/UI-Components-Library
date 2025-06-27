@@ -8,6 +8,7 @@ import "../../styles/components/buttonsCustomization.scss";
 import { buttonDefaults } from "../../constants";
 import { useFavorites } from "../../contexts/FavouriteContext";
 import { Heart, Trash2 } from "lucide-react";
+import Breadcrumb from "../../commonComponents/Breadcrumb";
 
 const ButtonSelection = () => {
   const navigate = useNavigate();
@@ -145,28 +146,22 @@ const ButtonSelection = () => {
           marginBottom: "1.5rem",
         }}
       >
-        <h2 className="component-title">
-          <strong
-            style={{
-              cursor: "pointer",
-            }}
-            onClick={() => setShowFavorites(false)}
-          >
-            Buttons
-          </strong>
-          {showFavorites && (
-            <span
-              className="favourite-link"
-              style={{
-                marginLeft: "5px",
-                fontWeight: "normal",
-                cursor: "pointer",
-              }}
-            >
-              /Favourites
-            </span>
-          )}
-        </h2>
+        <Breadcrumb
+          items={[
+            {
+              label: "Button Components",
+              path: "/dashboard", // or current route
+              onClick: () => setShowFavorites(false),
+            },
+            ...(showFavorites
+              ? [
+                  {
+                    label: "Favourites",
+                  },
+                ]
+              : []),
+          ]}
+        />
 
         {!showFavorites && (
           <button

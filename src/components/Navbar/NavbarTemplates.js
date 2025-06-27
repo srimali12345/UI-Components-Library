@@ -6,6 +6,7 @@ import toolIcon from "../../images/tool.png";
 import NavbarCodeModal from "./NavbarCodeModal";
 import { Heart, Trash2 } from "lucide-react";
 import { useFavorites } from "../../contexts/FavouriteContext";
+import Breadcrumb from "../../commonComponents/Breadcrumb";
 import "../../styles/components/navCustomization.scss";
 
 const DEFAULT_LOGO_URL =
@@ -16,7 +17,7 @@ const NavbarTemplates = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState(null);
   const [showFavorites, setShowFavorites] = useState(false);
-  
+
   const { favorites, addFavorite, removeFavorite } = useFavorites();
 
   const handleTemplateClick = (template) => {
@@ -29,9 +30,9 @@ const NavbarTemplates = () => {
       navItems: template.navItems || [
         { id: 1, text: "Home", active: true, url: "/" },
         { id: 2, text: "About", active: false, url: "/about" },
-        { id: 3, text: "Contact", active: false, url: "/contact" }
+        { id: 3, text: "Contact", active: false, url: "/contact" },
       ],
-      style: template.style || {}
+      style: template.style || {},
     };
     setSelectedTemplate(completeTemplate);
     setModalVisible(true);
@@ -53,9 +54,9 @@ const NavbarTemplates = () => {
       navItems: template.navItems || [
         { id: 1, text: "Home", active: true, url: "/" },
         { id: 2, text: "About", active: false, url: "/about" },
-        { id: 3, text: "Contact", active: false, url: "/contact" }
+        { id: 3, text: "Contact", active: false, url: "/contact" },
       ],
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
     };
     addFavorite(favoriteData);
   };
@@ -75,16 +76,15 @@ const NavbarTemplates = () => {
         existingNavItems: component.navItems || [
           { id: 1, text: "Home", active: true, url: "/" },
           { id: 2, text: "About", active: false, url: "/about" },
-          { id: 3, text: "Contact", active: false, url: "/contact" }
-        ]
-      }
+          { id: 3, text: "Contact", active: false, url: "/contact" },
+        ],
+      },
     });
   };
 
   const navbarFavorites = favorites.filter(
     (component) =>
-      component.type === "Navbar" || 
-      component.componentType === "NAVBAR"
+      component.type === "Navbar" || component.componentType === "NAVBAR"
   );
 
   const renderFavoritePreview = (component) => {
@@ -92,11 +92,11 @@ const NavbarTemplates = () => {
     const navItems = component.navItems || [
       { id: 1, text: "Home", active: true, url: "/" },
       { id: 2, text: "About", active: false, url: "/about" },
-      { id: 3, text: "Contact", active: false, url: "/contact" }
+      { id: 3, text: "Contact", active: false, url: "/contact" },
     ];
 
     // Calculate border radius similar to PreviewPane
-    const borderRadiusVal = 
+    const borderRadiusVal =
       savedStyles.topLeftRadius ||
       savedStyles.topRightRadius ||
       savedStyles.bottomRightRadius ||
@@ -108,8 +108,10 @@ const NavbarTemplates = () => {
         : savedStyles.borderRadius || "6px";
 
     const activeItemStyles = {
-      color: savedStyles.activeColor || savedStyles.textColor || '#333333',
-      borderBottom: `2px solid ${savedStyles.activeColor || savedStyles.textColor || '#333333'}`,
+      color: savedStyles.activeColor || savedStyles.textColor || "#333333",
+      borderBottom: `2px solid ${
+        savedStyles.activeColor || savedStyles.textColor || "#333333"
+      }`,
     };
 
     return (
@@ -128,7 +130,9 @@ const NavbarTemplates = () => {
               justifyContent: "space-between",
               width: "100%",
               border: savedStyles.borderWidth
-                ? `${savedStyles.borderWidth} solid ${savedStyles.borderColor || "#e5e7eb"}`
+                ? `${savedStyles.borderWidth} solid ${
+                    savedStyles.borderColor || "#e5e7eb"
+                  }`
                 : "none",
             }}
           >
@@ -153,9 +157,7 @@ const NavbarTemplates = () => {
                       key={item.id}
                       href="#"
                       className="nav-link"
-                      style={
-                        item.active ? activeItemStyles : {}
-                      }
+                      style={item.active ? activeItemStyles : {}}
                     >
                       {item.text}
                     </a>
@@ -163,61 +165,59 @@ const NavbarTemplates = () => {
                 </div>
               )}
 
-              {savedStyles.navPosition === "right" &&
-                savedStyles.hasSearch && (
-                  <div className="search-container right">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="lucide lucide-search-icon lucide-search"
-                    >
-                      <circle cx="11" cy="11" r="8" />
-                      <path d="m21 21-4.3-4.3" />
-                    </svg>
-                    <input
-                      type="text"
-                      placeholder="Search"
-                      className="search-input"
-                      style={{ color: savedStyles.textColor }}
-                    />
-                  </div>
-                )}
+              {savedStyles.navPosition === "right" && savedStyles.hasSearch && (
+                <div className="search-container right">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="lucide lucide-search-icon lucide-search"
+                  >
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.3-4.3" />
+                  </svg>
+                  <input
+                    type="text"
+                    placeholder="Search"
+                    className="search-input"
+                    style={{ color: savedStyles.textColor }}
+                  />
+                </div>
+              )}
             </div>
 
             <div className="navbar-right">
-              {savedStyles.navPosition !== "right" &&
-                savedStyles.hasSearch && (
-                  <div className="search-container">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="lucide lucide-search-icon lucide-search"
-                    >
-                      <circle cx="11" cy="11" r="8" />
-                      <path d="m21 21-4.3-4.3" />
-                    </svg>
-                    <input
-                      type="text"
-                      placeholder="Search"
-                      className="search-input"
-                      style={{ color: savedStyles.textColor }}
-                    />
-                  </div>
-                )}
+              {savedStyles.navPosition !== "right" && savedStyles.hasSearch && (
+                <div className="search-container">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="lucide lucide-search-icon lucide-search"
+                  >
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.3-4.3" />
+                  </svg>
+                  <input
+                    type="text"
+                    placeholder="Search"
+                    className="search-input"
+                    style={{ color: savedStyles.textColor }}
+                  />
+                </div>
+              )}
 
               {savedStyles.navPosition === "right" && (
                 <div className="nav-links right">
@@ -226,9 +226,7 @@ const NavbarTemplates = () => {
                       key={item.id}
                       href="#"
                       className="nav-link"
-                      style={
-                        item.active ? activeItemStyles : {}
-                      }
+                      style={item.active ? activeItemStyles : {}}
                     >
                       {item.text}
                     </a>
@@ -286,28 +284,22 @@ const NavbarTemplates = () => {
           marginBottom: "1.5rem",
         }}
       >
-        <h2 className="component-title">
-          <strong
-            style={{
-              cursor: "pointer",
-            }}
-            onClick={() => setShowFavorites(false)}
-          >
-            Navbars
-          </strong>
-          {showFavorites && (
-            <span
-              className="favourite-link"
-              style={{
-                marginLeft: "5px",
-                fontWeight: "normal",
-                cursor: "pointer",
-              }}
-            >
-              /Favourites
-            </span>
-          )}
-        </h2>
+        <Breadcrumb
+          items={[
+            {
+              label: "Navbars",
+              path: "/dashboard", // or current route
+              onClick: () => setShowFavorites(false),
+            },
+            ...(showFavorites
+              ? [
+                  {
+                    label: "Favourites",
+                  },
+                ]
+              : []),
+          ]}
+        />
 
         {!showFavorites && (
           <button
@@ -326,21 +318,25 @@ const NavbarTemplates = () => {
           {navbarFavorites.length > 0 ? (
             <div className="nav-list">
               {navbarFavorites.map((component) => (
-                <div key={component.id} className="btn-list-wrap" style={{ width: "100%" }}>
+                <div
+                  key={component.id}
+                  className="btn-list-wrap"
+                  style={{ width: "100%" }}
+                >
                   <div className="btn-wrap-header">
                     <p className="btn-wrap-title">
                       {component.favoriteName ||
                         `${component.navbarType} Navbar`}
                     </p>
                   </div>
-                  <div className="btn-wrap" >
+                  <div className="btn-wrap">
                     <div
                       style={{
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
                         minHeight: "64px",
-                        width: "100%"
+                        width: "100%",
                       }}
                     >
                       {renderFavoritePreview(component)}
@@ -353,13 +349,25 @@ const NavbarTemplates = () => {
                         onClick={() => {
                           const completeTemplate = {
                             id: component.id,
-                            name: component.favoriteName || `${component.navbarType} Navbar`,
+                            name:
+                              component.favoriteName ||
+                              `${component.navbarType} Navbar`,
                             style: component.savedStyles || {},
                             navItems: component.navItems || [
                               { id: 1, text: "Home", active: true, url: "/" },
-                              { id: 2, text: "About", active: false, url: "/about" },
-                              { id: 3, text: "Contact", active: false, url: "/contact" }
-                            ]
+                              {
+                                id: 2,
+                                text: "About",
+                                active: false,
+                                url: "/about",
+                              },
+                              {
+                                id: 3,
+                                text: "Contact",
+                                active: false,
+                                url: "/contact",
+                              },
+                            ],
                           };
                           setSelectedTemplate(completeTemplate);
                           setModalVisible(true);
@@ -415,17 +423,21 @@ const NavbarTemplates = () => {
         <div className="nav-list">
           {templates.map((template) => {
             const isFavorite = favorites.some(
-              (fav) => 
-                (fav.type === "Navbar" || fav.componentType === "NAVBAR") && 
+              (fav) =>
+                (fav.type === "Navbar" || fav.componentType === "NAVBAR") &&
                 fav.navbarType === template.id.toString()
             );
-            
+
             return (
-              <div key={template.id} className="btn-list-wrap" style={{ width: "100%" }}>
+              <div
+                key={template.id}
+                className="btn-list-wrap"
+                style={{ width: "100%" }}
+              >
                 <div className="btn-wrap-header">
                   <p className="btn-wrap-title">{template.name}</p>
                 </div>
-                <div className="btn-wrap" >
+                <div className="btn-wrap">
                   <div
                     className="navbar-template"
                     onClick={() => handleTemplateClick(template)}

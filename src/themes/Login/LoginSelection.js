@@ -7,6 +7,7 @@ import LoginCodeModal from "./LoginCodeModal";
 import "../../styles/themes/login.scss";
 import { loginDefaults } from "../../constants";
 import { useFavorites } from "../../contexts/FavouriteContext";
+import Breadcrumb from "../../commonComponents/Breadcrumb";
 import { Heart, Trash2 } from "lucide-react";
 
 const LoginSelection = () => {
@@ -117,20 +118,20 @@ const LoginSelection = () => {
   );
 
   const handleCustomizeFavorite = (component) => {
-  const loginType = component.loginType || component.type;
+    const loginType = component.loginType || component.type;
 
-  if ((component.componentType === "LOGIN") && loginType) {
-    navigate(`/customize/login/${loginType}`, {
-      state: {
-        fromFavorite: true,
-        favoriteId: component.id,
-        existingStyles: component.savedStyles || {},
-        existingTitle: component.loginTitle || component.label || "Login Form",
-      },
-    });
-  }
-};
-
+    if (component.componentType === "LOGIN" && loginType) {
+      navigate(`/customize/login/${loginType}`, {
+        state: {
+          fromFavorite: true,
+          favoriteId: component.id,
+          existingStyles: component.savedStyles || {},
+          existingTitle:
+            component.loginTitle || component.label || "Login Form",
+        },
+      });
+    }
+  };
 
   const handleRemoveFavorite = (componentId) => {
     if (window.confirm("Are you sure you want to remove this favorite?")) {
@@ -148,74 +149,74 @@ const LoginSelection = () => {
     const savedStyles = component.savedStyles || {};
 
     const loginContainerStyles = {
-      backgroundColor: savedStyles.backgroundColor || '#ffffff',
-      border: `${savedStyles.borderWidth || "1px"} solid ${savedStyles.borderColor || "#e1e5e9"}`,
-      borderRadius: savedStyles.borderRadius || '8px',
-      padding: savedStyles.padding || '24px',
-      boxShadow: savedStyles.boxShadow || '0 4px 12px rgba(0, 0, 0, 0.1)',
+      backgroundColor: savedStyles.backgroundColor || "#ffffff",
+      border: `${savedStyles.borderWidth || "1px"} solid ${
+        savedStyles.borderColor || "#e1e5e9"
+      }`,
+      borderRadius: savedStyles.borderRadius || "8px",
+      padding: savedStyles.padding || "24px",
+      boxShadow: savedStyles.boxShadow || "0 4px 12px rgba(0, 0, 0, 0.1)",
       fontFamily: "Arial, sans-serif",
-      maxWidth: '280px',
-      width: '100%',
-      transform: 'scale(0.8)',
-      transformOrigin: 'center',
+      maxWidth: "280px",
+      width: "100%",
+      transform: "scale(0.8)",
+      transformOrigin: "center",
     };
 
     const loginTitleStyles = {
       color: savedStyles.titleColor || "#1a1a1a",
-      fontSize: savedStyles.titleFontSize || '18px',
-      fontWeight: savedStyles.titleFontWeight || '600',
-      margin: '0 0 16px 0',
-      textAlign: 'center'
+      fontSize: savedStyles.titleFontSize || "18px",
+      fontWeight: savedStyles.titleFontWeight || "600",
+      margin: "0 0 16px 0",
+      textAlign: "center",
     };
 
     const loginLabelStyles = {
-      color: savedStyles.labelColor || '#374151',
-      fontSize: savedStyles.labelFontSize || '12px',
-      fontWeight: '500',
-      display: 'block',
-      marginBottom: '4px'
+      color: savedStyles.labelColor || "#374151",
+      fontSize: savedStyles.labelFontSize || "12px",
+      fontWeight: "500",
+      display: "block",
+      marginBottom: "4px",
     };
 
     const loginInputStyles = {
-      backgroundColor: savedStyles.inputBackgroundColor || '#ffffff',
-      border: `1px solid ${savedStyles.inputBorderColor || '#d1d5db'}`,
-      borderRadius: savedStyles.inputBorderRadius || '6px',
-      padding: savedStyles.inputPadding || '8px',
-      width: '100%',
-      fontSize: savedStyles.inputFontSize || '12px',
-      outline: 'none',
-      transition: 'border-color 0.2s',
-      boxSizing: 'border-box',
-      marginBottom: '10px'
+      backgroundColor: savedStyles.inputBackgroundColor || "#ffffff",
+      border: `1px solid ${savedStyles.inputBorderColor || "#d1d5db"}`,
+      borderRadius: savedStyles.inputBorderRadius || "6px",
+      padding: savedStyles.inputPadding || "8px",
+      width: "100%",
+      fontSize: savedStyles.inputFontSize || "12px",
+      outline: "none",
+      transition: "border-color 0.2s",
+      boxSizing: "border-box",
+      marginBottom: "10px",
     };
 
     const loginButtonStyles = {
-      backgroundColor: savedStyles.buttonBackgroundColor || '#3b82f6',
-      color: savedStyles.buttonColor || '#ffffff',
-      border: 'none',
-      borderRadius: savedStyles.buttonBorderRadius || '6px',
-      padding: savedStyles.buttonPadding || '8px 16px',
-      width: '100%',
-      fontSize: '12px',
-      fontWeight: savedStyles.buttonFontWeight || '500',
-      cursor: 'pointer',
-      transition: 'opacity 0.2s'
+      backgroundColor: savedStyles.buttonBackgroundColor || "#3b82f6",
+      color: savedStyles.buttonColor || "#ffffff",
+      border: "none",
+      borderRadius: savedStyles.buttonBorderRadius || "6px",
+      padding: savedStyles.buttonPadding || "8px 16px",
+      width: "100%",
+      fontSize: "12px",
+      fontWeight: savedStyles.buttonFontWeight || "500",
+      cursor: "pointer",
+      transition: "opacity 0.2s",
     };
 
     const rememberMeStyles = {
-      color: savedStyles.rememberMeColor || '#374151',
-      fontSize: '10px',
-      display: 'flex',
-      alignItems: 'center',
-      gap: '6px',
-      margin: '8px 0'
+      color: savedStyles.rememberMeColor || "#374151",
+      fontSize: "10px",
+      display: "flex",
+      alignItems: "center",
+      gap: "6px",
+      margin: "8px 0",
     };
 
     return (
       <div style={loginContainerStyles}>
-        <h2 style={loginTitleStyles}>
-          {component.loginTitle || "Login Form"}
-        </h2>
+        <h2 style={loginTitleStyles}>{component.loginTitle || "Login Form"}</h2>
         <div style={{ marginBottom: "10px" }}>
           <label style={loginLabelStyles}>Username:</label>
           <input
@@ -238,16 +239,14 @@ const LoginSelection = () => {
           <input type="checkbox" id="remember" style={{ margin: 0 }} />
           <label htmlFor="remember">Remember me</label>
         </div>
-        <button style={loginButtonStyles}>
-          Login
-        </button>
+        <button style={loginButtonStyles}>Login</button>
       </div>
     );
   };
 
   return (
     <div className="login-dashboard">
-      <div 
+      <div
         className="section-header"
         style={{
           display: "flex",
@@ -256,28 +255,22 @@ const LoginSelection = () => {
           marginBottom: "1.5rem",
         }}
       >
-        <h2 className="component-title">
-          <strong
-            style={{
-              cursor: "pointer",
-            }}
-            onClick={() => setShowFavorites(false)}
-          >
-            Login Forms
-          </strong>
-          {showFavorites && (
-            <span
-              className="favourite-link"
-              style={{
-                marginLeft: "5px",
-                fontWeight: "normal",
-                cursor: "pointer",
-              }}
-            >
-              /Favourites
-            </span>
-          )}
-        </h2>
+        <Breadcrumb
+          items={[
+            {
+              label: "Login Forms",
+              path: "/dashboard", // or current route
+              onClick: () => setShowFavorites(false),
+            },
+            ...(showFavorites
+              ? [
+                  {
+                    label: "Favourites",
+                  },
+                ]
+              : []),
+          ]}
+        />
 
         <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
           {!showFavorites && (
@@ -301,8 +294,7 @@ const LoginSelection = () => {
                 <div key={component.id} className="login-list-wrap">
                   <div className="login-wrap-header">
                     <p className="login-wrap-title">
-                      {component.favoriteName ||
-                        `${component.loginType} Login`}
+                      {component.favoriteName || `${component.loginType} Login`}
                     </p>
                   </div>
                   <div className="login-wrap">
