@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Save } from "lucide-react";
 import { useFavorites } from "../contexts/FavouriteContext";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const SaveAsFavorite = ({
   componentType,
@@ -16,19 +16,16 @@ const SaveAsFavorite = ({
   onSaveComplete,
 }) => {
   const location = useLocation();
-  const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const [saveOption, setSaveOption] = useState(""); // 'save' or 'saveAsNew'
   const [favoriteName, setFavoriteName] = useState(customLabel || "");
+  const [confirmAdd, setConfirmAdd] = useState(false);
+  const [saveOption, setSaveOption] = useState("saveAsNew");
 
-  const { addFavorite, updateFavorite, isFavorite, getFavoriteById } =
-    useFavorites();
+  const { addFavorite, updateFavorite, isFavorite, getFavoriteById } = useFavorites();
 
   const fromFavorite = location.state?.fromFavorite;
   const favoriteId = location.state?.favoriteId;
   const existingFavorite = favoriteId ? getFavoriteById(favoriteId) : null;
-  const sourceActiveTab = location.state?.active || activeTabOnBack;
 
   const componentUniqueId = `${componentType}-${componentId}`;
   const isAlreadyFavorite = isFavorite(componentUniqueId);
@@ -36,7 +33,10 @@ const SaveAsFavorite = ({
   useEffect(() => {
     if (triggerOpen) {
       setShowModal(true);
-      setSaveOption(fromFavorite && existingFavorite ? "save" : "saveAsNew");
+      if (fromFavorite && existingFavorite) {
+        setSaveOption("save"); // default to update existing
+        setFavoriteName(existingFavorite.favoriteName);
+      }
     }
   }, [triggerOpen]);
 
@@ -44,9 +44,7 @@ const SaveAsFavorite = ({
     switch (componentType) {
       case "button":
         return {
-          html: `<button class="${componentId}-btn">${
-            currentTitle || "Button"
-          }</button>`,
+          html: `<button class="${componentId}-btn">${currentTitle || "Button"}</button>`,
           css: `/* CSS for ${componentId} button */`,
           scss: `/* SCSS for ${componentId} button */`,
         };
@@ -65,57 +63,29 @@ const SaveAsFavorite = ({
     }
   };
 
-  const handleSaveClick = () => {
-    if (fromFavorite && existingFavorite) {
-      setShowModal(true);
-    } else {
-      setShowConfirmation(true);
-    }
-  };
-
-  const handleConfirmSave = () => {
-    setShowConfirmation(false);
-    setSaveOption("saveAsNew");
-    setShowModal(true);
-  };
-
   const handleSave = () => {
     const savedCode = generateCodeForComponent();
 
     if (saveOption === "save" && existingFavorite) {
-      const updatedFavorite = {
+      const updated = {
         ...existingFavorite,
         savedStyles: currentStyles,
-        buttonText:
-          componentType === "button"
-            ? currentTitle
-            : existingFavorite.buttonText,
-        cardTitle:
-          componentType === "card" ? currentTitle : existingFavorite.cardTitle,
-        cardContent:
-          componentType === "card"
-            ? currentContent
-            : existingFavorite.cardContent,
-        savedCode: savedCode,
+        buttonText: componentType === "button" ? currentTitle : existingFavorite.buttonText,
+        cardTitle: componentType === "card" ? currentTitle : existingFavorite.cardTitle,
+        cardContent: componentType === "card" ? currentContent : existingFavorite.cardContent,
+        savedCode,
         updatedAt: new Date().toISOString(),
       };
 
-      updateFavorite(favoriteId, updatedFavorite);
-      setShowModal(false);
+      updateFavorite(favoriteId, updated);
       alert("Favorite updated successfully!");
-      onSaveComplete?.();
     } else {
-      if (!favoriteName.trim()) return;
+      if (!favoriteName.trim() || !confirmAdd) return;
 
-      const favoriteComponent = {
+      const newFavorite = {
         id: `${componentType}-${componentId}-${Date.now()}`,
         componentType: componentType.toUpperCase(),
-        type:
-          componentType === "button"
-            ? "Button"
-            : componentType === "card"
-            ? "Card"
-            : componentType,
+        type: componentType === "button" ? "Button" : "Card",
         subtype: componentId,
         favoriteName: favoriteName.trim(),
         buttonType: componentType === "button" ? componentId : undefined,
@@ -124,24 +94,26 @@ const SaveAsFavorite = ({
         cardTitle: componentType === "card" ? currentTitle : undefined,
         cardContent: componentType === "card" ? currentContent : undefined,
         savedStyles: currentStyles,
-        savedCode: savedCode,
+        savedCode,
         label: favoriteName.trim(),
         addedAt: new Date().toISOString(),
       };
 
-      addFavorite(favoriteComponent);
-      setShowModal(false);
-      setFavoriteName("");
+      addFavorite(newFavorite);
       alert("Component saved to favorites!");
-      onSaveComplete?.();
     }
+
+    setShowModal(false);
+    setFavoriteName("");
+    setConfirmAdd(false);
+    onSaveComplete?.();
   };
 
   return (
     <>
       <button
         className="save-favorite-btn"
-        onClick={handleSaveClick}
+        onClick={() => setShowModal(true)}
         title={fromFavorite ? "Save changes" : "Save as favorite"}
       >
         <Save
@@ -151,41 +123,11 @@ const SaveAsFavorite = ({
         />
       </button>
 
-      {showConfirmation && (
-        <div className="modal-overlay-favourite">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h3>Add to Favorites</h3>
-              <button
-                className="modal-close"
-                onClick={() => setShowConfirmation(false)}
-              >
-                ×
-              </button>
-            </div>
-            <div className="modal-body">
-              <p>Are you sure to add this as favourite?</p>
-            </div>
-            <div className="modal-footer">
-              <button
-                className="btn-cancel"
-                onClick={() => setShowConfirmation(false)}
-              >
-                Cancel
-              </button>
-              <button className="btn-save" onClick={handleConfirmSave}>
-                OK
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
       {showModal && (
         <div className="modal-overlay-favourite">
           <div className="modal-content">
             <div className="modal-header">
-              <h3>{fromFavorite ? "Save Options" : "Save as Favorite"}</h3>
+              <h3>Save as Favorite</h3>
               <button
                 className="modal-close"
                 onClick={() => setShowModal(false)}
@@ -196,53 +138,37 @@ const SaveAsFavorite = ({
             <div className="modal-body">
               {fromFavorite && existingFavorite ? (
                 <div className="save-options">
-                  <div className="option-group">
-                    <label className="option-label">
-                      <input
-                        type="radio"
-                        name="saveOption"
-                        value="save"
-                        checked={saveOption === "save"}
-                        onChange={(e) => setSaveOption(e.target.value)}
-                      />
-                      <span>
-                        Save - Update existing "{existingFavorite.favoriteName}"
-                      </span>
-                    </label>
-                  </div>
-                  <div className="option-group">
-                    <label className="option-label">
-                      <input
-                        type="radio"
-                        name="saveOption"
-                        value="saveAsNew"
-                        checked={saveOption === "saveAsNew"}
-                        onChange={(e) => setSaveOption(e.target.value)}
-                      />
-                      <span>Save as New - Create a new favorite</span>
-                    </label>
-                  </div>
-
-                  {saveOption === "saveAsNew" && (
-                    <div className="name-input-section">
-                      <label className="input-label">Favorite Name</label>
-                      <input
-                        type="text"
-                        className="favorite-name-input"
-                        value={favoriteName}
-                        onChange={(e) => setFavoriteName(e.target.value)}
-                        placeholder={`Enter name for this ${componentType}`}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter") {
-                            handleSave();
-                          }
-                        }}
-                      />
-                    </div>
-                  )}
+                  <label className="option-label">
+                    <input
+                      type="radio"
+                      name="saveOption"
+                      value="save"
+                      checked={saveOption === "save"}
+                      onChange={(e) => setSaveOption(e.target.value)}
+                    />
+                    <span>
+                      Save - Update existing "{existingFavorite.favoriteName}"
+                    </span>
+                  </label>
+                  <label className="option-label save-new">
+                    <input
+                      type="radio"
+                      name="saveOption"
+                      value="saveAsNew"
+                      checked={saveOption === "saveAsNew"}
+                      onChange={(e) => {
+                        setSaveOption(e.target.value);
+                        setFavoriteName("");
+                        setConfirmAdd(false);
+                      }}
+                    />
+                    <span>Save as New - Create a new favorite</span>
+                  </label>
                 </div>
-              ) : (
-                <div>
+              ) : null}
+
+              {saveOption === "saveAsNew" || !fromFavorite ? (
+                <>
                   <label className="input-label">Favorite Name</label>
                   <input
                     type="text"
@@ -250,15 +176,23 @@ const SaveAsFavorite = ({
                     value={favoriteName}
                     onChange={(e) => setFavoriteName(e.target.value)}
                     placeholder={`Enter name for this ${componentType}`}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        handleSave();
-                      }
-                    }}
                   />
-                </div>
-              )}
+                  <div className="radio-confirm-section">
+                    <label className="option-label">
+                      <input
+                      className="confirm-checkbox"
+                        type="checkbox"
+                        checked={confirmAdd}
+                        onChange={(e) => setConfirmAdd(e.target.checked)}
+                      />
+                      <span>Are you sure you want to add this as favorite?</span>
+                    </label>
+                  </div>
+
+                </>
+              ) : null}
             </div>
+
             <div className="modal-footer">
               <button
                 className="btn-cancel"
@@ -269,7 +203,11 @@ const SaveAsFavorite = ({
               <button
                 className="btn-save"
                 onClick={handleSave}
-                disabled={saveOption === "saveAsNew" && !favoriteName.trim()}
+                disabled={
+                  saveOption === "saveAsNew"
+                    ? !favoriteName.trim() || !confirmAdd
+                    : false
+                }
               >
                 {saveOption === "save" ? "Update" : "Save"}
               </button>

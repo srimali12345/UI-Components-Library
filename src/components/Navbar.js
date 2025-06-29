@@ -1,6 +1,5 @@
-
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "../../src/styles/components/nav.scss";
 import faqIcon from "../images/faq.png";
 
@@ -8,24 +7,37 @@ const Navbar = () => {
   return (
     <nav>
       <div className="container nav-wrap">
-        <Link to="/">
+        <NavLink to="/">
           <img
             src="https://1billiontech.com/assets/images/logo.png"
             alt="logo"
             className="logo"
           />
-        </Link>
+        </NavLink>
         <ul className="nav-menu">
           <li>
-            <Link to="/dashboard">Customize</Link>
+            <NavLink
+              to="/dashboard"
+              className={({ isActive }) => (isActive ? "active-link" : "")}
+            >
+              Customize
+            </NavLink>
           </li>
           <li>
-            <Link to="/docs">Documentation</Link>
+            <NavLink
+              to="/docs"
+              className={({ isActive }) => (isActive ? "active-link" : "")}
+            >
+              Documentation
+            </NavLink>
           </li>
           <li>
-            <Link to="/faq">
+            <NavLink
+              to="/faq"
+              className={({ isActive }) => (isActive ? "active-link" : "")}
+            >
               <img src={faqIcon} alt="icon" className="nav-icon" />
-            </Link>
+            </NavLink>
           </li>
         </ul>
       </div>

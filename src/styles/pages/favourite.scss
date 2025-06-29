@@ -416,21 +416,22 @@
 
       .btn-cancel {
         padding: 8px 16px;
-        background-color: #f3f4f6;
-        border: 1px solid #d1d5db;
+        background-color: #ffffff;
+        border: 1px solid #633cec;
         border-radius: 6px;
         font-size: 14px;
         cursor: pointer;
-        color: #374151;
+        color: #633cec;
 
         &:hover {
-          background-color: #e5e7eb;
+          background-color: #ffffff;
+          border: 1px solid #633cec;
         }
       }
 
       .btn-save {
         padding: 8px 16px;
-        background-color: #3b82f6;
+        background-color: rgba(99, 60, 236, 1);
         color: #ffffff;
         border: none;
         border-radius: 6px;
@@ -439,11 +440,11 @@
         transition: background-color 0.2s;
 
         &:hover:not(:disabled) {
-          background-color: #2563eb;
+          background-color: rgba(99, 60, 236, 1);
         }
 
         &:disabled {
-          background-color: #93c5fd;
+          background-color: rgba(99, 60, 236, 0.5);
           cursor: not-allowed;
         }
       }
@@ -496,4 +497,14 @@
 }
 .component-title {
   margin: 0px !important;
+}
+.radio-confirm-section {
+  margin-top: 10px;
+}
+.save-new {
+  margin-bottom: 20px;
+}
+.confirm-checkbox {
+  margin-left: 0px !important;
+  margin-right: 5px;
 }

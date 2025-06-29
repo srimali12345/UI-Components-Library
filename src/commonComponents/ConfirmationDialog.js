@@ -30,7 +30,7 @@ const ConfirmationDialog = ({
           <button
             className="btn-save"
             onClick={onConfirm}
-            style={{ backgroundColor: "#ef4444" }}
+           
           >
             {confirmText}
           </button>
