@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ChevronLeft, Eye, EyeOff } from "lucide-react";
 import SaveAsFavorite from "../commonComponents/FavouriteButton";
@@ -31,6 +31,28 @@ const CustomizationLayout = ({
   const sourceActiveTab = location.state?.active || activeTabOnBack;
   const displayTitle = fromFavorite ? "Favourites Customization" : pageTitle;
 
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      const hasChanges =
+        hasUnsavedChanges && typeof hasUnsavedChanges === "function"
+          ? hasUnsavedChanges()
+          : false;
+
+      if (hasChanges) {
+        e.preventDefault();
+        e.returnValue = ""; // Chrome requires returnValue to be set
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    // Clean up on unmount
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [hasUnsavedChanges]);
+
+
   const toggleCodeVisibility = () => {
     setIsCodeVisible(!isCodeVisible);
   };
@@ -57,6 +79,11 @@ const CustomizationLayout = ({
     setShowConfirmDialog(false);
     onDiscardChanges?.();
     navigate(backRoute, { state: { active: sourceActiveTab } });
+  };
+
+    const handleClose = () => {
+    setShowConfirmDialog(false);
+   
   };
 
   const handleFavoriteSaveComplete = () => {
@@ -129,7 +156,7 @@ const CustomizationLayout = ({
 
       <ConfirmationDialog
         isOpen={showConfirmDialog}
-        onClose={handleDiscardCancel}
+        onClose={handleClose}
         onConfirm={handleDiscardConfirm}
         title="Unsaved Changes?"
         message="You have unsaved changes. Do you want to save them before going back?"
