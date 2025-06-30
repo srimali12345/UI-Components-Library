@@ -751,7 +751,11 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  padding: 0px 20px;
+  border-radius: 6px !important;
+   
   &.s2 {
+     border: 1px solid #e5e7eb !important;
     .nav-link {
       color: #1a1f2c;
     }
