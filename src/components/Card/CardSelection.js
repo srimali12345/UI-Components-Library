@@ -76,7 +76,7 @@ const CardSelection = () => {
     const isBasicCard = type === "Basic";
 
     const cardStyle = {
-      width: savedStyles.width || "200px",
+      width: savedStyles.width ,
       minHeight: savedStyles.minHeight || "150px",
       backgroundColor: savedStyles.backgroundColor || "#ffffff",
       color: savedStyles.textColor || "#333333",
