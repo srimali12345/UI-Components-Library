@@ -57,22 +57,23 @@ const CustomizationLayout = ({
     setIsCodeVisible(!isCodeVisible);
   };
 
-  const handleBackClick = () => {
-    const hasChanges =
-      hasUnsavedChanges && typeof hasUnsavedChanges === "function"
-        ? hasUnsavedChanges()
-        : false;
+const handleBackClick = () => {
+  const hasChanges =
+    hasUnsavedChanges && typeof hasUnsavedChanges === "function"
+      ? hasUnsavedChanges()
+      : false;
 
-    if (hasChanges) {
-      setShowConfirmDialog(true);
+  if (hasChanges) {
+     setShowConfirmDialog(true);
     } else {
-      navigate(backRoute, { state: { active: sourceActiveTab } });
+  navigate(backRoute, { state: { active: sourceActiveTab } });
     }
-  };
+};
+
 
   const handleDiscardConfirm = () => {
-    setShowConfirmDialog(false);
-    setTriggerFavoriteSave(true); // trigger SaveAsFavorite popup
+    onDiscardChanges?.(); // clear the local changes
+  navigate(backRoute, { state: { active: sourceActiveTab } }); // go back
   };
 
   const handleDiscardCancel = () => {
@@ -156,8 +157,9 @@ const CustomizationLayout = ({
 
       <ConfirmationDialog
         isOpen={showConfirmDialog}
-        onClose={handleClose}
+        onClose={handleDiscardConfirm}
         onConfirm={handleDiscardConfirm}
+        onBack={handleClose}
         title="Unsaved Changes?"
         message="You have unsaved changes. Do you want to save them before going back?"
         confirmText="Save Changes"

@@ -4,6 +4,7 @@ const ConfirmationDialog = ({
   isOpen,
   onClose,
   onConfirm,
+  onBack,
   title = "Discard Changes?",
   message = "You have unsaved changes. Are you sure you want to discard them?",
   confirmText = "Discard",
@@ -16,7 +17,7 @@ const ConfirmationDialog = ({
       <div className="modal-content">
         <div className="modal-header">
           <h3>{title}</h3>
-          <button className="modal-close" onClick={onClose}>
+          <button className="modal-close" onClick={onBack}>
             ×
           </button>
         </div>
