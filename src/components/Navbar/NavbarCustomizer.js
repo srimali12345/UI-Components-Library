@@ -52,7 +52,7 @@ const NavbarCustomizer = () => {
     selectedTemplate ? { ...navbarDefaultStyles, ...selectedTemplate.style, ...existingStyles } : { ...navbarDefaultStyles, ...existingStyles },
     existingTitle, // Use existing title from favorites
     "",
-    existingNavItems, // Use existing nav items from favorites
+    selectedTemplate ? selectedTemplate.navItems : defaultNavItems, // Default nav items for template
     fromFavorite, // isFromFavorites
     existingStyles, // existingStyles from favorites
     existingTitle, // existingTitle from favorites

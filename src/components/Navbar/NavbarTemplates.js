@@ -67,17 +67,82 @@ const NavbarTemplates = () => {
     }
   };
 
+  // Helper function to get the most current saved data for a component
+  const getCurrentSavedData = (component) => {
+    const componentId = component.navbarType || component.id;
+    
+    console.log("Getting current saved data for component:", componentId);
+    
+    // Get saved data from localStorage
+    const savedStyles = localStorage.getItem(`navbar-styles-${componentId}`);
+    const savedNavItems = localStorage.getItem(`navbar-navItems-${componentId}`);
+    const savedTitle = localStorage.getItem(`navbar-title-${componentId}`);
+    
+    console.log("Raw localStorage data:", {
+      savedStyles,
+      savedNavItems,
+      savedTitle
+    });
+    
+    const parseSafeJSON = (jsonString, fallback) => {
+      try {
+        return jsonString ? JSON.parse(jsonString) : fallback;
+      } catch (error) {
+        console.warn("Failed to parse JSON:", error);
+        return fallback;
+      }
+    };
+
+    // Default nav items fallback
+    const defaultNavItems = [
+      { id: 1, text: "Home", active: true, url: "/" },
+      { id: 2, text: "About", active: false, url: "/about" },
+      { id: 3, text: "Contact", active: false, url: "/contact" },
+    ];
+
+    // Use saved data if available, otherwise fall back to component's stored data
+    const finalStyles = savedStyles ? 
+      parseSafeJSON(savedStyles, component.savedStyles || {}) : 
+      component.savedStyles || {};
+    
+    // Priority: localStorage > component.navItems > defaults
+    let finalNavItems;
+    if (savedNavItems) {
+      finalNavItems = parseSafeJSON(savedNavItems, defaultNavItems);
+    } else if (component.navItems && Array.isArray(component.navItems) && component.navItems.length > 0) {
+      finalNavItems = component.navItems;
+    } else {
+      finalNavItems = defaultNavItems;
+    }
+
+    const finalTitle = savedTitle || component.favoriteName || `${componentId} Navbar`;
+
+    console.log("Final processed data:", {
+      finalStyles,
+      finalNavItems,
+      finalTitle
+    });
+
+    return { finalStyles, finalNavItems, finalTitle };
+  };
+
   const handleCustomizeFavorite = (component) => {
+    const { finalStyles, finalNavItems, finalTitle } = getCurrentSavedData(component);
+
+    console.log("Navigating to customize with saved data:", {
+      savedStyles: finalStyles,
+      savedNavItems: finalNavItems,
+      savedTitle: finalTitle,
+      component
+    });
+
     navigate(`/customize-navbar/${component.navbarType}`, {
       state: {
         fromFavorite: true,
         favoriteId: component.id,
-        existingStyles: component.savedStyles || {},
-        existingNavItems: component.navItems || [
-          { id: 1, text: "Home", active: true, url: "/" },
-          { id: 2, text: "About", active: false, url: "/about" },
-          { id: 3, text: "Contact", active: false, url: "/contact" },
-        ],
+        existingStyles: finalStyles,
+        existingNavItems: finalNavItems,
+        existingTitle: finalTitle,
       },
     });
   };
@@ -87,58 +152,72 @@ const NavbarTemplates = () => {
       component.type === "Navbar" || component.componentType === "NAVBAR"
   );
 
-  const renderFavoritePreview = (component) => {
-    const savedStyles = component.savedStyles || {};
-    const navItems = component.navItems || [
+  const renderNavbarPreview = (navbarStyle, navItems, templateId = null) => {
+    console.log("Rendering navbar preview with:", { navbarStyle, navItems });
+    
+    // Calculate border radius similar to PreviewPane
+    const borderRadiusVal =
+      navbarStyle.topLeftRadius ||
+      navbarStyle.topRightRadius ||
+      navbarStyle.bottomRightRadius ||
+      navbarStyle.bottomLeftRadius
+        ? `${navbarStyle.topLeftRadius || "6px"} 
+           ${navbarStyle.topRightRadius || "6px"} 
+           ${navbarStyle.bottomRightRadius || "6px"} 
+           ${navbarStyle.bottomLeftRadius || "6px"}`
+        : navbarStyle.borderRadius || "6px";
+
+    const activeItemStyles = {
+      color: navbarStyle.activeColor || navbarStyle.textColor || "#333333",
+      borderBottom: `2px solid ${
+        navbarStyle.activeColor || navbarStyle.textColor || "#333333"
+      }`,
+    };
+
+    // Ensure navItems is an array and has content
+    const displayNavItems = Array.isArray(navItems) && navItems.length > 0 ? navItems : [
       { id: 1, text: "Home", active: true, url: "/" },
       { id: 2, text: "About", active: false, url: "/about" },
       { id: 3, text: "Contact", active: false, url: "/contact" },
     ];
 
-    // Calculate border radius similar to PreviewPane
-    const borderRadiusVal =
-      savedStyles.topLeftRadius ||
-      savedStyles.topRightRadius ||
-      savedStyles.bottomRightRadius ||
-      savedStyles.bottomLeftRadius
-        ? `${savedStyles.topLeftRadius || "6px"} 
-           ${savedStyles.topRightRadius || "6px"} 
-           ${savedStyles.bottomRightRadius || "6px"} 
-           ${savedStyles.bottomLeftRadius || "6px"}`
-        : savedStyles.borderRadius || "6px";
+    console.log("Display nav items:", displayNavItems);
 
-    const activeItemStyles = {
-      color: savedStyles.activeColor || savedStyles.textColor || "#333333",
-      borderBottom: `2px solid ${
-        savedStyles.activeColor || savedStyles.textColor || "#333333"
-      }`,
-    };
+    // Check if icons should be shown
+    const showNotificationIcon = navbarStyle.icons?.notification?.show !== false && 
+                                navbarStyle.hasNotification !== false;
+    const showProfileIcon = navbarStyle.icons?.profile?.show !== false && 
+                           navbarStyle.hasProfile !== false;
+
+    // Get icon colors
+    const notificationIconColor = navbarStyle.icons?.notification?.color || navbarStyle.textColor || "#333333";
+    const profileIconColor = navbarStyle.icons?.profile?.color || navbarStyle.textColor || "#333333";
 
     return (
       <div className="navbar-template" style={{ width: "100%" }}>
         <div className="preview-pane" style={{ width: "100%" }}>
           <div
-            className="navbar-preview"
+            className={`navbar-preview ${templateId ? `s${templateId}` : ''}`}
             style={{
-              backgroundColor: savedStyles.backgroundColor,
-              color: savedStyles.textColor,
+              backgroundColor: navbarStyle.backgroundColor,
+              color: navbarStyle.textColor,
               borderRadius: borderRadiusVal,
-              height: savedStyles.height || "64px",
-              padding: savedStyles.padding || "0 1rem",
+              height: navbarStyle.height || "64px",
+              padding: navbarStyle.padding || "0 1rem",
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
               width: "100%",
-              border: savedStyles.borderWidth
-                ? `${savedStyles.borderWidth} solid ${
-                    savedStyles.borderColor || "#e5e7eb"
+              border: navbarStyle.borderWidth
+                ? `${navbarStyle.borderWidth} solid ${
+                    navbarStyle.borderColor || "#e5e7eb"
                   }`
                 : "none",
             }}
           >
             <div
               className={`navbar-left ${
-                savedStyles.navPosition === "right" ? "full-width" : ""
+                navbarStyle.navPosition === "right" ? "full-width" : ""
               }`}
             >
               <div className="navbar-logo">
@@ -150,14 +229,14 @@ const NavbarTemplates = () => {
                 />
               </div>
 
-              {savedStyles.navPosition !== "right" && (
+              {navbarStyle.navPosition !== "right" && (
                 <div className="nav-links">
-                  {navItems.slice(0, 3).map((item) => (
+                  {displayNavItems.slice(0, 3).map((item) => (
                     <a
                       key={item.id}
                       href="#"
                       className="nav-link"
-                      style={item.active ? activeItemStyles : {}}
+                      style={item.active ? activeItemStyles : { color: navbarStyle.textColor || "#333333" }}
                     >
                       {item.text}
                     </a>
@@ -165,7 +244,7 @@ const NavbarTemplates = () => {
                 </div>
               )}
 
-              {savedStyles.navPosition === "right" && savedStyles.hasSearch && (
+              {navbarStyle.navPosition === "right" && navbarStyle.hasSearch && (
                 <div className="search-container right">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -186,14 +265,14 @@ const NavbarTemplates = () => {
                     type="text"
                     placeholder="Search"
                     className="search-input"
-                    style={{ color: savedStyles.textColor }}
+                    style={{ color: navbarStyle.textColor }}
                   />
                 </div>
               )}
             </div>
 
             <div className="navbar-right">
-              {savedStyles.navPosition !== "right" && savedStyles.hasSearch && (
+              {navbarStyle.navPosition !== "right" && navbarStyle.hasSearch && (
                 <div className="search-container">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -214,19 +293,19 @@ const NavbarTemplates = () => {
                     type="text"
                     placeholder="Search"
                     className="search-input"
-                    style={{ color: savedStyles.textColor }}
+                    style={{ color: navbarStyle.textColor }}
                   />
                 </div>
               )}
 
-              {savedStyles.navPosition === "right" && (
+              {navbarStyle.navPosition === "right" && (
                 <div className="nav-links right">
-                  {navItems.slice(0, 3).map((item) => (
+                  {displayNavItems.slice(0, 3).map((item) => (
                     <a
                       key={item.id}
                       href="#"
                       className="nav-link"
-                      style={item.active ? activeItemStyles : {}}
+                      style={item.active ? activeItemStyles : { color: navbarStyle.textColor || "#333333" }}
                     >
                       {item.text}
                     </a>
@@ -234,37 +313,43 @@ const NavbarTemplates = () => {
                 </div>
               )}
 
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-bell-icon lucide-bell"
-              >
-                <path d="M10.268 21a2 2 0 0 0 3.464 0" />
-                <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" />
-              </svg>
-              <div>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="lucide lucide-user-round-icon lucide-user-round"
-                >
-                  <circle cx="12" cy="8" r="5" />
-                  <path d="M20 21a8 8 0 0 0-16 0" />
-                </svg>
+              <div className="icon-container" style={{ display: "flex", gap: "12px", alignItems: "center" }}>
+                {showNotificationIcon && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke={notificationIconColor}
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="lucide lucide-bell-icon lucide-bell"
+                  >
+                    <path d="M10.268 21a2 2 0 0 0 3.464 0" />
+                    <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" />
+                  </svg>
+                )}
+                {showProfileIcon && (
+                  <div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke={profileIconColor}
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="lucide lucide-user-round-icon lucide-user-round"
+                    >
+                      <circle cx="12" cy="8" r="5" />
+                      <path d="M20 21a8 8 0 0 0-16 0" />
+                    </svg>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -317,83 +402,71 @@ const NavbarTemplates = () => {
         <div className="favorites-section">
           {navbarFavorites.length > 0 ? (
             <div className="nav-list">
-              {navbarFavorites.map((component) => (
-                <div
-                  key={component.id}
-                  className="btn-list-wrap"
-                  style={{ width: "100%" }}
-                >
-                  <div className="btn-wrap-header">
-                    <p className="btn-wrap-title">
-                      {component.favoriteName ||
-                        `${component.navbarType} Navbar`}
-                    </p>
-                  </div>
-                  <div className="btn-wrap">
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        minHeight: "64px",
-                        width: "100%",
-                      }}
-                    >
-                      {renderFavoritePreview(component)}
-                    </div>
+              {navbarFavorites.map((component) => {
+                // Get the most current saved data for this component
+                const { finalStyles, finalNavItems, finalTitle } = getCurrentSavedData(component);
 
-                    <div className="flex-wrap">
-                      <button
-                        className="btn-tool-wrap"
-                        title="View code"
-                        onClick={() => {
-                          const completeTemplate = {
-                            id: component.id,
-                            name:
-                              component.favoriteName ||
-                              `${component.navbarType} Navbar`,
-                            style: component.savedStyles || {},
-                            navItems: component.navItems || [
-                              { id: 1, text: "Home", active: true, url: "/" },
-                              {
-                                id: 2,
-                                text: "About",
-                                active: false,
-                                url: "/about",
-                              },
-                              {
-                                id: 3,
-                                text: "Contact",
-                                active: false,
-                                url: "/contact",
-                              },
-                            ],
-                          };
-                          setSelectedTemplate(completeTemplate);
-                          setModalVisible(true);
+                return (
+                  <div
+                    key={component.id}
+                    className="btn-list-wrap"
+                    style={{ width: "100%" }}
+                  >
+                    <div className="btn-wrap-header">
+                      <p className="btn-wrap-title">
+                        {finalTitle}
+                      </p>
+                    </div>
+                    <div className="btn-wrap">
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          minHeight: "64px",
+                          width: "100%",
                         }}
                       >
-                        <img src={copyIcon} alt="icon" className="btn-icon" />
-                      </button>
-                      <button
-                        className="btn-tool-wrap"
-                        title="Customize styles"
-                        onClick={() => handleCustomizeFavorite(component)}
-                      >
-                        <img src={toolIcon} alt="icon" className="btn-icon" />
-                      </button>
-                      <button
-                        className="btn-tool-wrap"
-                        title="Remove from favorites"
-                        onClick={() => handleRemoveFavorite(component.id)}
-                        style={{ backgroundColor: "#fee2e2" }}
-                      >
-                        <Trash2 size={16} color="#dc2626" />
-                      </button>
+                        {renderNavbarPreview(finalStyles, finalNavItems)}
+                      </div>
+
+                      <div className="flex-wrap">
+                        <button
+                          className="btn-tool-wrap"
+                          title="View code"
+                          onClick={() => {
+                            const completeTemplate = {
+                              id: component.id,
+                              name: finalTitle,
+                              style: finalStyles,
+                              navItems: finalNavItems,
+                            };
+                            setSelectedTemplate(completeTemplate);
+                            setModalVisible(true);
+                          }}
+                        >
+                          <img src={copyIcon} alt="icon" className="btn-icon" />
+                        </button>
+                        <button
+                          className="btn-tool-wrap"
+                          title="Customize styles"
+                          onClick={() => handleCustomizeFavorite(component)}
+                        >
+                          <img src={toolIcon} alt="icon" className="btn-icon" />
+                        </button>
+                        <button
+                          className="btn-tool-wrap"
+                          title="Remove from favorites"
+                          onClick={() => handleRemoveFavorite(component.id)}
+                          style={{ backgroundColor: "#fee2e2" }}
+                        >
+                          <Trash2 size={16} color="#dc2626" />
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           ) : (
             <div
@@ -443,172 +516,7 @@ const NavbarTemplates = () => {
                     onClick={() => handleTemplateClick(template)}
                     style={{ width: "100%" }}
                   >
-                    <div className="preview-pane" style={{ width: "100%" }}>
-                      <div
-                        className={`navbar-preview s${template.id}`}
-                        style={{
-                          backgroundColor: template.style.backgroundColor,
-                          color: template.style.textColor,
-                          borderRadius: template.style.borderRadius,
-                          height: template.style.height || "64px",
-                          padding: template.style.padding || "0 1rem",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                          width: "100%",
-                        }}
-                      >
-                        <div
-                          className={`navbar-left ${
-                            template.style.navPosition === "right"
-                              ? "full-width"
-                              : ""
-                          }`}
-                        >
-                          <div className="navbar-logo">
-                            <img
-                              src={DEFAULT_LOGO_URL}
-                              alt="Logo"
-                              className="logo-image"
-                              style={{ height: "32px" }}
-                            />
-                          </div>
-
-                          {template.style.navPosition === "left" && (
-                            <div className="nav-links">
-                              {template.navItems.map((item, i) => (
-                                <a
-                                  key={i}
-                                  href="#"
-                                  className="nav-link"
-                                  style={
-                                    item.active
-                                      ? {
-                                          color: template.style.activeColor,
-                                          borderBottom: `2px solid ${template.style.activeColor}`,
-                                        }
-                                      : {}
-                                  }
-                                >
-                                  {item.text}
-                                </a>
-                              ))}
-                            </div>
-                          )}
-
-                          {template.style.navPosition === "right" &&
-                            template.style.hasSearch && (
-                              <div className="search-container right">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="18"
-                                  height="18"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  className="lucide lucide-search-icon lucide-search"
-                                >
-                                  <circle cx="11" cy="11" r="8" />
-                                  <path d="m21 21-4.3-4.3" />
-                                </svg>
-                                <input
-                                  type="text"
-                                  placeholder="Search"
-                                  className="search-input"
-                                  style={{ color: template.style.textColor }}
-                                />
-                              </div>
-                            )}
-                        </div>
-
-                        <div className="navbar-right">
-                          {template.style.navPosition === "left" &&
-                            template.style.hasSearch && (
-                              <div className="search-container">
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="18"
-                                  height="18"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  className="lucide lucide-search-icon lucide-search"
-                                >
-                                  <circle cx="11" cy="11" r="8" />
-                                  <path d="m21 21-4.3-4.3" />
-                                </svg>
-                                <input
-                                  type="text"
-                                  placeholder="Search"
-                                  className="search-input"
-                                  style={{ color: template.style.textColor }}
-                                />
-                              </div>
-                            )}
-
-                          {template.style.navPosition === "right" && (
-                            <div className="nav-links right">
-                              {template.navItems.map((item, i) => (
-                                <a
-                                  key={i}
-                                  href="#"
-                                  className="nav-link"
-                                  style={
-                                    item.active
-                                      ? {
-                                          color: template.style.activeColor,
-                                          borderBottom: `2px solid ${template.style.activeColor}`,
-                                        }
-                                      : {}
-                                  }
-                                >
-                                  {item.text}
-                                </a>
-                              ))}
-                            </div>
-                          )}
-
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="18"
-                            height="18"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="lucide lucide-bell-icon lucide-bell"
-                          >
-                            <path d="M10.268 21a2 2 0 0 0 3.464 0" />
-                            <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" />
-                          </svg>
-                          <div>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="18"
-                              height="18"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="2"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              className="lucide lucide-user-round-icon lucide-user-round"
-                            >
-                              <circle cx="12" cy="8" r="5" />
-                              <path d="M20 21a8 8 0 0 0-16 0" />
-                            </svg>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    {renderNavbarPreview(template.style, template.navItems, template.id)}
                   </div>
                   <div className="flex-wrap">
                     <button
