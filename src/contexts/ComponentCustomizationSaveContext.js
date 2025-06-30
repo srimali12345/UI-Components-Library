@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useCallback, useRef } from "react";
 
 export const useComponentCustomization = (
@@ -11,8 +10,7 @@ export const useComponentCustomization = (
   isFromFavorites = false,
   existingStyles = {},
   existingTitle = "",
-  existingContent = "",
-  existingNavItems = []
+  existingContent = ""
 ) => {
   // Create storage keys based on component type and ID
   const stylesStorageKey = `${componentType}-styles-${componentId}`;
@@ -65,68 +63,41 @@ export const useComponentCustomization = (
         initialStyles = Object.keys(existingStyles).length > 0 ? existingStyles : defaultStyles;
         initialTitle = existingTitle || defaultTitle;
         initialContent = existingContent || defaultContent;
-        initialNavItems = (existingNavItems && existingNavItems.length > 0) ? existingNavItems : defaultNavItems;
+        initialNavItems = defaultNavItems;
 
         console.log("Loading from favorites:", {
           initialStyles,
           initialTitle,
           initialContent,
-          initialNavItems,
           existingStyles,
-          existingTitle,
-          existingNavItems
+          existingTitle
         });
 
         // Mark as previously saved if we have favorite data
         const hasDataFromFavorites = Object.keys(existingStyles).length > 0 || 
                                      (existingTitle && existingTitle !== defaultTitle) || 
-                                     (existingContent && existingContent !== defaultContent) ||
-                                     (existingNavItems && existingNavItems.length > 0);
+                                     (existingContent && existingContent !== defaultContent);
         
         if (hasDataFromFavorites) {
           setHasPreviouslySaved(true);
           setSavingState("saved");
         }
       } else {
-        // Check if we have saved data in localStorage
-        const savedStyles = localStorage.getItem(stylesStorageKey);
-        const savedTitle = localStorage.getItem(titleStorageKey);
-        const savedContent = localStorage.getItem(contentStorageKey);
-        const savedNavItems = localStorage.getItem(navItemsStorageKey);
+        // When NOT from favorites, ALWAYS use defaults (ignore localStorage)
+        initialStyles = defaultStyles;
+        initialTitle = defaultTitle;
+        initialContent = defaultContent;
+        initialNavItems = defaultNavItems;
 
-        if (savedStyles || savedTitle || savedContent || savedNavItems) {
-          // Use saved data from localStorage
-          initialStyles = savedStyles ? safeParseJSON(savedStyles, defaultStyles) : defaultStyles;
-          initialTitle = savedTitle || defaultTitle;
-          initialContent = savedContent || defaultContent;
-          initialNavItems = savedNavItems ? safeParseJSON(savedNavItems, defaultNavItems) : defaultNavItems;
+        console.log("Starting with defaults for normal customization:", {
+          initialStyles,
+          initialTitle,
+          initialContent
+        });
 
-          setHasPreviouslySaved(true);
-          setSavingState("saved");
-          
-          console.log("Loading from localStorage:", {
-            initialStyles,
-            initialTitle,
-            initialContent,
-            initialNavItems
-          });
-        } else {
-          // Use defaults for fresh start
-          initialStyles = defaultStyles;
-          initialTitle = defaultTitle;
-          initialContent = defaultContent;
-          initialNavItems = defaultNavItems;
-
-          console.log("Starting with defaults:", {
-            initialStyles,
-            initialTitle,
-            initialContent,
-            initialNavItems
-          });
-
-          setHasPreviouslySaved(false);
-          setSavingState("idle");
-        }
+        // Reset saving state for fresh start
+        setHasPreviouslySaved(false);
+        setSavingState("idle");
       }
 
       // Set all state values
@@ -182,7 +153,6 @@ export const useComponentCustomization = (
     JSON.stringify(existingStyles),
     existingTitle,
     existingContent,
-    JSON.stringify(existingNavItems),
   ]);
 
   // Function to check if there are unsaved changes
