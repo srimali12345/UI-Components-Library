@@ -40,7 +40,7 @@ const CustomizationLayout = ({
 
       if (hasChanges) {
         e.preventDefault();
-        e.returnValue = ""; // Chrome requires returnValue to be set
+        e.returnValue = "";
       }
     };
 
@@ -52,28 +52,27 @@ const CustomizationLayout = ({
     };
   }, [hasUnsavedChanges]);
 
-
   const toggleCodeVisibility = () => {
     setIsCodeVisible(!isCodeVisible);
   };
 
-const handleBackClick = () => {
-  const hasChanges =
-    hasUnsavedChanges && typeof hasUnsavedChanges === "function"
-      ? hasUnsavedChanges()
-      : false;
+  const handleBackClick = () => {
+    const hasChanges =
+      hasUnsavedChanges && typeof hasUnsavedChanges === "function"
+        ? hasUnsavedChanges()
+        : false;
 
-  if (hasChanges) {
-     setShowConfirmDialog(true);
+    if (hasChanges) {
+      setShowConfirmDialog(true);
     } else {
-  navigate(backRoute, { state: { active: sourceActiveTab } });
+      navigate(backRoute, { state: { active: sourceActiveTab } });
     }
-};
-
+  };
 
   const handleDiscardConfirm = () => {
-    onDiscardChanges?.(); // clear the local changes
-  navigate(backRoute, { state: { active: sourceActiveTab } }); // go back
+    setTriggerFavoriteSave(true);
+    setShowConfirmDialog(false); // ✅ Open SaveAsFavorite popup
+    // setShowConfirmDialog(false);
   };
 
   const handleDiscardCancel = () => {
@@ -82,9 +81,8 @@ const handleBackClick = () => {
     navigate(backRoute, { state: { active: sourceActiveTab } });
   };
 
-    const handleClose = () => {
+  const handleClose = () => {
     setShowConfirmDialog(false);
-   
   };
 
   const handleFavoriteSaveComplete = () => {
@@ -116,7 +114,10 @@ const handleBackClick = () => {
                 backRoute={backRoute}
                 activeTabOnBack={sourceActiveTab}
                 triggerOpen={triggerFavoriteSave}
-                onSaveComplete={handleFavoriteSaveComplete}
+                onSaveComplete={() => {
+                  handleFavoriteSaveComplete();
+                  setTriggerFavoriteSave(false); // Reset the trigger after save is complete
+                }}
               />
             </div>
           </div>
@@ -157,7 +158,7 @@ const handleBackClick = () => {
 
       <ConfirmationDialog
         isOpen={showConfirmDialog}
-        onClose={handleDiscardConfirm}
+        onClose={handleDiscardCancel}
         onConfirm={handleDiscardConfirm}
         onBack={handleClose}
         title="Unsaved Changes?"
