@@ -21,7 +21,8 @@ const SaveAsFavorite = ({
   const [confirmAdd, setConfirmAdd] = useState(false);
   const [saveOption, setSaveOption] = useState("save");
 
-  const { addFavorite, updateFavorite, isFavorite, getFavoriteById } = useFavorites();
+  const { addFavorite, updateFavorite, isFavorite, getFavoriteById } =
+    useFavorites();
 
   const fromFavorite = location.state?.fromFavorite;
   const favoriteId = location.state?.favoriteId;
@@ -44,7 +45,9 @@ const SaveAsFavorite = ({
     switch (componentType) {
       case "button":
         return {
-          html: `<button class="${componentId}-btn">${currentTitle || "Button"}</button>`,
+          html: `<button class="${componentId}-btn">${
+            currentTitle || "Button"
+          }</button>`,
           css: `/* CSS for ${componentId} button */`,
           scss: `/* SCSS for ${componentId} button */`,
         };
@@ -70,9 +73,16 @@ const SaveAsFavorite = ({
       const updated = {
         ...existingFavorite,
         savedStyles: currentStyles,
-        buttonText: componentType === "button" ? currentTitle : existingFavorite.buttonText,
-        cardTitle: componentType === "card" ? currentTitle : existingFavorite.cardTitle,
-        cardContent: componentType === "card" ? currentContent : existingFavorite.cardContent,
+        buttonText:
+          componentType === "button"
+            ? currentTitle
+            : existingFavorite.buttonText,
+        cardTitle:
+          componentType === "card" ? currentTitle : existingFavorite.cardTitle,
+        cardContent:
+          componentType === "card"
+            ? currentContent
+            : existingFavorite.cardContent,
         savedCode,
         updatedAt: new Date().toISOString(),
       };
@@ -146,9 +156,7 @@ const SaveAsFavorite = ({
                       checked={saveOption === "save"}
                       onChange={(e) => setSaveOption(e.target.value)}
                     />
-                    <span>
-                    Update existing
-                    </span>
+                    <span>Update existing</span>
                   </label>
                   <label className="option-label save-new">
                     <input
@@ -180,15 +188,16 @@ const SaveAsFavorite = ({
                   <div className="radio-confirm-section">
                     <label className="option-label">
                       <input
-                      className="confirm-checkbox"
+                        className="confirm-checkbox"
                         type="checkbox"
                         checked={confirmAdd}
                         onChange={(e) => setConfirmAdd(e.target.checked)}
                       />
-                      <span>Are you sure you want to add this as favorite?</span>
+                      <span>
+                        Are you sure you want to add this as favorite?
+                      </span>
                     </label>
                   </div>
-
                 </>
               ) : null}
             </div>
@@ -204,12 +213,11 @@ const SaveAsFavorite = ({
                 className="btn-save"
                 onClick={handleSave}
                 disabled={
-                  saveOption === "saveAsNew"
-                    ? !favoriteName.trim() || !confirmAdd
-                    : false
+                  (saveOption === "saveAsNew" || !fromFavorite) &&
+                  (!favoriteName.trim() || !confirmAdd)
                 }
               >
-                {saveOption === "save" ? "Update" : "Save"}
+                {fromFavorite && saveOption === "save" ? "Update" : "Save"}
               </button>
             </div>
           </div>
