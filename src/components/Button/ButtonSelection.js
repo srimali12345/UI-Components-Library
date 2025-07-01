@@ -15,6 +15,7 @@ const ButtonSelection = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedButtonType, setSelectedButtonType] = useState("");
   const [selectedButtonStyles, setSelectedButtonStyles] = useState({});
+  const [selectedButtonText, setSelectedButtonText] = useState("");
   const [showFavorites, setShowFavorites] = useState(false);
 
   const { favorites, removeFavorite } = useFavorites();
@@ -23,6 +24,7 @@ const ButtonSelection = () => {
     setSelectedButtonType(type);
     setModalVisible(true);
     setSelectedButtonStyles(buttonDefaults[type] || {});
+     setSelectedButtonText(`${type} Button`);
   };
 
   const handleToggleFavorites = () => {
@@ -56,6 +58,7 @@ const ButtonSelection = () => {
   const handleShowFavoriteCode = (component) => {
     setSelectedButtonType(component.buttonType || "Primary");
     setSelectedButtonStyles(component.savedStyles || {});
+     setSelectedButtonText(component.buttonText || component.label || `${component.buttonType} Button`);
     setModalVisible(true);
   };
 
@@ -292,7 +295,7 @@ const ButtonSelection = () => {
         <CodeModal
           buttonType={selectedButtonType}
           buttonStyles={selectedButtonStyles}
-          buttonText={`${selectedButtonType} Button`}
+          buttonText={selectedButtonText}
           onClose={() => setModalVisible(false)}
         />
       )}
