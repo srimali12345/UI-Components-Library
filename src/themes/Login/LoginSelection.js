@@ -31,8 +31,6 @@ const LoginSelection = () => {
       padding: defaultStyles.padding,
       width: defaultStyles.width,
       boxShadow: defaultStyles.boxShadow,
-      maxWidth: "200px",
-      transform: "scale(0.6)",
       transformOrigin: "top left",
       cursor: "pointer",
     };
@@ -159,7 +157,6 @@ const LoginSelection = () => {
       fontFamily: "Arial, sans-serif",
       maxWidth: "280px",
       width: "100%",
-      transform: "scale(0.8)",
       transformOrigin: "center",
     };
 

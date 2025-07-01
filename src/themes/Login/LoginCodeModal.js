@@ -82,7 +82,7 @@ const LoginCodeModal = ({ loginType, loginStyles = {}, onClose }) => {
         <div className="btn-preview-container">
           <div className="login-preview-wrap">
             <form style={previewFormStyle}>
-              <h3 style={previewTitleStyle}>Login Form</h3>
+              <h3 style={{previewTitleStyle, textAlign:"center" }}>Login Form</h3>
               <div style={{ marginBottom: "8px" }}>
                 <label style={{ fontSize: "8px", color: loginStyles.labelColor || "#374151" }}>Username:</label>
                 <input style={previewInputStyle} placeholder="Enter username" readOnly />
