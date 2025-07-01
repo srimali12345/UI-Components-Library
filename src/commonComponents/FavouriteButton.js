@@ -19,7 +19,7 @@ const SaveAsFavorite = ({
   const [showModal, setShowModal] = useState(false);
   const [favoriteName, setFavoriteName] = useState(customLabel || "");
   const [confirmAdd, setConfirmAdd] = useState(false);
-  const [saveOption, setSaveOption] = useState("saveAsNew");
+  const [saveOption, setSaveOption] = useState("save");
 
   const { addFavorite, updateFavorite, isFavorite, getFavoriteById } = useFavorites();
 
@@ -147,7 +147,7 @@ const SaveAsFavorite = ({
                       onChange={(e) => setSaveOption(e.target.value)}
                     />
                     <span>
-                      Save - Update existing "{existingFavorite.favoriteName}"
+                    Update existing
                     </span>
                   </label>
                   <label className="option-label save-new">
@@ -162,7 +162,7 @@ const SaveAsFavorite = ({
                         setConfirmAdd(false);
                       }}
                     />
-                    <span>Save as New - Create a new favorite</span>
+                    <span>Save as New </span>
                   </label>
                 </div>
               ) : null}

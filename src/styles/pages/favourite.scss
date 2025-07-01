@@ -315,7 +315,7 @@
     background: #ffffff;
     border-radius: 8px;
     width: 100%;
-    max-width: 400px;
+    max-width: 500px !important;
     padding: 24px;
     position: relative;
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
@@ -324,12 +324,13 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 16px;
+      margin-bottom: 9px;
 
       h3 {
         font-size: 18px;
         font-weight: 600;
         color: #111827;
+        margin: 0px !important;
       }
 
       .modal-close {
