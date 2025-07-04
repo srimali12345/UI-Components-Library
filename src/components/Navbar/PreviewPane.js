@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import {
   Bell,
@@ -6,6 +7,7 @@ import {
   BellPlus,
   UserCircle,
   UserRound,
+  Search,
 } from "lucide-react";
 
 const DEFAULT_LOGO_URL =
@@ -13,6 +15,7 @@ const DEFAULT_LOGO_URL =
 
 const PreviewPane = ({ navbarStyle, navItems, templateId }) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const [uniqueId] = useState(() => Math.random().toString(36).substr(2, 9));
 
   const navbarStyles = {
     backgroundColor: navbarStyle.backgroundColor,
@@ -57,12 +60,13 @@ const PreviewPane = ({ navbarStyle, navItems, templateId }) => {
 
   useEffect(() => {
     setHoverColor();
-    // Set placeholder color CSS variable
+    // Set unique placeholder color CSS variable for this instance
+    const placeholderColor = navbarStyle.searchPlaceholderColor || "#999999";
     document.documentElement.style.setProperty(
-      "--nav-search-placeholder-color",
-      navbarStyle.searchPlaceholderColor || "#999999"
+      `--nav-search-placeholder-color-${uniqueId}`,
+      placeholderColor
     );
-  }, [navbarStyle.hoverColor, navbarStyle.searchPlaceholderColor]);
+  }, [navbarStyle.hoverColor, navbarStyle.searchPlaceholderColor, uniqueId]);
 
   const searchContainerStyles = {
     backgroundColor:
@@ -84,6 +88,7 @@ const PreviewPane = ({ navbarStyle, navItems, templateId }) => {
     display: "flex",
     alignItems: "center",
     padding: "6px 12px",
+    gap: "8px",
   };
 
   // Toggle dropdown menu
@@ -128,6 +133,8 @@ const PreviewPane = ({ navbarStyle, navItems, templateId }) => {
     }
   };
 
+  const searchIconColor = navbarStyle.searchIconColor || "#999999";
+
   return (
     <div className="preview-pane border-box">
       <div
@@ -145,7 +152,7 @@ const PreviewPane = ({ navbarStyle, navItems, templateId }) => {
 
           {navbarStyle.navPosition === "left" && (
             <div className="nav-links">
-              {navItems.map((item) => (
+              {(navItems || []).map((item) => (
                 <div key={item.id} className="nav-item-container">
                   <div className="nav-item-wrapper">
                     <a
@@ -205,28 +212,20 @@ const PreviewPane = ({ navbarStyle, navItems, templateId }) => {
           {navbarStyle.navPosition === "right" && navbarStyle.hasSearch && (
             <div
               style={searchContainerStyles}
-              className="search-container right"
+              className={`search-container right search-${uniqueId}`}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#999" 
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-search-icon lucide-search"
-              >
-                <circle cx="11" cy="11" r="8" />
-                <path d="m21 21-4.3-4.3" />
-              </svg>
+              <Search size={18} color={searchIconColor} />
               <input
                 type="text"
                 placeholder="Search"
-                className="search-input"
-                style={{ color: navbarStyle.textColor }}
+                className={`search-input search-input-${uniqueId}`}
+                style={{
+                  color: navbarStyle.textColor,
+                  background: "transparent",
+                  border: "none",
+                  outline: "none",
+                  flex: 1,
+                }}
               />
             </div>
           )}
@@ -234,32 +233,18 @@ const PreviewPane = ({ navbarStyle, navItems, templateId }) => {
 
         <div className="navbar-right">
           {navbarStyle.navPosition === "left" && navbarStyle.hasSearch && (
-            <div className="search-container" style={searchContainerStyles}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#999" 
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-search-icon lucide-search"
-                style={{ color: navbarStyle.textColor }}
-              >
-                <circle cx="11" cy="11" r="8" />
-                <path d="m21 21-4.3-4.3" />
-              </svg>
+            <div className={`search-container search-${uniqueId}`} style={searchContainerStyles}>
+              <Search size={18} color={searchIconColor} />
               <input
                 type="text"
                 placeholder="Search"
-                className="search-input"
+                className={`search-input search-input-${uniqueId}`}
                 style={{
                   color: navbarStyle.textColor,
                   background: "transparent",
                   border: "none",
                   outline: "none",
+                  flex: 1,
                 }}
               />
             </div>
@@ -267,7 +252,7 @@ const PreviewPane = ({ navbarStyle, navItems, templateId }) => {
 
           {navbarStyle.navPosition === "right" && (
             <div className="nav-links right">
-              {navItems.map((item) => (
+              {(navItems || []).map((item) => (
                 <div key={item.id} className="nav-item-container">
                   <div className="nav-item-wrapper">
                     <a
@@ -339,11 +324,11 @@ const PreviewPane = ({ navbarStyle, navItems, templateId }) => {
         </div>
       </div>
 
-      {/* Add style for placeholder color */}
+      {/* Add unique style for placeholder color for this instance */}
       <style>{`
-        .search-input::placeholder {
-          color: var(--nav-search-placeholder-color);
-          opacity: 1; /* Ensure full opacity */
+        .search-input-${uniqueId}::placeholder {
+          color: var(--nav-search-placeholder-color-${uniqueId}) !important;
+          opacity: 1 !important;
         }
       `}</style>
     </div>

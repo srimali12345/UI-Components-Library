@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { templates } from "./NavbarList";
@@ -30,7 +31,24 @@ const NavbarTemplates = () => {
         { id: 2, text: "About", active: false, url: "/about" },
         { id: 3, text: "Contact", active: false, url: "/contact" },
       ],
-      style: template.style || {},
+      style: {
+        ...template.style,
+        // Ensure all properties are included
+        searchPlaceholderColor: template.style?.searchPlaceholderColor || "#999999",
+        searchIconColor: template.style?.searchIconColor || "#999999",
+        icons: {
+          notification: {
+            show: template.style?.icons?.notification?.show !== false,
+            variant: template.style?.icons?.notification?.variant || "bell",
+            color: template.style?.icons?.notification?.color || template.style?.textColor || "#ffffff",
+          },
+          profile: {
+            show: template.style?.icons?.profile?.show !== false,
+            variant: template.style?.icons?.profile?.variant || "user",
+            color: template.style?.icons?.profile?.color || template.style?.textColor || "#ffffff",
+          },
+        },
+      },
     };
     setSelectedTemplate(completeTemplate);
     setModalVisible(true);
@@ -48,7 +66,24 @@ const NavbarTemplates = () => {
       componentType: "NAVBAR",
       navbarType: template.id.toString(),
       favoriteName: `${template.name} Navbar`,
-      savedStyles: template.style || {},
+      savedStyles: {
+        ...template.style,
+        // Ensure all style properties are saved
+        searchPlaceholderColor: template.style?.searchPlaceholderColor || "#999999",
+        searchIconColor: template.style?.searchIconColor || "#999999",
+        icons: {
+          notification: {
+            show: template.style?.icons?.notification?.show !== false,
+            variant: template.style?.icons?.notification?.variant || "bell",
+            color: template.style?.icons?.notification?.color || template.style?.textColor || "#ffffff",
+          },
+          profile: {
+            show: template.style?.icons?.profile?.show !== false,
+            variant: template.style?.icons?.profile?.variant || "user",
+            color: template.style?.icons?.profile?.color || template.style?.textColor || "#ffffff",
+          },
+        },
+      },
       navItems: template.navItems || [
         { id: 1, text: "Home", active: true, url: "/" },
         { id: 2, text: "About", active: false, url: "/about" },
@@ -86,7 +121,31 @@ const NavbarTemplates = () => {
       { id: 3, text: "Contact", active: false, url: "/contact" },
     ];
 
-    const finalStyles = savedStyles ? parseSafeJSON(savedStyles, component.savedStyles || {}) : component.savedStyles || {};
+    // Merge saved styles with component styles, ensuring all properties are preserved
+    const baseStyles = component.savedStyles || {};
+    const parsedSavedStyles = savedStyles ? parseSafeJSON(savedStyles, {}) : {};
+    
+    const finalStyles = {
+      ...baseStyles,
+      ...parsedSavedStyles,
+      // Ensure icon properties are properly merged
+      icons: {
+        notification: {
+          show: parsedSavedStyles.icons?.notification?.show ?? baseStyles.icons?.notification?.show ?? true,
+          variant: parsedSavedStyles.icons?.notification?.variant || baseStyles.icons?.notification?.variant || "bell",
+          color: parsedSavedStyles.icons?.notification?.color || baseStyles.icons?.notification?.color || baseStyles.textColor || "#ffffff",
+        },
+        profile: {
+          show: parsedSavedStyles.icons?.profile?.show ?? baseStyles.icons?.profile?.show ?? true,
+          variant: parsedSavedStyles.icons?.profile?.variant || baseStyles.icons?.profile?.variant || "user",
+          color: parsedSavedStyles.icons?.profile?.color || baseStyles.icons?.profile?.color || baseStyles.textColor || "#ffffff",
+        },
+      },
+      // Ensure search colors are preserved
+      searchPlaceholderColor: parsedSavedStyles.searchPlaceholderColor || baseStyles.searchPlaceholderColor || "#999999",
+      searchIconColor: parsedSavedStyles.searchIconColor || baseStyles.searchIconColor || "#999999",
+    };
+
     let finalNavItems;
     if (savedNavItems) {
       finalNavItems = parseSafeJSON(savedNavItems, defaultNavItems);

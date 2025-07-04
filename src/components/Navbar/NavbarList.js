@@ -1,3 +1,4 @@
+
 export const templates = [
   {
     id: 1,
@@ -15,7 +16,8 @@ export const templates = [
       borderWidth: "0px",
       borderColor: "#1A1F2C",
       searchBarBackgroundColor: "rgba(255, 255, 255, 0.1)",
-      searchPlaceholderColor: "#999999",
+      searchPlaceholderColor: "#cccccc",
+      searchIconColor: "#cccccc",
       SearchBorderWidth: "1px",
       SearchBarBorderColor: "rgba(255, 255, 255, 0.2)",
       icons: {
@@ -24,9 +26,9 @@ export const templates = [
       },
     },
     navItems: [
-      { id: 1, text: "Item1", active: true, url: "/" },
-      { id: 2, text: "Item2", active: false, url: "/item2" },
-      { id: 3, text: "Item3", active: false, url: "/item3" },
+      { id: 1, text: "Home", active: true, url: "/" },
+      { id: 2, text: "About", active: false, url: "/About" },
+      { id: 3, text: "Contact", active: false, url: "/Contact" },
     ],
   },
   {
@@ -45,7 +47,8 @@ export const templates = [
       borderWidth: "1px",
       borderColor: "#e5e7eb",
       searchBarBackgroundColor: "#f9fafb",
-      searchPlaceholderColor: "#999999",
+      searchPlaceholderColor: "#6b7280",
+      searchIconColor: "#6b7280",
       SearchBorderWidth: "1px",
       SearchBarBorderColor: "#e5e7eb",
       icons: {
@@ -54,9 +57,9 @@ export const templates = [
       },
     },
     navItems: [
-      { id: 1, text: "Item1", active: true, url: "/" },
-      { id: 2, text: "Item2", active: false, url: "/item2" },
-      { id: 3, text: "Item3", active: false, url: "/item3" },
+      { id: 1, text: "Home", active: true, url: "/" },
+      { id: 2, text: "About", active: false, url: "/About" },
+      { id: 3, text: "Contact", active: false, url: "/Contact" },
     ],
   },
 ];

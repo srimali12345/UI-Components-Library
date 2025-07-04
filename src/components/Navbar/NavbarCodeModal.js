@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Copy, Bell, Search, User } from "lucide-react";
 import { useLocation } from "react-router-dom";
@@ -52,7 +53,7 @@ const NavbarCodeModal = ({ template, onClose, templateId }) => {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    border: borderVal, // only set if defined
+    border: borderVal,
     borderRadius: borderRadiusVal,
   };
 
@@ -62,6 +63,25 @@ const NavbarCodeModal = ({ template, onClose, templateId }) => {
   };
 
   const logoUrl = template.style.logoUrl || DEFAULT_LOGO_URL;
+
+  // Get proper icon colors
+  const notificationIconColor = template.style.icons?.notification?.color || template.style.textColor;
+  const profileIconColor = template.style.icons?.profile?.color || template.style.textColor;
+  const searchIconColor = template.style.searchIconColor || "#999999";
+  const placeholderColor = template.style.searchPlaceholderColor || "#999999";
+
+  const searchContainerStyles = {
+    backgroundColor: template.style.searchBarBackgroundColor || "rgba(255, 255, 255, 0.1)",
+    borderRadius: template.style.SearchBarBorderRadius || "6px",
+    border: template.style.SearchBorderWidth && parseInt(template.style.SearchBorderWidth) > 0
+      ? `${template.style.SearchBorderWidth} solid ${template.style.SearchBarBorderColor || "#000"}`
+      : "1px solid #e5e7eb",
+      
+    display: "flex",
+    alignItems: "center",
+    padding: "6px 12px",
+    gap: "8px",
+  };
 
   return (
     <div className="modal-overlay">
@@ -89,12 +109,12 @@ const NavbarCodeModal = ({ template, onClose, templateId }) => {
                   </div>
                   {template.style.navPosition === "left" && (
                     <div className="nav-links">
-                      {template.navItems.map((item) => (
+                      {(template.navItems || []).map((item) => (
                         <a
                           key={item.id || item.text}
                           href={item.url || "#"}
                           className="nav-link"
-                          style={item.active ? activeItemStyles : {}}
+                          style={item.active ? activeItemStyles : { color: template.style.textColor }}
                         >
                           {item.text}
                         </a>
@@ -105,40 +125,20 @@ const NavbarCodeModal = ({ template, onClose, templateId }) => {
                     template.style.hasSearch && (
                       <div
                         className="search-container right"
-                        style={{
-                          backgroundColor:
-                            template.style.searchBarBackgroundColor,
-                          borderRadius:
-                            template.style.SearchBarBorderRadius || "6px",
-                          border:
-                            template.style.SearchBorderWidth &&
-                            parseInt(template.style.SearchBorderWidth) > 0
-                              ? `${template.style.SearchBorderWidth} solid ${
-                                  template.style.SearchBarBorderColor || "#000"
-                                }`
-                              : "1px solid #e5e7eb",
-                        }}
+                        style={searchContainerStyles}
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="18"
-                          height="18"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          className="lucide lucide-search-icon lucide-search"
-                        >
-                          <circle cx="11" cy="11" r="8" />
-                          <path d="m21 21-4.3-4.3" />
-                        </svg>
+                        <Search size={18} color={searchIconColor} />
                         <input
                           type="text"
                           placeholder="Search"
                           className="search-input"
-                          style={{ color: template.style.textColor }}
+                          style={{ 
+                            color: template.style.textColor,
+                            background: "transparent",
+                            border: "none",
+                            outline: "none",
+                            flex: 1,
+                          }}
                         />
                       </div>
                     )}
@@ -146,75 +146,43 @@ const NavbarCodeModal = ({ template, onClose, templateId }) => {
                 <div className="navbar-right">
                   {template.style.navPosition === "left" &&
                     template.style.hasSearch && (
-                      <div className="search-container">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="18"
-                          height="18"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          className="lucide lucide-search-icon lucide-search"
-                        >
-                          <circle cx="11" cy="11" r="8" />
-                          <path d="m21 21-4.3-4.3" />
-                        </svg>
+                      <div className="search-container" style={searchContainerStyles}>
+                        <Search size={18} color={searchIconColor} />
                         <input
                           type="text"
                           placeholder="Search"
                           className="search-input"
-                          style={{ color: template.style.textColor }}
+                          style={{ 
+                            color: template.style.textColor,
+                            background: "transparent",
+                            border: "none",
+                            outline: "none",
+                            flex: 1,
+                          }}
                         />
                       </div>
                     )}
                   {template.style.navPosition === "right" && (
                     <div className="nav-links right">
-                      {template.navItems.map((item) => (
+                      {(template.navItems || []).map((item) => (
                         <a
                           key={item.id || item.text}
                           href={item.url || "#"}
                           className="nav-link"
-                          style={item.active ? activeItemStyles : {}}
+                          style={item.active ? activeItemStyles : { color: template.style.textColor }}
                         >
                           {item.text}
                         </a>
                       ))}
                     </div>
                   )}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="lucide lucide-bell-icon lucide-bell"
-                  >
-                    <path d="M10.268 21a2 2 0 0 0 3.464 0" />
-                    <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" />
-                  </svg>
-                  <div>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="lucide lucide-user-round-icon lucide-user-round"
-                    >
-                      <circle cx="12" cy="8" r="5" />
-                      <path d="M20 21a8 8 0 0 0-16 0" />
-                    </svg>
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                    {template.style.icons?.notification?.show !== false && (
+                      <Bell size={18} color={notificationIconColor} />
+                    )}
+                    {template.style.icons?.profile?.show !== false && (
+                      <User size={18} color={profileIconColor} />
+                    )}
                   </div>
                 </div>
               </div>
@@ -257,6 +225,14 @@ const NavbarCodeModal = ({ template, onClose, templateId }) => {
         <pre className="code-block">
           <code>{getCode()}</code>
         </pre>
+
+        {/* Add CSS for proper placeholder styling */}
+        <style>{`
+          .search-input::placeholder {
+            color: ${placeholderColor} !important;
+            opacity: 1 !important;
+          }
+        `}</style>
       </div>
     </div>
   );
