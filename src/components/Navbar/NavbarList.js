@@ -20,6 +20,7 @@ export const templates = [
       searchIconColor: "#cccccc",
       SearchBorderWidth: "1px",
       SearchBarBorderColor: "rgba(255, 255, 255, 0.2)",
+      searchBorderRadius: "6px",
       icons: {
         notification: { show: true, variant: "bell", color: "#ffffff" },
         profile: { show: true, variant: "user", color: "#ffffff" },
@@ -51,6 +52,7 @@ export const templates = [
       searchIconColor: "#6b7280",
       SearchBorderWidth: "1px",
       SearchBarBorderColor: "#e5e7eb",
+      searchBorderRadius: "6px",
       icons: {
         notification: { show: true, variant: "bell", color: "#333333" },
         profile: { show: true, variant: "user", color: "#333333" },

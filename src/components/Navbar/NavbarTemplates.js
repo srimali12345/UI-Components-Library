@@ -35,7 +35,8 @@ const NavbarTemplates = () => {
         ...template.style,
         // Ensure all properties are included
         searchPlaceholderColor: template.style?.searchPlaceholderColor || "#999999",
-        searchIconColor: template.style?.searchIconColor || "#999999",
+        searchIconColor: template.style?.searchIconColor || template.style?.textColor || "#999999",
+        searchBorderRadius: template.style?.searchBorderRadius || "6px",
         icons: {
           notification: {
             show: template.style?.icons?.notification?.show !== false,
@@ -70,7 +71,8 @@ const NavbarTemplates = () => {
         ...template.style,
         // Ensure all style properties are saved
         searchPlaceholderColor: template.style?.searchPlaceholderColor || "#999999",
-        searchIconColor: template.style?.searchIconColor || "#999999",
+        searchIconColor: template.style?.searchIconColor || template.style?.textColor || "#999999",
+        searchBorderRadius: template.style?.searchBorderRadius || "6px",
         icons: {
           notification: {
             show: template.style?.icons?.notification?.show !== false,
@@ -143,9 +145,11 @@ const NavbarTemplates = () => {
       },
       // Ensure search colors are preserved
       searchPlaceholderColor: parsedSavedStyles.searchPlaceholderColor || baseStyles.searchPlaceholderColor || "#999999",
-      searchIconColor: parsedSavedStyles.searchIconColor || baseStyles.searchIconColor || "#999999",
+      searchIconColor: parsedSavedStyles.searchIconColor || baseStyles.searchIconColor || baseStyles.textColor || "#999999",
+      searchBorderRadius: parsedSavedStyles.searchBorderRadius || baseStyles.searchBorderRadius || "6px",
     };
 
+    // Handle nav items with proper fallback logic
     let finalNavItems;
     if (savedNavItems) {
       finalNavItems = parseSafeJSON(savedNavItems, defaultNavItems);
@@ -157,11 +161,26 @@ const NavbarTemplates = () => {
 
     const finalTitle = savedTitle || component.favoriteName || `${componentId} Navbar`;
 
+    console.log("getCurrentSavedData result:", {
+      componentId,
+      finalStyles,
+      finalNavItems,
+      finalTitle,
+      savedNavItems: savedNavItems ? "exists" : "null",
+      componentNavItems: component.navItems ? "exists" : "null"
+    });
+
     return { finalStyles, finalNavItems, finalTitle };
   };
 
   const handleCustomizeFavorite = (component) => {
     const { finalStyles, finalNavItems, finalTitle } = getCurrentSavedData(component);
+
+    console.log("Navigating to customize with:", {
+      finalStyles,
+      finalNavItems,
+      finalTitle
+    });
 
     navigate(`/customize-navbar/${component.navbarType}`, {
       state: {

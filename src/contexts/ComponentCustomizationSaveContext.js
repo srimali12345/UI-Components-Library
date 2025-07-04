@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useCallback, useRef } from "react";
 
 export const useComponentCustomization = (
@@ -10,7 +11,8 @@ export const useComponentCustomization = (
   isFromFavorites = false,
   existingStyles = {},
   existingTitle = "",
-  existingContent = ""
+  existingContent = "",
+  existingNavItems = []
 ) => {
   // Create storage keys based on component type and ID
   const stylesStorageKey = `${componentType}-styles-${componentId}`;
@@ -63,20 +65,27 @@ export const useComponentCustomization = (
         initialStyles = Object.keys(existingStyles).length > 0 ? existingStyles : defaultStyles;
         initialTitle = existingTitle || defaultTitle;
         initialContent = existingContent || defaultContent;
-        initialNavItems = defaultNavItems;
+        // Use existing nav items from favorites if available, otherwise use defaults
+        initialNavItems = (existingNavItems && Array.isArray(existingNavItems) && existingNavItems.length > 0) 
+          ? existingNavItems 
+          : defaultNavItems;
 
         console.log("Loading from favorites:", {
           initialStyles,
           initialTitle,
           initialContent,
           existingStyles,
-          existingTitle
+          existingTitle,
+          initialNavItems,
+          existingNavItems,
+          defaultNavItems
         });
 
         // Mark as previously saved if we have favorite data
         const hasDataFromFavorites = Object.keys(existingStyles).length > 0 || 
                                      (existingTitle && existingTitle !== defaultTitle) || 
-                                     (existingContent && existingContent !== defaultContent);
+                                     (existingContent && existingContent !== defaultContent) ||
+                                     (existingNavItems && Array.isArray(existingNavItems) && existingNavItems.length > 0);
         
         if (hasDataFromFavorites) {
           setHasPreviouslySaved(true);
@@ -92,7 +101,8 @@ export const useComponentCustomization = (
         console.log("Starting with defaults for normal customization:", {
           initialStyles,
           initialTitle,
-          initialContent
+          initialContent,
+          initialNavItems
         });
 
         // Reset saving state for fresh start
@@ -153,6 +163,7 @@ export const useComponentCustomization = (
     JSON.stringify(existingStyles),
     existingTitle,
     existingContent,
+    JSON.stringify(existingNavItems),
   ]);
 
   // Function to check if there are unsaved changes

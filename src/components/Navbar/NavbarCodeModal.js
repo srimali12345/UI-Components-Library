@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { Copy, Bell, Search, User } from "lucide-react";
+import { Copy, Bell, Search, User, BellRing, BellPlus, UserCircle, UserRound } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import {
   generateHTML,
@@ -67,20 +67,60 @@ const NavbarCodeModal = ({ template, onClose, templateId }) => {
   // Get proper icon colors
   const notificationIconColor = template.style.icons?.notification?.color || template.style.textColor;
   const profileIconColor = template.style.icons?.profile?.color || template.style.textColor;
-  const searchIconColor = template.style.searchIconColor || "#999999";
+  const searchIconColor = template.style.searchIconColor || template.style.textColor;
   const placeholderColor = template.style.searchPlaceholderColor || "#999999";
 
   const searchContainerStyles = {
     backgroundColor: template.style.searchBarBackgroundColor || "rgba(255, 255, 255, 0.1)",
-    borderRadius: template.style.SearchBarBorderRadius || "6px",
+    borderRadius: template.style.searchBorderTopLeftRadius ||
+      template.style.searchBorderTopRightRadius ||
+      template.style.searchBorderBottomRightRadius ||
+      template.style.searchBorderBottomLeftRadius
+        ? `${template.style.searchBorderTopLeftRadius || "6px"} 
+           ${template.style.searchBorderTopRightRadius || "6px"} 
+           ${template.style.searchBorderBottomRightRadius || "6px"}
+           ${template.style.searchBorderBottomLeftRadius || "6px"} `
+        : template.style.searchBorderRadius || "6px",
     border: template.style.SearchBorderWidth && parseInt(template.style.SearchBorderWidth) > 0
       ? `${template.style.SearchBorderWidth} solid ${template.style.SearchBarBorderColor || "#000"}`
       : "1px solid #e5e7eb",
-      
     display: "flex",
     alignItems: "center",
     padding: "6px 12px",
     gap: "8px",
+  };
+
+  // Get appropriate icon components based on settings
+  const getNotificationIcon = () => {
+    const iconProps = {
+      size: 18,
+      color: notificationIconColor,
+    };
+
+    switch (template.style.icons?.notification?.variant) {
+      case "bell-ring":
+        return <BellRing {...iconProps} />;
+      case "bell-plus":
+        return <BellPlus {...iconProps} />;
+      default:
+        return <Bell {...iconProps} />;
+    }
+  };
+
+  const getProfileIcon = () => {
+    const iconProps = {
+      size: 18,
+      color: profileIconColor,
+    };
+
+    switch (template.style.icons?.profile?.variant) {
+      case "user-circle":
+        return <UserCircle {...iconProps} />;
+      case "user-round":
+        return <UserRound {...iconProps} />;
+      default:
+        return <User {...iconProps} />;
+    }
   };
 
   return (
@@ -178,10 +218,10 @@ const NavbarCodeModal = ({ template, onClose, templateId }) => {
                   )}
                   <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                     {template.style.icons?.notification?.show !== false && (
-                      <Bell size={18} color={notificationIconColor} />
+                      <div className="notification-icon">{getNotificationIcon()}</div>
                     )}
                     {template.style.icons?.profile?.show !== false && (
-                      <User size={18} color={profileIconColor} />
+                      <div className="profile-icon">{getProfileIcon()}</div>
                     )}
                   </div>
                 </div>
