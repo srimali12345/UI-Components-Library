@@ -74,6 +74,7 @@ const CardSelection = () => {
     const isActionCard = type === "Action";
     const isPricingCard = type === "Pricing";
     const isBasicCard = type === "Basic";
+    const isOverlay = type === "ImageOverlay";
 
     const cardStyle = {
       width: savedStyles.width ,
@@ -120,15 +121,32 @@ const CardSelection = () => {
         }
       : {};
 
+    const getImageUrl = () => {
+      if (savedStyles.customImage) {
+        return savedStyles.customImage;
+      }
+      return "https://source.unsplash.com/random/300x200/?nature";
+    };
+
     const imageStyle = {
       height: savedStyles.imageHeight || "100px",
       width: "100%",
       backgroundColor: "#e9e9e9",
-      backgroundImage:
-        "url('https://source.unsplash.com/random/300x200/?nature')",
+      backgroundImage: `url('${getImageUrl()}')`,
       backgroundSize: "cover",
       backgroundPosition: "center",
+      position: "relative",
     };
+
+    const overlayStyle = isOverlay ? {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      background: savedStyles.overlayColor || "rgba(0, 0, 0, 0.4)",
+      zIndex: 1,
+    } : {};
 
     const bodyStyle = {
       padding: savedStyles.padding || "12px",
@@ -173,7 +191,11 @@ const CardSelection = () => {
         {isBasicCard && (
           <div style={headerStyle}>{savedStyles.headerText || "Header"}</div>
         )}
-        {isImageCard && <div style={imageStyle} />}
+        {isImageCard && (
+          <div style={imageStyle}>
+            {isOverlay && <div style={overlayStyle}></div>}
+          </div>
+        )}
         <div style={bodyStyle}>
           <h3 style={titleStyle}>{component.cardTitle || `${type} Card`}</h3>
           <p style={contentStyle}>

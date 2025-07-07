@@ -35,6 +35,7 @@ const CardPreview = ({ cardStyles = {}, cardTitle, cardContent, cardType }) => {
   const isActionCard = cardType === "Action";
   const isPricingCard = cardType === "Pricing";
   const isBasicCard = cardType === "Basic";
+  const isOverlay = cardType === "ImageOverlay";
 
   const cardStyle = {
     width: cardStyles.width || "300px",
@@ -76,13 +77,31 @@ const CardPreview = ({ cardStyles = {}, cardTitle, cardContent, cardType }) => {
     color: "#8E9196"
   } : {};
 
+  const getImageUrl = () => {
+    if (cardStyles.customImage) {
+      return cardStyles.customImage;
+    }
+    return "https://source.unsplash.com/random/300x200/?nature";
+  };
+
   const imageStyle = isImageCard ? {
     height: cardStyles.imageHeight || "200px",
     width: "100%",
     backgroundColor: "#e9e9e9",
-    backgroundImage: "url('https://source.unsplash.com/random/300x200/?nature')",
+    backgroundImage: `url('${getImageUrl()}')`,
     backgroundSize: "cover",
     backgroundPosition: "center",
+    position: "relative",
+  } : {};
+
+  const overlayStyle = isOverlay ? {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: cardStyles.overlayColor || "rgba(0, 0, 0, 0.4)",
+    zIndex: 1,
   } : {};
 
   const bodyStyle = {
@@ -138,7 +157,11 @@ const CardPreview = ({ cardStyles = {}, cardTitle, cardContent, cardType }) => {
       >
         {isBasicCard && <div style={headerStyle}>{cardStyles.headerText || "Header"}</div>}
         
-        {isImageCard && <div style={imageStyle}></div>}
+        {isImageCard && (
+          <div style={imageStyle}>
+            {isOverlay && <div style={overlayStyle}></div>}
+          </div>
+        )}
         
         <div style={bodyStyle}>
           <h3 style={titleStyle}>{cardTitle || `${cardType} Card`}</h3>

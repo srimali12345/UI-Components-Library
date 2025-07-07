@@ -29,11 +29,19 @@ const CardCodeModal = ({
     alert("Code copied!");
   };
 
+  const getImageUrl = () => {
+    if (cardStyles.customImage) {
+      return cardStyles.customImage;
+    }
+    return "https://source.unsplash.com/random/300x200/?nature";
+  };
+
   const renderCardPreview = () => {
-    const isImageCard = cardType === "Image";
+    const isImageCard = cardType === "Image" || cardType === "ImageOverlay";
     const isActionCard = cardType === "Action";
     const isPricingCard = cardType === "Pricing";
     const isBasicCard = cardType === "Basic";
+    const isOverlay = cardType === "ImageOverlay";
 
     return (
       <div
@@ -73,12 +81,26 @@ const CardCodeModal = ({
             style={{
               height: cardStyles.imageHeight || "200px",
               backgroundColor: "#e9e9e9",
-              backgroundImage:
-                "url('https://source.unsplash.com/random/300x200/?nature')",
+              backgroundImage: `url('${getImageUrl()}')`,
               backgroundSize: "cover",
               backgroundPosition: "center",
+              position: "relative",
             }}
-          ></div>
+          >
+            {isOverlay && (
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  background: cardStyles.overlayColor || "rgba(0, 0, 0, 0.4)",
+                  zIndex: 1,
+                }}
+              />
+            )}
+          </div>
         )}
 
         <div

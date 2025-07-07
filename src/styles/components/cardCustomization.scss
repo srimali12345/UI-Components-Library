@@ -27,11 +27,12 @@
 }
 
 .card-dashboard {
-  max-width: 1200px;
+
   margin: 0 auto;
 
   .card-grid {
-    display: grid;
+    display: flex;
+    flex-wrap: wrap;
     gap: 20px 40px;
     grid-template-columns: repeat(3, 1fr);
     margin-top: 20px;

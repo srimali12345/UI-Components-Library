@@ -1,5 +1,7 @@
+
 import React, { useState } from "react";
 import { ChevronDown, ChevronRight, RotateCcw } from "lucide-react";
+import ImageUploader from "./ImageUploader";
 
 const CardToolBox = ({
   cardStyles,
@@ -41,6 +43,13 @@ const CardToolBox = ({
       ...expandedSections,
       [section]: !expandedSections[section],
     });
+  };
+
+  const handleImageUpload = (imageUrl) => {
+    setCardStyles((prev) => ({
+      ...prev,
+      customImage: imageUrl,
+    }));
   };
 
   const isImageCard = cardType === "Image" || cardType === "ImageOverlay";
@@ -451,6 +460,15 @@ const CardToolBox = ({
             {expandedSections.image && (
               <div className="section-content">
                 <div className="input-group">
+                  <label>Custom Image:</label>
+                  <ImageUploader
+                    onUpload={handleImageUpload}
+                    currentImage={cardStyles.customImage}
+                    label="Choose Image"
+                  />
+                </div>
+
+                <div className="input-group">
                   <label>Image Height:</label>
                   <input
                     type="text"
@@ -461,6 +479,21 @@ const CardToolBox = ({
                         imageHeight: e.target.value,
                       }))
                     }
+                  />
+                </div>
+
+                <div className="input-group">
+                  <label>Image Width:</label>
+                  <input
+                    type="text"
+                    value={cardStyles.imageWidth || "100%"}
+                    onChange={(e) =>
+                      setCardStyles((prev) => ({
+                        ...prev,
+                        imageWidth: e.target.value,
+                      }))
+                    }
+                    placeholder="100%, 300px, etc."
                   />
                 </div>
 
