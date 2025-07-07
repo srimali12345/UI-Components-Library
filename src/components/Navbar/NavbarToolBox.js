@@ -625,27 +625,7 @@ const NavbarToolBox = ({
 
 
         {/* Navigation Section */}
-        <div className="collapsible-section">
-          <div className="section-header" onClick={() => toggle("navItem")}>
-            <span>Navigation Items</span>
-            {expandedSections.navItem ? (
-              <ChevronDown size={16} />
-            ) : (
-              <ChevronRight size={16} />
-            )}
-          </div>
-          {expandedSections.navItem && (
-            <div className="section-content">
-              <NavItemEditor
-                navItems={navItems}
-                onAdd={onAddNavItem}
-                onUpdate={onUpdateNavItem}
-                onDelete={onDeleteNavItem}
-                onSetActive={onSetActiveItem}
-              />
-            </div>
-          )}
-        </div>
+       
 
         <div className="revert-section">
           <button
