@@ -110,9 +110,11 @@ const LoginSelection = () => {
     setShowFavorites(!showFavorites);
   };
 
+  // Fixed filtering logic - only show Login-specific favorites
   const loginFavorites = favorites.filter(
     (component) =>
-      component.type === "Login" || component.componentType === "LOGIN"
+      (component.type === "Login" && component.componentType !== "NAVBAR" && component.componentType !== "CARD" && component.componentType!=='INPUT') ||
+      (component.componentType === "LOGIN")
   );
 
   const handleCustomizeFavorite = (component) => {

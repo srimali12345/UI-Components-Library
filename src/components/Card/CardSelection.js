@@ -20,9 +20,11 @@ const CardSelection = () => {
 
   const { favorites, removeFavorite } = useFavorites();
 
+  // Fixed filtering logic - only show Card-specific favorites
   const cardFavorites = favorites.filter(
     (component) =>
-      component.type === "Card" || component.componentType === "CARD"
+      (component.type === "Card" && component.componentType !== "NAVBAR" && component.componentType !== "LOGIN" && component.componentType!=='INPUT') ||
+      (component.componentType === "CARD")
   );
 
   const handleToggleFavorites = () => setShowFavorites(!showFavorites);

@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { templates } from "./NavbarList";
@@ -193,8 +192,11 @@ const NavbarTemplates = () => {
     });
   };
 
+  // Fixed filtering logic - only show Navbar-specific favorites
   const navbarFavorites = favorites.filter(
-    (component) => component.type === "Navbar" || component.componentType === "NAVBAR"
+    (component) =>
+      (component.type === "Navbar" && component.componentType !== "CARD" && component.componentType !== "LOGIN" && component.componentType!=='INPUT') ||
+      (component.componentType === "NAVBAR")
   );
 
   return (
